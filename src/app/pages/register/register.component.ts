@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  HttpService,
-  HttpRequestOptions
-} from '../../services/http.service';
+import { HttpService, HttpRequestOptions } from '../../services/http.service';
+import { TokenService } from '../../services/token.service';
 
 interface RegisterForm {
   email: string;
@@ -18,6 +16,8 @@ interface RegisterForm {
 })
 export class RegisterComponent {
   private http: HttpService;
+  private token: TokenService;
+
   model: RegisterForm = {
     email: '',
     password: '',
@@ -27,8 +27,10 @@ export class RegisterComponent {
   submitted = false;
   error = '';
 
-  constructor(_http: HttpService) {
+  constructor(_http: HttpService,
+              _token: TokenService) {
     this.http = _http;
+    this.token = _token;
   }
 
   async onSubmit(form) {
@@ -45,9 +47,9 @@ export class RegisterComponent {
         if (response.statusCode !== 201) {
           this.error = response.data;
         } else {
+          this.token.saveToken(response.data.token);
           //
-          // Implement me!!
-          // Go authenticate, set token, login, go to dashboard.
+          // ---- Redirect to dashboard.
           //
         }
       } catch (err) {

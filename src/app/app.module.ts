@@ -11,12 +11,22 @@ import { RegisterComponent } from './pages/register/register.component';
 // Services
 import { HttpService } from './services/http.service';
 import { TokenService } from './services/token.service';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { NavigationLinksComponent } from './components/navigation-links/navigation-links.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent,
+    NavigationComponent,
+    NavigationLinksComponent,
+    PageHeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
