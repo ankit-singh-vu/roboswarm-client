@@ -4131,8 +4131,12 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-ar
 .container-fluid {
   max-width: 95%; }
 
+/* .wrapper {
+  padding-top: 120px;
+} */
 .wrapper {
-  padding-top: 120px; }
+  padding-top: 50px; /* For MVP, no nav bar */
+}
 
 .page-title-box {
   padding: 22px 0; }

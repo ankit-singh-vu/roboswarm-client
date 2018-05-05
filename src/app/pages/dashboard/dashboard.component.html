@@ -1,9 +1,19 @@
 <app-navigation></app-navigation>
 <div class="wrapper">
   <div class="container-fluid">
-    <app-page-header></app-page-header>
+    <!-- <app-page-header></app-page-header> -->
     <div class="row">
-      This is the dashboard!
+      <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-20">
+          <button type="button" class="btn btn-primary waves-effect waves-light">Create Load Test</button>
+        </div>
+        <h4 class="page-title">Dashboard</h4>
+      </div>
+    </div>
+    <div class="row">
+      <app-swarm-tile *ngFor="let swarm of swarms"
+        [data]="swarm"
+        class="col-xl-4"></app-swarm-tile>
     </div>
 </div>
 <app-footer></app-footer>

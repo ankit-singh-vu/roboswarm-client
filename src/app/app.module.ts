@@ -16,6 +16,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { NavigationLinksComponent } from './components/navigation-links/navigation-links.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SwarmTileComponent } from './components/swarm-tile/swarm-tile.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FooterComponent } from './components/footer/footer.component';
     NavigationComponent,
     NavigationLinksComponent,
     PageHeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SwarmTileComponent
   ],
   imports: [
     BrowserModule,
