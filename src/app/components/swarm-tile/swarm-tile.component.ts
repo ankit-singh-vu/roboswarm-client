@@ -4,7 +4,9 @@ const commaNumber = require('comma-number');
 
 export interface SwarmTile {
   createdAt: Date;
+  id: number;
   users: number;
+  name: string;
   swarmSize: number;
   durationInSeconds: number;
   regions: Array<string>;
@@ -81,5 +83,9 @@ export class SwarmTileComponent {
       default:
         return 'danger';
     }
+  }
+
+  onDeleteCompleted(swarmId: number) {
+    this.data.status = 'destroyed';
   }
 }

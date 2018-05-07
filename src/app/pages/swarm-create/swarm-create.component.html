@@ -1,0 +1,115 @@
+<app-navigation></app-navigation>
+<div class="wrapper">
+  <div class="container-fluid">
+    <!-- <app-page-header></app-page-header> -->
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="page-title">Create Swarm &amp; Load Test</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6">
+          <div class="card m-b-20 card-body">
+              <p class="card-text">Fill out the information below to create your load test. Once the form as been submitted RoboSwarm will generate your swarm and start your load test.</p>
+              <form class="form-horizontal m-t-20" #createSwarmForm="ngForm" (ngSubmit)="onSubmit(createSwarmForm)">
+                <div class="form-group">
+                  <label for="name">Load Test Name</label>
+                  <input class="form-control"
+                        type="text"
+                        name="name"
+                        id="name"
+                        required
+                        [(ngModel)]="model.name"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
+                </div>
+                <div class="form-group">
+                  <label for="simulated_users"># of Simulated Users</label>
+                  <input class="form-control"
+                        type="number"
+                        name="simulated_users"
+                        id="simulated_users"
+                        required
+                        [(ngModel)]="model.simulated_users"
+                        [disabled]="submitted"
+                        placeholder="150, 2500, 25000, etc">
+                  <small class="form-text text-muted">This is the total number of users for the load test.</small>
+                </div>
+                <div class="form-group">
+                  <label for="swarm_size">Swarm Size</label>
+                  <input class="form-control"
+                        type="number"
+                        id="swarm_size"
+                        name="swarm_size"
+                        required
+                        [(ngModel)]="model.swarm_size"
+                        [disabled]="submitted"
+                        placeholder="5, 20, 50, etc">
+                  <small class="form-text text-muted">How many machines should we distribute the load over? A good rule is for every 300 users add 1 machine. For example if you were load testing 1500 users, then 5 would be a good number to enter here.</small>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="duration_hours">Test Duration (hours)</label>
+                      <input class="form-control"
+                            type="number"
+                            id="duration_hours"
+                            name="duration_hours"
+                            required
+                            [(ngModel)]="model.duration_hours"
+                            [disabled]="submitted">
+                      <small class="form-text text-muted">How many hours should this load test continue for?</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="duration_minutes">Test Duration (minutes)</label>
+                      <input class="form-control"
+                            type="number"
+                            id="duration_minutes"
+                            name="duration_minutes"
+                            required
+                            [(ngModel)]="model.duration_minutes"
+                            [disabled]="submitted">
+                      <small class="form-text text-muted">How many additional minutes should this load test continue for?</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="swarm_region">Swarm Region</label>
+                    <select class="form-control"
+                          id="swarm_region"
+                          name="swarm_region"
+                          required
+                          [(ngModel)]="model.swarm_region"
+                          [disabled]="submitted">
+                      <option value="ams3">Amsterdam</option>
+                      <option value="blr1">Bangalore</option>
+                      <option value="fra1">Frankfurt</option>
+                      <option value="lon1">London</option>
+                      <option value="nyc3">New York City</option>
+                      <option value="sfo2">San Francisco</option>
+                      <option value="sgp1">Singapore</option>
+                      <option value="tor1">Toronto</option>
+                    </select>
+                    <small class="form-text text-muted">The geographic location that your load test traffic should originate from. Defaults to New York City.</small>
+                  </div>
+                <div class="form-group text-center m-t-40 mb-0">
+                    <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
+                            type="submit"
+                            [disabled]="submitted || !allFieldsCompleted()">
+                      Create Swarm &amp; Start Load Test
+                    </button>
+                    <p></p>
+                    <div *ngIf='error !== ""' class="alert alert-danger" role="alert">
+                      {{ error }}
+                    </div>
+                </div>
+              </form>
+          </div>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+</div>
+<app-footer></app-footer>

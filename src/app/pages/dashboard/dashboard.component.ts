@@ -29,7 +29,9 @@ export class DashboardComponent implements OnInit {
         const then = moment(swarm.created_at);
         const durationInSeconds = moment.duration(moment().diff(then)).asSeconds();
         this.swarms.push({
+          id: swarm.id,
           createdAt: swarm.created_at,
+          name: swarm.name,
           users: swarm.simulated_users,
           swarmSize: swarm.size,
           durationInSeconds,
@@ -38,9 +40,15 @@ export class DashboardComponent implements OnInit {
         });
       });
     } else {
-      debugger;
       console.log('There was an error fetching swarms.');
     }
+  }
+
+  async stopLoadTest(swarmId: number) {
+    // Stop the load test.
+    // Can only be called if the swarm is ready.
+    // Make sure to enforce that in the interface and also in the server
+    // Button should not exist if the load test isn't ready.
   }
 
 }

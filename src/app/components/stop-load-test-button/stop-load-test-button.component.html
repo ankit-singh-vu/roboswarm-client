@@ -1,0 +1,7 @@
+<button type="button"
+        *ngIf="showButton() && !working"
+        (click)="stopTest()"
+        class="btn btn-danger waves-effect w-md waves-light m-b-5">
+  Stop Load Test
+</button>
+<app-spinner [show]="working"></app-spinner>

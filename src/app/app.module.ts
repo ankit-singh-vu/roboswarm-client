@@ -17,6 +17,10 @@ import { NavigationLinksComponent } from './components/navigation-links/navigati
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SwarmTileComponent } from './components/swarm-tile/swarm-tile.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SwarmCreateComponent } from './pages/swarm-create/swarm-create.component';
+import { StopLoadTestButtonComponent } from './components/stop-load-test-button/stop-load-test-button.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -28,7 +32,11 @@ import { SwarmTileComponent } from './components/swarm-tile/swarm-tile.component
     NavigationLinksComponent,
     PageHeaderComponent,
     FooterComponent,
-    SwarmTileComponent
+    SwarmTileComponent,
+    LoginComponent,
+    SwarmCreateComponent,
+    StopLoadTestButtonComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

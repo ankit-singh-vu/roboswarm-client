@@ -22,6 +22,6 @@ export class TokenService {
 
   public saveToken(token: string): void {
     window.localStorage.setItem(this.localStorageKey, token);
-    this.getToken();
+    this.jwt = this.getToken();
   }
 }
