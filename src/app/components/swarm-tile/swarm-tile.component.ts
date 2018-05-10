@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
+import { HttpService } from '../../services/http.service';
 const commaNumber = require('comma-number');
 
 export interface SwarmTile {
@@ -8,9 +9,11 @@ export interface SwarmTile {
   users: number;
   name: string;
   swarmSize: number;
-  durationInSeconds: number;
-  regions: Array<string>;
+  duration: number;
+  region: string;
   status: string;
+  host_url: string;
+  spawn_rate: number;
 }
 
 @Component({
@@ -18,8 +21,31 @@ export interface SwarmTile {
   templateUrl: './swarm-tile.component.html',
   styleUrls: ['./swarm-tile.component.css']
 })
-export class SwarmTileComponent {
+export class SwarmTileComponent implements OnInit {
   @Input() data: SwarmTile;
+  private http: HttpService;
+  private statusCheckInterval;
+
+  constructor(_http: HttpService) {
+    this.http = _http;
+  }
+
+  ngOnInit() {
+    if (this.data.status === 'new') {
+      this.statusCheckInterval = setInterval(async () => {
+        const result = await this.http.request({
+          authenticated: true,
+          requestType: 'GET',
+          url: `/api/v1/swarm/${this.data.id}`
+        });
+        if (result.data.status !== this.data.status) {
+          this.data.status = result.data.status;
+          clearInterval(this.statusCheckInterval);
+        }
+        console.log(`Checking status for ${this.data.id}`);
+      }, 5000);
+    }
+  }
 
   getFormattedUsers() {
     return commaNumber(this.data.users);
@@ -30,8 +56,8 @@ export class SwarmTileComponent {
   }
 
   getFormattedDuration() {
-    const hours = Math.floor(this.data.durationInSeconds / (60 * 60));
-    const minutes = Math.floor((this.data.durationInSeconds - (hours * 60 * 60)) / 60);
+    const hours = Math.floor(this.data.duration / 60);
+    const minutes = Math.floor(this.data.duration - (hours * 60));
 
     let formattedString = '';
     if (hours === 1) {
@@ -49,10 +75,6 @@ export class SwarmTileComponent {
     }
 
     return formattedString;
-  }
-
-  getFormattedRegions() {
-    return this.data.regions.join(', ');
   }
 
   getFormattedSwarmSize() {

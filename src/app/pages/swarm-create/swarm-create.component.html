@@ -25,6 +25,18 @@
                   <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
                 </div>
                 <div class="form-group">
+                  <label for="host_url">Host URL</label>
+                  <input class="form-control"
+                        type="text"
+                        name="host_url"
+                        id="host_url"
+                        required
+                        placeholder="http://my.load.testing.com/environment"
+                        [(ngModel)]="model.host_url"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">The "--host" URL parameter that you pass in to Locust.</small>
+                </div>
+                <div class="form-group">
                   <label for="simulated_users"># of Simulated Users</label>
                   <input class="form-control"
                         type="number"
@@ -36,18 +48,37 @@
                         placeholder="150, 2500, 25000, etc">
                   <small class="form-text text-muted">This is the total number of users for the load test.</small>
                 </div>
-                <div class="form-group">
-                  <label for="swarm_size">Swarm Size</label>
-                  <input class="form-control"
-                        type="number"
-                        id="swarm_size"
-                        name="swarm_size"
-                        required
-                        [(ngModel)]="model.swarm_size"
-                        [disabled]="submitted"
-                        placeholder="5, 20, 50, etc">
-                  <small class="form-text text-muted">How many machines should we distribute the load over? A good rule is for every 300 users add 1 machine. For example if you were load testing 1500 users, then 5 would be a good number to enter here.</small>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="swarm_size">Swarm Size</label>
+                      <input class="form-control"
+                            type="number"
+                            id="swarm_size"
+                            name="swarm_size"
+                            required
+                            [(ngModel)]="model.swarm_size"
+                            [disabled]="submitted"
+                            placeholder="5, 20, 50, etc">
+                      <small class="form-text text-muted">How many machines should we distribute the load over? A good rule is for every 300 users add 1 machine. For example if you were load testing 1500 users, then 5 would be a good number to enter here.</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="spawn_rate">Spawn Rate</label>
+                      <input class="form-control"
+                            type="number"
+                            id="spawn_rate"
+                            name="spawn_rate"
+                            required
+                            [(ngModel)]="model.spawn_rate"
+                            [disabled]="submitted"
+                            placeholder="5, 20, 50, etc">
+                      <small class="form-text text-muted">How many users should RoboSwarm spawn per second?</small>
+                    </div>
+                  </div>
                 </div>
+                
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
@@ -77,24 +108,36 @@
                   </div>
                 </div>
                 <div class="form-group">
-                    <label for="swarm_region">Swarm Region</label>
-                    <select class="form-control"
-                          id="swarm_region"
-                          name="swarm_region"
-                          required
-                          [(ngModel)]="model.swarm_region"
-                          [disabled]="submitted">
-                      <option value="ams3">Amsterdam</option>
-                      <option value="blr1">Bangalore</option>
-                      <option value="fra1">Frankfurt</option>
-                      <option value="lon1">London</option>
-                      <option value="nyc3">New York City</option>
-                      <option value="sfo2">San Francisco</option>
-                      <option value="sgp1">Singapore</option>
-                      <option value="tor1">Toronto</option>
-                    </select>
-                    <small class="form-text text-muted">The geographic location that your load test traffic should originate from. Defaults to New York City.</small>
-                  </div>
+                  <label for="swarm_region">Swarm Region</label>
+                  <select class="form-control"
+                        id="swarm_region"
+                        name="swarm_region"
+                        required
+                        [(ngModel)]="model.swarm_region"
+                        [disabled]="submitted">
+                    <option value="ams3">Amsterdam</option>
+                    <option value="blr1">Bangalore</option>
+                    <option value="fra1">Frankfurt</option>
+                    <option value="lon1">London</option>
+                    <option value="nyc3">New York City</option>
+                    <option value="sfo2">San Francisco</option>
+                    <option value="sgp1">Singapore</option>
+                    <option value="tor1">Toronto</option>
+                  </select>
+                  <small class="form-text text-muted">The geographic location that your load test traffic should originate from. Defaults to New York City.</small>
+                </div>
+                <div class="form-group">
+                  <label for="load_test_file">Load Test Files</label>
+                  <input type="file"
+                        class="form-control"
+                        name="load_test_file"
+                        id="load_test_file"
+                        required
+                        accept = ".zip"
+                        [(ngModel)]="model.load_test_file"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">A .zip file containing your load test files. <i>locustfile.py</i> and <i>requirements.txt</i> should be at the top level.</small>
+                </div>
                 <div class="form-group text-center m-t-40 mb-0">
                     <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
                             type="submit"

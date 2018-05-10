@@ -26,29 +26,22 @@ export class DashboardComponent implements OnInit {
     });
     if (!result.err && result.statusCode === 200) {
       result.data.forEach(swarm => {
-        const then = moment(swarm.created_at);
-        const durationInSeconds = moment.duration(moment().diff(then)).asSeconds();
         this.swarms.push({
           id: swarm.id,
           createdAt: swarm.created_at,
           name: swarm.name,
           users: swarm.simulated_users,
           swarmSize: swarm.size,
-          durationInSeconds,
-          regions: ['tmp'],
+          duration: swarm.duration,
+          region: swarm.region,
           status: swarm.status,
+          host_url: swarm.host_url,
+          spawn_rate: swarm.spawn_rate
         });
       });
     } else {
       console.log('There was an error fetching swarms.');
     }
-  }
-
-  async stopLoadTest(swarmId: number) {
-    // Stop the load test.
-    // Can only be called if the swarm is ready.
-    // Make sure to enforce that in the interface and also in the server
-    // Button should not exist if the load test isn't ready.
   }
 
 }

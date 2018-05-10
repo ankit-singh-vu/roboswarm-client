@@ -4,11 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpModule } from '@angular/http';
 
-// Components
+// Authored
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './pages/register/register.component';
-
-// Services
 import { HttpService } from './services/http.service';
 import { TokenService } from './services/token.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
