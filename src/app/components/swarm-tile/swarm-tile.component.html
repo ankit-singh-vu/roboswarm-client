@@ -9,14 +9,21 @@
       <li><b>Started at:</b> {{ getFormattedDate() }}</li>
       <li><b>Status</b>: <span class="badge badge-{{ getStatusClass() }}">{{ getFormattedStatus() }}</span></li>
       <li><b>Host URL</b>: {{ data.host_url }}</li>
-      <li><b>Users</b>: {{ getFormattedUsers() }}</li>
+      <li *ngIf="swarm_ui_type === 'headless'"><b>Users</b>: {{ getFormattedUsers() }}</li>
       <li><b>Swarm Size</b>: {{ getFormattedSwarmSize() }}</li>
-      <li><b>Spawn Rate</b>: {{ data.spawn_rate }} per second</li>
-      <li><b>Duration</b>: {{ getFormattedDuration() }}</li>
+      <li *ngIf="swarm_ui_type === 'headless'"><b>Spawn Rate</b>: {{ data.spawn_rate }} per second</li>
+      <li *ngIf="swarm_ui_type === 'headless'"><b>Duration</b>: {{ getFormattedDuration() }}</li>
       <li><b>Region</b>: {{ data.region }}</li>
     </ul>
     <div align='center'>
-      <button type="button" class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
+      <div >
+        <button *ngIf="data.swarm_ui_type === 'headless'" type="button" class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
+        <button
+          *ngIf="data.swarm_ui_type === 'locust'"
+          [routerLink]="['/swarm', data.id, 'locust-web-ui']"
+          type="button"
+          class="btn btn-info waves-effect w-md waves-light m-b-5">View Locust Web UI</button>
+      </div>
       <app-stop-load-test-button
         [swarmStatus]="data.status"
         [swarmId]="data.id"

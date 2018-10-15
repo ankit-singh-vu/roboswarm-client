@@ -15,6 +15,7 @@ interface CreateSwarmForm {
   load_test_file: File;
   host_url: string;
   spawn_rate: number;
+  swarm_ui_type: string;
 }
 
 @Component({
@@ -38,10 +39,12 @@ export class SwarmCreateComponent {
     swarm_region: 'nyc3',
     load_test_file: null,
     spawn_rate: 1,
-    host_url: null
+    host_url: null,
+    swarm_ui_type: 'locust'
   };
   submitted = false;
   error = '';
+  test_type = 'locust';
 
   constructor(_http: HttpService, _router: Router, _token: TokenService, _rawHttp: Http) {
     this.rawHttp = _rawHttp;
@@ -71,7 +74,8 @@ export class SwarmCreateComponent {
           spawn_rate: this.model.spawn_rate,
           host_url: this.model.host_url,
           region: this.model.swarm_region,
-          duration: (this.model.duration_hours * 60) + this.model.duration_minutes
+          duration: (this.model.duration_hours * 60) + this.model.duration_minutes,
+          swarm_ui_type: this.test_type
         };
         const response = await this.http.request({
           authenticated: true,

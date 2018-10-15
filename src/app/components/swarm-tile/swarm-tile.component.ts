@@ -14,6 +14,7 @@ export interface SwarmTile {
   status: string;
   host_url: string;
   spawn_rate: number;
+  swarm_ui_type: string;
 }
 
 @Component({
@@ -79,6 +80,10 @@ export class SwarmTileComponent implements OnInit {
 
   getFormattedSwarmSize() {
     return commaNumber(this.data.swarmSize);
+  }
+
+  showDataButtons() {
+    return this.data.status === 'ready';
   }
 
   getFormattedStatus() {

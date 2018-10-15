@@ -36,7 +36,8 @@ export class DashboardComponent implements OnInit {
           region: swarm.region,
           status: swarm.status,
           host_url: swarm.host_url,
-          spawn_rate: swarm.spawn_rate
+          spawn_rate: swarm.spawn_rate,
+          swarm_ui_type: swarm.swarm_ui_type
         });
       });
     } else {
