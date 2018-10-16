@@ -1,5 +1,12 @@
 <app-navigation></app-navigation>
-<p>
-  locust-web-ui works!
-</p>
+<div class="wrapper">
+  <div class="container-fluid">
+    <iframe
+      *ngIf="swarm && swarm.master_ip"
+      [src]="getSwarmAddress()"
+      width="100%"
+      frameborder="0"
+      height="1500px"></iframe>
+  </div>
+</div>
 <app-footer></app-footer>
