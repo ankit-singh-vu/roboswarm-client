@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { HttpService } from './services/http.service';
 import { TokenService } from './services/token.service';
+import { SwarmMetricsService } from './services/swarm-metrics.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { NavigationLinksComponent } from './components/navigation-links/navigation-links.component';
@@ -46,7 +47,8 @@ import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.compon
   ],
   providers: [
     HttpService,
-    TokenService
+    TokenService,
+    SwarmMetricsService
   ],
   bootstrap: [AppComponent]
 })

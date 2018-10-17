@@ -79,7 +79,7 @@ export class SwarmTileComponent implements OnInit {
   }
 
   getFormattedSwarmSize() {
-    return commaNumber(this.data.swarmSize);
+    return `${commaNumber(this.data.swarmSize - 1)} + 1 master node`;
   }
 
   showDataButtons() {
@@ -109,6 +109,14 @@ export class SwarmTileComponent implements OnInit {
         return 'success';
       default:
         return 'danger';
+    }
+  }
+
+  getFormattedSwarmType() {
+    if (this.data.swarm_ui_type === 'locust') {
+      return 'Locust Web UI';
+    } else {
+      return 'Headless';
     }
   }
 

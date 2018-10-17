@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService, HttpRequestOptions } from '../../services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SwarmMetricsService } from '../../services/swarm-metrics.service';
 
 @Component({
   selector: 'app-locust-web-ui',
@@ -13,7 +14,8 @@ export class LocustWebUiComponent implements OnInit {
 
   constructor(private http: HttpService,
               private route: ActivatedRoute,
-              private sanitizer: DomSanitizer) { }
+              private sanitizer: DomSanitizer,
+              private swarmMetricsService: SwarmMetricsService) { }
 
   async ngOnInit() {
     const id = this.route.snapshot.params.id;
@@ -24,6 +26,15 @@ export class LocustWebUiComponent implements OnInit {
     };
     const { data } = await this.http.request(options);
     this.swarm = data;
+    // TODO: Change the iframe instantiation to use https://github.com/angular/angular/issues/16994#issuecomment-371455179
+    // setInterval(async () => {
+    //   try {
+    //     const metricsData = await this.swarmMetricsService.getMetricsForSwarm(this.swarm.id);
+    //     console.log({metricsData});
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }, 5000);
   }
 
   getSwarmAddress() {
