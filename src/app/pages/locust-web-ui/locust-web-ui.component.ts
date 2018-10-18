@@ -26,15 +26,6 @@ export class LocustWebUiComponent implements OnInit {
     };
     const { data } = await this.http.request(options);
     this.swarm = data;
-    // TODO: Change the iframe instantiation to use https://github.com/angular/angular/issues/16994#issuecomment-371455179
-    // setInterval(async () => {
-    //   try {
-    //     const metricsData = await this.swarmMetricsService.getMetricsForSwarm(this.swarm.id);
-    //     console.log({metricsData});
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }, 5000);
   }
 
   getSwarmAddress() {
