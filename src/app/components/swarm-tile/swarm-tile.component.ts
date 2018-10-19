@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { HttpService } from '../../services/http.service';
+import { SwarmService, Swarm } from '../../services/swarm.service';
 const commaNumber = require('comma-number');
 
 export interface SwarmTile {
@@ -24,23 +25,17 @@ export interface SwarmTile {
 })
 export class SwarmTileComponent implements OnInit {
   @Input() data: SwarmTile;
-  private http: HttpService;
   private statusCheckInterval;
 
-  constructor(_http: HttpService) {
-    this.http = _http;
+  constructor(private swarmService: SwarmService) {
   }
 
   ngOnInit() {
     if (this.data.status === 'new') {
       this.statusCheckInterval = setInterval(async () => {
-        const result = await this.http.request({
-          authenticated: true,
-          requestType: 'GET',
-          url: `/api/v1/swarm/${this.data.id}`
-        });
-        if (result.data.status !== this.data.status) {
-          this.data.status = result.data.status;
+        const swarm: Swarm = await this.swarmService.getById(this.data.id);
+        if (swarm.status !== this.data.status) {
+          this.data.status = swarm.status;
           clearInterval(this.statusCheckInterval);
         }
         console.log(`Checking status for ${this.data.id}`);

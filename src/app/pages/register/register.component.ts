@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpService, HttpRequestOptions } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
+import { Router } from '@angular/router';
 
 interface RegisterForm {
   email: string;
@@ -28,6 +29,7 @@ export class RegisterComponent {
   error = '';
 
   constructor(_http: HttpService,
+              private router: Router,
               _token: TokenService) {
     this.http = _http;
     this.token = _token;
@@ -48,9 +50,7 @@ export class RegisterComponent {
           this.error = response.data;
         } else {
           this.token.saveToken(response.data.token);
-          //
-          // ---- Redirect to dashboard.
-          //
+          this.router.navigate(['/dashboard']);
         }
       } catch (err) {
         this.error = 'There was an error creating your user. Please try again.';

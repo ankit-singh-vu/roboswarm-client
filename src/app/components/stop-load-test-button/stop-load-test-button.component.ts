@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { HttpService } from '../../services/http.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SwarmService } from '../../services/swarm.service';
 
 @Component({
   selector: 'app-stop-load-test-button',
@@ -11,11 +11,9 @@ export class StopLoadTestButtonComponent {
   @Input() swarmStatus: string;
   @Output() deleteCompleted = new EventEmitter<number>();
 
-  private http: HttpService;
-  private working = false;
+  working = false;
 
-  constructor(_http: HttpService) {
-    this.http = _http;
+  constructor(private swarmService: SwarmService) {
   }
 
   showButton() {
@@ -24,11 +22,7 @@ export class StopLoadTestButtonComponent {
 
   async stopTest() {
     this.working = true;
-    const response = await this.http.request({
-      authenticated: true,
-      requestType: 'DELETE',
-      url: `/api/v1/swarm/${this.swarmId}`
-    });
+    await this.swarmService.destroy(this.swarmId);
     this.working = false;
     this.deleteCompleted.emit(this.swarmId);
   }

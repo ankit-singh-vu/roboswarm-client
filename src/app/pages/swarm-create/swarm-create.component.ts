@@ -1,9 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { HttpService } from '../../services/http.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TokenService } from '../../services/token.service';
-import { environment } from '../../../environments/environment';
+import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service';
 
 interface CreateSwarmForm {
   name: string;
@@ -24,12 +21,6 @@ interface CreateSwarmForm {
   styleUrls: ['./swarm-create.component.css']
 })
 export class SwarmCreateComponent {
-
-  private rawHttp: Http;
-  private http: HttpService;
-  private router: Router;
-  private token: TokenService;
-
   model: CreateSwarmForm = {
     name: '',
     simulated_users: 50,
@@ -46,11 +37,8 @@ export class SwarmCreateComponent {
   error = '';
   test_type = 'locust';
 
-  constructor(_http: HttpService, _router: Router, _token: TokenService, _rawHttp: Http) {
-    this.rawHttp = _rawHttp;
-    this.http = _http;
-    this.router = _router;
-    this.token = _token;
+  constructor(private router: Router,
+              private swarmService: SwarmService) {
   }
 
   async onSubmit(form) {
@@ -59,35 +47,34 @@ export class SwarmCreateComponent {
       this.submitted = true;
       this.error = '';
 
-      // Upload the file first.
-      const filePath = await this.uploadFile();
       try {
-        const machines = [];
+        // Collect the file.
+        const fileElement: HTMLInputElement = document.getElementById('load_test_file') as HTMLInputElement;
+        const file: File = fileElement.files[0];
+        const formData: FormData = new FormData();
+        formData.append('loadTestData', file, file.name);
+
+        // Add the machines to swarm.
+        const machines: NewMachine[] = [];
         for (let i = 0; i < this.model.swarm_size; i++) {
           machines.push({ region: this.model.swarm_region });
         }
-        const data = {
+
+        // Create the swarm.
+        const swarmData: NewSwarm  = {
           name: this.model.name,
           simulated_users: this.model.simulated_users,
           machines,
-          file_path: filePath,
+          file_path: '',
           spawn_rate: this.model.spawn_rate,
           host_url: this.model.host_url,
           region: this.model.swarm_region,
           duration: (this.model.duration_hours * 60) + this.model.duration_minutes,
           swarm_ui_type: this.test_type
         };
-        const response = await this.http.request({
-          authenticated: true,
-          data,
-          requestType: 'POST',
-          url: '/api/v1/swarm'
-        });
-        if (response.statusCode !== 201) {
-          this.error = 'There was an error creating your load test. Please try again.';
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
+
+        await this.swarmService.createSwarm(formData, swarmData);
+        this.router.navigate(['/dashboard']);
       } catch (err) {
         this.error = 'There was an error creating your load test. Please try again.';
       }
@@ -118,27 +105,4 @@ export class SwarmCreateComponent {
     }
     return true;
   }
-
-  async uploadFile() {
-    // Collect the file.
-    const fileElement: HTMLInputElement = document.getElementById('load_test_file') as HTMLInputElement;
-    const file: File = fileElement.files[0];
-    const formData: FormData = new FormData();
-    formData.append('loadTestData', file, file.name);
-
-    // Set the headers.
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `Bearer ${this.token.jwt}`);
-    const options = new RequestOptions({ headers: headers });
-
-    // Make the request.
-    try {
-      const result: any = await this.rawHttp.post(`${environment.serverUrl}/api/v1/swarm/file-upload`, formData, options).toPromise();
-      return JSON.parse(result._body).filePath;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
 }
