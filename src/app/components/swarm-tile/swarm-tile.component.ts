@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { HttpService } from '../../services/http.service';
 import { SwarmService, Swarm } from '../../services/swarm.service';
+import { timingSafeEqual } from 'crypto';
 const commaNumber = require('comma-number');
 
 export interface SwarmTile {
@@ -117,5 +118,13 @@ export class SwarmTileComponent implements OnInit {
 
   onDeleteCompleted(swarmId: number) {
     this.data.status = 'destroyed';
+  }
+
+  showLocustButton(): boolean {
+    return this.data.swarm_ui_type === 'locust' && this.data.status === 'ready';
+  }
+
+  showDetailButtons(): boolean {
+    return this.data.status === 'ready' || this.data.status === 'destroyed';
   }
 }

@@ -7,7 +7,6 @@ import { HttpModule } from '@angular/http';
 // Authored Services
 import { HttpService } from './services/http.service';
 import { TokenService } from './services/token.service';
-import { SwarmMetricsService } from './services/swarm-metrics.service';
 import { SwarmService } from './services/swarm.service';
 
 // Authored Components
@@ -24,6 +23,7 @@ import { SwarmCreateComponent } from './pages/swarm-create/swarm-create.componen
 import { StopLoadTestButtonComponent } from './components/stop-load-test-button/stop-load-test-button.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
+import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 
 
 @NgModule({
@@ -40,7 +40,8 @@ import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.compon
     SwarmCreateComponent,
     StopLoadTestButtonComponent,
     SpinnerComponent,
-    LocustWebUiComponent
+    LocustWebUiComponent,
+    SwarmDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +52,7 @@ import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.compon
   providers: [
     HttpService,
     TokenService,
-    SwarmService,
-    SwarmMetricsService
+    SwarmService
   ],
   bootstrap: [AppComponent]
 })

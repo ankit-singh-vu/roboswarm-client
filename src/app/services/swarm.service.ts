@@ -65,6 +65,34 @@ export interface NewSwarm {
   swarm_ui_type: string;
 }
 
+export interface Request {
+  id?: number;
+  swarm_id: number;
+  created_at: Date;
+  requests: number;
+  failures: number;
+  median_response_time: number;
+  average_response_time: number;
+  min_response_time: number;
+  max_response_time: number;
+  avg_content_size: number;
+  requests_per_second: number;
+}
+
+export interface Distribution {
+  id?: number;
+  swarm_id: number;
+  created_at: Date;
+  requests: number;
+  percentiles: string;
+  percentilesObject?: Object;
+}
+
+export interface LoadTestMetrics {
+  requests: Request[];
+  distribution: Distribution[];
+}
+
 @Injectable()
 export class SwarmService {
 
@@ -121,5 +149,19 @@ export class SwarmService {
     };
     const results = await this.http.request(options);
     return results.data as Swarm[];
+  }
+
+  async getMetrics(swarmId: number, lastDistributionId?: number, lastRequestId?: number): Promise<LoadTestMetrics> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: `/api/v1/swarm/${swarmId}/metrics`,
+      data: {
+        lastDistributionId,
+        lastRequestId
+      }
+    };
+    const results = await this.http.request(options);
+    return results.data as LoadTestMetrics;
   }
 }

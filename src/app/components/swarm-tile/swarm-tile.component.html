@@ -17,10 +17,13 @@
       <li><b>Region</b>: {{ data.region }}</li>
     </ul>
     <div align='center'>
-      <div >
-        <button *ngIf="data.swarm_ui_type === 'headless'" type="button" class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
+      <div *ngIf="showDetailButtons()">
         <button
-          *ngIf="data.swarm_ui_type === 'locust'"
+          [routerLink]="['/swarm', data.id]"
+          type="button"
+          class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
+        <button
+          *ngIf="showLocustButton()"
           [routerLink]="['/swarm', data.id, 'locust-web-ui']"
           type="button"
           class="btn btn-info waves-effect w-md waves-light m-b-5">View Locust Web UI</button>

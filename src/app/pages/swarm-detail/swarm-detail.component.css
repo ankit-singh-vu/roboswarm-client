@@ -1,0 +1,4 @@
+.swarm-detail .result-table {
+    max-height: 400px;
+    overflow-y: scroll;
+}
