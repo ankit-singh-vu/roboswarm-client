@@ -115,6 +115,28 @@
         <div class="col-sm-1"></div>
     </div>
   </div>
+  <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="card m-b-20 card-body">
+                <h4 class="card-title">Distribution Chart</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-bar-vertical
+                        [results]="formattedDistributionData"
+                        [gradient]="gradient"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [legend]="showLegend"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="distributionXAxisLabel"
+                        [yAxisLabel]="distributionYAxisLabel">
+                    </ngx-charts-bar-vertical>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
 </div>
 <app-footer></app-footer>
 

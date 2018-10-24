@@ -16,6 +16,7 @@ export class SwarmDetailComponent implements OnInit {
   previousDistributionIdMarker = 0;
   previousRequestIdMarker = 0;
   formattedResultData = [];
+  formattedDistributionData = [];
 
   // Request Chart
   showXAxis = true;
@@ -25,6 +26,10 @@ export class SwarmDetailComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Requests';
   view = [500, 300];
+
+  // Distribution Chart
+  distributionXAxisLabel = 'Request Percentiles';
+  distributionYAxisLabel = '# of Requests';
 
   constructor(private swarmService: SwarmService,
               private route: ActivatedRoute) { }
@@ -88,31 +93,20 @@ export class SwarmDetailComponent implements OnInit {
         })
       }
     ];
+
+    const i = this.distributionData.length - 1;
+    if (i > 1 && this.distributionData[i].percentiles['50%'] !== 'N/A') {
+      this.formattedDistributionData = [
+        { name: '50%', value: this.distributionData[i].percentiles['50%'] },
+        { name: '66%', value: this.distributionData[i].percentiles['66%'] },
+        { name: '75%', value: this.distributionData[i].percentiles['75%'] },
+        { name: '80%', value: this.distributionData[i].percentiles['80%'] },
+        { name: '90%', value: this.distributionData[i].percentiles['90%'] },
+        { name: '95%', value: this.distributionData[i].percentiles['95%'] },
+        { name: '98%', value: this.distributionData[i].percentiles['98%'] },
+        { name: '99%', value: this.distributionData[i].percentiles['99%'] },
+        { name: '100%', value: this.distributionData[i].percentiles['100%'] }
+      ];
+    }
   }
-  // [
-  //   {
-  //     "name": "Malawi",
-  //     "series": [
-  //       {
-  //         "value": 2964,
-  //         "name": "2016-09-14T15:49:26.317Z"
-  //       },
-  //       {
-  //         "value": 6036,
-  //         "name": "2016-09-14T23:38:41.884Z"
-  //       },
-  //       {
-  //         "value": 2351,
-  //         "name": "2016-09-18T20:09:36.433Z"
-  //       },
-  //       {
-  //         "value": 4657,
-  //         "name": "2016-09-22T16:48:39.006Z"
-  //       },
-  //       {
-  //         "value": 5299,
-  //         "name": "2016-09-18T15:41:05.691Z"
-  //       }
-  //     ]
-  //   },
 }
