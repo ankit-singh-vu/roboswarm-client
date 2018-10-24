@@ -3,7 +3,15 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
-        <h4 class="page-title">Swarm Detail</h4>
+        <h4 *ngIf="swarm && swarm.name" class="page-title">
+            {{ swarm.name }}
+            <app-stop-load-test-button
+                class="pull-right"
+                *ngIf="swarm && swarm.status !== destroyed"
+                [swarmStatus]="swarm.status"
+                [swarmId]="swarm.id"
+                (deleteCompleted)="onDeleteCompleted($event)"></app-stop-load-test-button>
+        </h4>
       </div>
     </div>
     <div class="row">
@@ -43,7 +51,6 @@
         </div>
         <div class="col-sm-1"></div>
     </div>
-
     <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
@@ -81,6 +88,28 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="card m-b-20 card-body">
+                <h4 class="card-title">Result Chart</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedResultData"
+                    [gradient]="gradient"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"
+                    [legend]="showLegend"></ngx-charts-line-chart>
+                </div>
             </div>
         </div>
         <div class="col-sm-1"></div>

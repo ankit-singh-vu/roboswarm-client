@@ -17,7 +17,7 @@ export class StopLoadTestButtonComponent {
   }
 
   showButton() {
-    return this.swarmStatus === 'ready';
+    return this.swarmStatus !== 'destroyed';
   }
 
   async stopTest() {

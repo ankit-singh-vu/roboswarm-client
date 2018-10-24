@@ -14,7 +14,7 @@
       <li><b>Swarm Size</b>: {{ getFormattedSwarmSize() }}</li>
       <li *ngIf="data.swarm_ui_type === 'headless'"><b>Spawn Rate</b>: {{ data.spawn_rate }} per second</li>
       <li *ngIf="data.swarm_ui_type === 'headless'"><b>Duration</b>: {{ getFormattedDuration() }}</li>
-      <li><b>Region</b>: {{ data.region }}</li>
+      <li><b>Region</b>: {{ getFormattedRegion() }}</li>
     </ul>
     <div align='center'>
       <div *ngIf="showDetailButtons()">

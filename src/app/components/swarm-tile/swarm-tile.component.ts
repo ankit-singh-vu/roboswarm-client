@@ -87,7 +87,7 @@ export class SwarmTileComponent implements OnInit {
       case 'new':
         return 'Building Swarm';
       case 'ready':
-        return 'Starting Load Test';
+        return 'Running';
       case 'destroyed':
         return 'Swarm Destroyed';
       default:
@@ -118,6 +118,27 @@ export class SwarmTileComponent implements OnInit {
 
   onDeleteCompleted(swarmId: number) {
     this.data.status = 'destroyed';
+  }
+
+  getFormattedRegion() {
+    switch (this.data.region) {
+      case 'sfo2':
+        return 'San Francisco';
+      case 'ams3':
+        return 'Amsterdam';
+      case 'blr1':
+        return 'Bangalore';
+      case 'fra1':
+        return 'Frankfurt';
+      case 'lon1':
+        return 'London';
+      case 'nyc3':
+        return 'New York City';
+      case 'sgp1':
+        return 'Singapore';
+      case 'tor1':
+        return 'Toronto';
+    }
   }
 
   showLocustButton(): boolean {
