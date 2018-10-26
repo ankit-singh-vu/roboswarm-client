@@ -15,127 +15,116 @@
       </div>
     </div>
     <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Requests</h4>
-                <table class="table table-striped m-0">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Requests</th>
-                            <th>Failures</th>
-                            <th>Med. Time</th>
-                            <th>Avg. Time</th>
-                            <th>Min</th>
-                            <th>Max</th>
-                            <th>Avg. Size</th>
-                            <th>Req/s</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of requestData">
-                            <td>{{ row.created_at | date:"medium" }}</td>
-                            <td>{{ row.requests }}</td>
-                            <td>{{ row.failures }}</td>
-                            <td>{{ row.median_response_time }}</td>
-                            <td>{{ row.average_response_time }}</td>
-                            <td>{{ row.min_response_time }}</td>
-                            <td>{{ row.max_response_time }}</td>
-                            <td>{{ row.avg_content_size }}</td>
-                            <td>{{ row.requests_per_second }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-sm-3">
+            <div class="card m-b-20 card-body meta">
+                <p><b>Users: </b> {{ swarm.simulated_users }}</p>
+                <p><b>Spawn Rate: </b> {{ swarm.spawn_rate }}</p>
+                <p><b>Swarm Size: </b> {{ swarm. size }} + 1 master</p>
+                <p><b>Duration (Minutes): {{ swarm.duration }}</b></p>
+                <p><b>Region: </b> {{ swarm.region }}</p>
+                <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
             </div>
         </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Distribution</h4>
-                <table class="table table-striped m-0">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Requests</th>
-                            <th>50%</th>
-                            <th>66%</th>
-                            <th>75%</th>
-                            <th>80%</th>
-                            <th>90%</th>
-                            <th>95%</th>
-                            <th>98%</th>
-                            <th>99%</th>
-                            <th>100%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of distributionData">
-                            <td>{{ row.created_at | date:"medium" }}</td>
-                            <td>{{ row.requests }}</td>
-                            <td>{{ row.percentiles['50%'] }}</td>
-                            <td>{{ row.percentiles['66%'] }}</td>
-                            <td>{{ row.percentiles['75%'] }}</td>
-                            <td>{{ row.percentiles['80%'] }}</td>
-                            <td>{{ row.percentiles['90%'] }}</td>
-                            <td>{{ row.percentiles['95%'] }}</td>
-                            <td>{{ row.percentiles['98%'] }}</td>
-                            <td>{{ row.percentiles['99%'] }}</td>
-                            <td>{{ row.percentiles['100%'] }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <div class="card m-b-20 card-body">
-                <h4 class="card-title">Result Chart</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                    [results]="formattedResultData"
-                    [gradient]="gradient"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"
-                    [legend]="showLegend"></ngx-charts-line-chart>
+                    <h4 class="card-title">Requests</h4>
+                    <table class="table table-striped m-0">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Requests</th>
+                                <th>Failures</th>
+                                <th>Med. Time</th>
+                                <th>Avg. Time</th>
+                                <th>Min</th>
+                                <th>Max</th>
+                                <th>Avg. Size</th>
+                                <th>Req/s</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of requestData">
+                                <td>{{ row.created_at | date:"medium" }}</td>
+                                <td>{{ row.requests }}</td>
+                                <td>{{ row.failures }}</td>
+                                <td>{{ row.median_response_time }}</td>
+                                <td>{{ row.average_response_time }}</td>
+                                <td>{{ row.min_response_time }}</td>
+                                <td>{{ row.max_response_time }}</td>
+                                <td>{{ row.avg_content_size }}</td>
+                                <td>{{ row.requests_per_second }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-  </div>
-  <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <div class="card m-b-20 card-body">
-                <h4 class="card-title">Distribution Chart</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-bar-vertical
-                        [results]="formattedDistributionData"
+                <div class="card m-b-20 card-body result-table">
+                    <h4 class="card-title">Distribution</h4>
+                    <table class="table table-striped m-0">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Requests</th>
+                                <th>50%</th>
+                                <th>66%</th>
+                                <th>75%</th>
+                                <th>80%</th>
+                                <th>90%</th>
+                                <th>95%</th>
+                                <th>98%</th>
+                                <th>99%</th>
+                                <th>100%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of distributionData">
+                                <td>{{ row.created_at | date:"medium" }}</td>
+                                <td>{{ row.requests }}</td>
+                                <td>{{ row.percentiles['50%'] }}</td>
+                                <td>{{ row.percentiles['66%'] }}</td>
+                                <td>{{ row.percentiles['75%'] }}</td>
+                                <td>{{ row.percentiles['80%'] }}</td>
+                                <td>{{ row.percentiles['90%'] }}</td>
+                                <td>{{ row.percentiles['95%'] }}</td>
+                                <td>{{ row.percentiles['98%'] }}</td>
+                                <td>{{ row.percentiles['99%'] }}</td>
+                                <td>{{ row.percentiles['100%'] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card m-b-20 card-body">
+                    <h4 class="card-title">Result Chart</h4>
+                    <div style="height:400px; width: 100%;">
+                        <ngx-charts-line-chart
+                        [results]="formattedResultData"
                         [gradient]="gradient"
                         [xAxis]="showXAxis"
                         [yAxis]="showYAxis"
-                        [legend]="showLegend"
                         [showXAxisLabel]="showXAxisLabel"
                         [showYAxisLabel]="showYAxisLabel"
-                        [xAxisLabel]="distributionXAxisLabel"
-                        [yAxisLabel]="distributionYAxisLabel">
-                    </ngx-charts-bar-vertical>
+                        [xAxisLabel]="xAxisLabel"
+                        [yAxisLabel]="yAxisLabel"
+                        [autoScale]="true"
+                        [legend]="showLegend"></ngx-charts-line-chart>
+                    </div>
                 </div>
-            </div>
+                <div class="card m-b-20 card-body">
+                    <h4 class="card-title">Distribution Chart</h4>
+                    <div style="height:400px; width: 100%;">
+                        <ngx-charts-bar-vertical
+                            [results]="formattedDistributionData"
+                            [gradient]="gradient"
+                            [xAxis]="showXAxis"
+                            [yAxis]="showYAxis"
+                            [legend]="showLegend"
+                            [showXAxisLabel]="showXAxisLabel"
+                            [showYAxisLabel]="showYAxisLabel"
+                            [xAxisLabel]="distributionXAxisLabel"
+                            [yAxisLabel]="distributionYAxisLabel">
+                        </ngx-charts-bar-vertical>
+                    </div>
+                </div>
         </div>
-        <div class="col-sm-1"></div>
     </div>
 </div>
 <app-footer></app-footer>

@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { SwarmService, LoadTestMetrics, Request, Distribution, Swarm, Status } from '../../services/swarm.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  SwarmService,
+  LoadTestMetrics,
+  Request,
+  Distribution,
+  Swarm,
+  Status,
+  DistributionFinal,
+  RequestFinal, 
+  LoadTestMetricsFinal} from '../../services/swarm.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,12 +16,14 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './swarm-detail.component.html',
   styleUrls: ['./swarm-detail.component.css']
 })
-export class SwarmDetailComponent implements OnInit {
+export class SwarmDetailComponent implements OnInit, OnDestroy {
   id: number;
   timer: any; // Interval.
   distributionData: Distribution[] = [];
-  swarm: Swarm;
+  distributionDataFinal: DistributionFinal[] = [];
   requestData: Request[] = [];
+  requestDataFinal: RequestFinal[] = [];
+  swarm: Swarm;
   previousDistributionIdMarker = 0;
   previousRequestIdMarker = 0;
   formattedResultData = [];
@@ -48,7 +59,21 @@ export class SwarmDetailComponent implements OnInit {
       }, 3500);
     }
 
+    if (this.swarm.status === 'destroyed') {
+      await this.fetchFinalMetrics();
+    }
+
     this.formatData();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.timer);
+  }
+
+  fetchFinalMetrics = async () => {
+    const result: LoadTestMetricsFinal = await this.swarmService.getMetricsFinal(this.id);
+    this.distributionDataFinal = result.distribution;
+    this.requestDataFinal = result.requests;
   }
 
   fetchUpdatedMetrics = async () => {
@@ -58,7 +83,10 @@ export class SwarmDetailComponent implements OnInit {
       this.previousDistributionIdMarker,
       this.previousRequestIdMarker
     );
-    if (this.swarm.status !== 'ready') { clearInterval(this.timer); }
+    if (this.swarm.status !== 'ready') {
+      clearInterval(this.timer);
+      await this.fetchFinalMetrics();
+    }
     this.distributionData = this.distributionData.concat(data.distribution);
     this.requestData = this.requestData.concat(data.requests);
     this.previousDistributionIdMarker = this.distributionData[this.distributionData.length - 1].id;

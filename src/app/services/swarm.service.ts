@@ -93,6 +93,21 @@ export interface LoadTestMetrics {
   distribution: Distribution[];
 }
 
+export interface RequestFinal extends Request {
+  method: string;
+  route: string;
+}
+
+export interface DistributionFinal extends Distribution {
+  method: string;
+  route: string;
+}
+
+export interface LoadTestMetricsFinal {
+  requests: RequestFinal[];
+  distribution: DistributionFinal[];
+}
+
 @Injectable()
 export class SwarmService {
 
@@ -163,5 +178,15 @@ export class SwarmService {
     };
     const results = await this.http.request(options);
     return results.data as LoadTestMetrics;
+  }
+
+  async getMetricsFinal(swarmId: number): Promise<LoadTestMetricsFinal> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/swarm/${swarmId}/metrics/final`
+    };
+    const results = await this.http.request(options);
+    return results.data as LoadTestMetricsFinal;
   }
 }
