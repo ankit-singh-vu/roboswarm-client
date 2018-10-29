@@ -27,6 +27,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { BillingComponent } from './pages/billing/billing.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { LogoutComponent } from './pages/logout/logout.component';
     SpinnerComponent,
     LocustWebUiComponent,
     SwarmDetailComponent,
-    LogoutComponent
+    LogoutComponent,
+    BillingComponent
   ],
   imports: [
     BrowserModule,

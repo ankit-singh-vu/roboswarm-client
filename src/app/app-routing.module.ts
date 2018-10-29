@@ -8,6 +8,7 @@ import { SwarmCreateComponent } from './pages/swarm-create/swarm-create.componen
 import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { BillingComponent } from './pages/billing/billing.component';
 
 const routes: Routes = [
 
@@ -32,6 +33,7 @@ const routes: Routes = [
             }
         ]
     },
+    { path: 'plans-and-billing', component: BillingComponent }
 ];
 
 @NgModule({
