@@ -71,8 +71,8 @@
             <div *ngIf='error !== ""' class="alert alert-danger" role="alert">
               {{ error }}
             </div>
-            <p class="text-muted">Already have account?<a href="page-login.html"
-                class="text-primary m-l-5"><b>Sign In</b></a></p>
+            <p class="text-muted">Already have account?<a [routerLink]="['/login']"
+                class="text-primary m-l-5"><b>Log In</b></a></p>
           </div>
         </div>
 

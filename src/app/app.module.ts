@@ -26,6 +26,7 @@ import { StopLoadTestButtonComponent } from './components/stop-load-test-button/
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.componen
     StopLoadTestButtonComponent,
     SpinnerComponent,
     LocustWebUiComponent,
-    SwarmDetailComponent
+    SwarmDetailComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

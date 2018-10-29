@@ -7,7 +7,7 @@ import {
   Swarm,
   Status,
   DistributionFinal,
-  RequestFinal, 
+  RequestFinal,
   LoadTestMetricsFinal} from '../../services/swarm.service';
 import { ActivatedRoute } from '@angular/router';
 

@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SwarmCreateComponent } from './pages/swarm-create/swarm-create.component';
 import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 const routes: Routes = [
 
@@ -14,6 +15,7 @@ const routes: Routes = [
     // { path: '', component: HomeComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'logout', component: LogoutComponent },
 
     // Authenticated routes
     { path: 'dashboard', component: DashboardComponent },
@@ -30,9 +32,6 @@ const routes: Routes = [
             }
         ]
     },
-    // { path: 'swarm/create', component: SwarmCreateComponent },
-    // { path: 'swarm/:id/locust-web-ui', component: LocustWebUiComponent }
-    // { path: 'logout', component: LogoutComponent },
 ];
 
 @NgModule({

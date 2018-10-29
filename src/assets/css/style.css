@@ -4135,7 +4135,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-ar
   padding-top: 120px;
 } */
 .wrapper {
-  padding-top: 50px; /* For MVP, no nav bar */
+  padding-top: 120px; /* For MVP, no nav bar */
 }
 
 .page-title-box {
