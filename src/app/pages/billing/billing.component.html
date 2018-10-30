@@ -32,15 +32,15 @@
                                 Current Plan
                             </button>
                             <button *ngIf="user.stripe_plan_description !== 'free'"
+                                [disabled]="disableButtons"
                                 class="btn btn-success btn-bordred btn-rounded waves-effect waves-light"
                                 (click)="selectPlan('free')">
                                 Select Plan
                             </button>
+                            <div *ngIf="error && planToSelect === 'free'" class="alert alert-danger">{{ error }}</div>
                       </div>
                   </div>
               </article>
-
-
               <!--Pricing Column-->
               <article class="pricing-column col-xl-4 col-md-6">
                   <div class="ribbon"><span>POPULAR</span></div>
@@ -65,15 +65,15 @@
                                 Current Plan
                             </button>
                             <button *ngIf="user.stripe_plan_description !== 'startup'"
+                                [disabled]="disableButtons"
                                 class="btn btn-success btn-bordred btn-rounded waves-effect waves-light"
                                 (click)="selectPlan('startup')">
                                 Select Plan
                             </button>
+                            <div *ngIf="error && planToSelect === 'startup'" class="alert alert-danger">{{ error }}</div>
                       </div>
                   </div>
               </article>
-
-
               <!--Pricing Column-->
               <article class="pricing-column col-xl-4 col-md-6">
                   <div class="inner-box card-box">

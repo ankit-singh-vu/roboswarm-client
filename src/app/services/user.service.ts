@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService, HttpRequestOptions } from './http.service';
+import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
 
 export interface User {
   id?: number;
@@ -34,13 +34,13 @@ export class UserService {
     return result.data as User;
   }
 
-  async selectPlan(planName: string): Promise<void> {
+  async selectPlan(planName: string): Promise<RequestResult> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'POST',
       url: '/api/v1/user/me/plan',
       data: { planName }
     };
-    await this.http.request(options);
+    return await this.http.request(options);
   }
 }
