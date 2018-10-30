@@ -28,6 +28,7 @@ import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.compon
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { BillingComponent } from './pages/billing/billing.component';
   providers: [
     HttpService,
     TokenService,
-    SwarmService
+    SwarmService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
