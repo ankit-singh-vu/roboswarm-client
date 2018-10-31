@@ -54,12 +54,6 @@ export class BillingComponent implements OnInit {
       zipCode: true,
       billingAddress: true,
       token: async (token) => {
-        console.log({
-          tokenId: token.id,
-          cardId: token.card.id
-        });
-        // TODO: Test this.
-        // TODO: Also test adding card over this.
         await this.userService.updateCard(token.id, token.card.id);
       }
     });
