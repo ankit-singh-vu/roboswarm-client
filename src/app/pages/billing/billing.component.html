@@ -9,6 +9,19 @@
     <div class="row m-t-10">
       <div *ngIf="!loading" class="col-md-10 offset-md-1">
           <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="card m-b-20 card-body">
+                        <h4 class="card-title">Add or Update Credit Card</h4>
+                        <p class="card-text">
+                            Before you can select a higher level RoboSwarm plan you will need to add a valid credit card.
+                        </p>
+                        <button (click)="addOrUpdateCard()" class="btn btn-primary">Add or Update Credit Card</button>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+          </div>
+          <div class="row">
               <!--Pricing Column-->
               <article class="pricing-column col-xl-4 col-md-6">
                   <div class="inner-box card-box">

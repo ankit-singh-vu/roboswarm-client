@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, User } from '../../services/user.service';
 import { RequestResult } from '../../services/http.service';
+import { environment } from '../../../environments/environment';
+
+declare const StripeCheckout: any;
 
 @Component({
   selector: 'app-billing',
@@ -35,9 +38,11 @@ export class BillingComponent implements OnInit {
     this.disableButtons = false;
   }
 
-  async addOrChangeCard() {
+  async addOrUpdateCard() {
+    // Todo: Disable button.
+    // Todo: fetch user again. If they have card, add a notification in the card UX.
     const handler = StripeCheckout.configure({
-      key: 'STRIPE_PUBLIC_KEY_GOES_HERE',
+      key: environment.stripeApiPublic,
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       name: 'RoboSwarm',
@@ -45,8 +50,17 @@ export class BillingComponent implements OnInit {
       panelLabel: 'Save Credit Card',
       label: 'Save Credit Card',
       allowRememberMe: false,
-      token: (token) => {
-        // Here we will call the backend to associate this card to the customer.
+      email: this.user.email,
+      zipCode: true,
+      billingAddress: true,
+      token: async (token) => {
+        console.log({
+          tokenId: token.id,
+          cardId: token.card.id
+        });
+        // TODO: Test this.
+        // TODO: Also test adding card over this.
+        await this.userService.updateCard(token.id, token.card.id);
       }
     });
     handler.open();

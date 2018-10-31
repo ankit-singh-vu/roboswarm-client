@@ -43,4 +43,14 @@ export class UserService {
     };
     return await this.http.request(options);
   }
+
+  async updateCard(token: string, cardId: string): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: '/api/v1/user/me/card',
+      data: { token, cardId }
+    };
+    await this.http.request(options);
+  }
 }
