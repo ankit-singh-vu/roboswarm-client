@@ -39,8 +39,7 @@ export class BillingComponent implements OnInit {
   }
 
   async addOrUpdateCard() {
-    // Todo: Disable button.
-    // Todo: fetch user again. If they have card, add a notification in the card UX.
+    this.disableButtons = true;
     const handler = StripeCheckout.configure({
       key: environment.stripeApiPublic,
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
@@ -55,6 +54,11 @@ export class BillingComponent implements OnInit {
       billingAddress: true,
       token: async (token) => {
         await this.userService.updateCard(token.id, token.card.id);
+        this.user = await this.userService.getCurrentUser();
+        this.disableButtons = false;
+      },
+      closed: async () => {
+        this.disableButtons = false;
       }
     });
     handler.open();

@@ -1,3 +1,8 @@
 .billing .alert-danger {
     margin-top: 10px;
 }
+
+.billing .card-exists {
+    margin-top: 10px;
+    margin-bottom: -7px;
+}
