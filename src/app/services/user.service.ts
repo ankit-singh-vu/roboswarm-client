@@ -11,6 +11,7 @@ export interface User {
   stripe_plan_id?: string;
   stripe_plan_description?: string;
   stripe_card_id?: string;
+  is_delinquent: boolean;
   created_at?: Date;
   group?: Group;
 }
