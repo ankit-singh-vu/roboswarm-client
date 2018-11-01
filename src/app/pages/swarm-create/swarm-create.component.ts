@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service';
+import { RequestResult } from '../../services/http.service';
 
 interface CreateSwarmForm {
   name: string;
@@ -12,7 +13,7 @@ interface CreateSwarmForm {
   load_test_file: File;
   host_url: string;
   spawn_rate: number;
-  swarm_ui_type: string;
+  swarm_ui_type?: string;
 }
 
 @Component({
@@ -31,11 +32,11 @@ export class SwarmCreateComponent {
     load_test_file: null,
     spawn_rate: 1,
     host_url: null,
-    swarm_ui_type: 'locust'
+    swarm_ui_type: 'headless'
   };
   submitted = false;
   error = '';
-  test_type = 'locust';
+  test_type = 'headless';
 
   constructor(private router: Router,
               private swarmService: SwarmService) {
@@ -73,8 +74,12 @@ export class SwarmCreateComponent {
           swarm_ui_type: this.test_type
         };
 
-        await this.swarmService.createSwarm(formData, swarmData);
-        this.router.navigate(['/dashboard']);
+        const result: RequestResult = await this.swarmService.createSwarm(formData, swarmData);
+        if (result.statusCode === 201) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.error = result.data;
+        }
       } catch (err) {
         this.error = 'There was an error creating your load test. Please try again.';
       }

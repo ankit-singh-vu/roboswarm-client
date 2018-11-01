@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService, HttpRequestOptions } from './http.service';
+import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
 import { TokenService } from './token.service';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../../environments/environment';
@@ -115,7 +115,7 @@ export class SwarmService {
               private rawHttp: Http,
               private token: TokenService) { }
 
-  async createSwarm(fileUploadData: FormData, swarm: NewSwarm): Promise<Swarm> {
+  async createSwarm(fileUploadData: FormData, swarm: NewSwarm): Promise<RequestResult> {
     const filePath = await this.uploadFile(fileUploadData);
     swarm.file_path = filePath;
     const options: HttpRequestOptions = {
@@ -124,8 +124,7 @@ export class SwarmService {
       requestType: 'POST',
       url: '/api/v1/swarm'
     };
-    const response = await this.http.request(options);
-    return response.data as Swarm;
+    return await this.http.request(options);
   }
 
   async uploadFile(fileUploadData: FormData): Promise<string> {

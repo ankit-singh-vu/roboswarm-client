@@ -35,7 +35,7 @@
                         [disabled]="submitted">
                   <small class="form-text text-muted">The "--host" URL parameter that you pass in to Locust.</small>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="test_type">Test Type</label>
                   <select class="form-control"
                         id="test_type"
@@ -47,8 +47,8 @@
                     <option value="headless">Headless</option>
                   </select>
                   <small class="form-text text-muted">Selecting "Locust Web UI" will allow you to access the Locust Web UI for this swarm. You will be able to select your spawn rate, user test size, and view all of the graphs that come with Locust. Choose Headless if you want the test to start immediately and end automatically.</small>
-                </div>
-                <div *ngIf="test_type === 'headless'" class="form-group">
+                </div> -->
+                <div class="form-group">
                   <label for="simulated_users"># of Simulated Users</label>
                   <input class="form-control"
                         type="number"
@@ -76,7 +76,7 @@
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div *ngIf="test_type === 'headless'" class="form-group">
+                    <div class="form-group">
                       <label for="spawn_rate">Spawn Rate</label>
                       <input class="form-control"
                             type="number"
@@ -90,7 +90,7 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="test_type === 'headless'" class="row">
+                <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="duration_hours">Test Duration (hours)</label>
