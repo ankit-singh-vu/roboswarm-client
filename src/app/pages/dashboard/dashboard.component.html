@@ -9,7 +9,22 @@
         <h4 class="page-title">Dashboard</h4>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="!swarms || swarms.length === 0" class="row">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6">
+          <div class="card m-b-20 text-xs-center">
+              <div class="card-header">
+                  Welcome to RoboSwarm!
+              </div>
+              <div class="card-body">
+                  <p class="card-text">We're so happy that you've decided to use RoboSwarm! To get started, click the "Create Load Test" button in the upper-right corner. From there follow the on-screen directions to start load testing!</p>
+                  <p>If you have any questions or comments, don't hesitate to send a message to <a href="mailto:jack@kernl.us">jack@kernl.us</a></p>
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-3"></div>
+    </div>
+    <div *ngIf="swarms && swarms.length > 0" class="row">
       <app-swarm-tile *ngFor="let swarm of swarms"
         [data]="swarm"
         class="col-xl-4"></app-swarm-tile>

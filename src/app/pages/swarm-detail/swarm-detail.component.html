@@ -19,7 +19,8 @@
             <div *ngIf="swarm" class="card m-b-20 card-body meta">
                 <p><b>Users: </b> {{ swarm.simulated_users }}</p>
                 <p><b>Spawn Rate: </b> {{ swarm.spawn_rate }}</p>
-                <p><b>Swarm Size: </b> {{ swarm. size }} + 1 master</p>
+                <p><b>Swarm Size: </b> {{ swarm.size }} + 1 master</p>
+                <p><b>Host URL: </b> {{ swarm.host_url }}</p>
                 <p><b>Duration (Minutes): {{ swarm.duration }}</b></p>
                 <p><b>Region: </b> {{ swarm.region }}</p>
                 <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
