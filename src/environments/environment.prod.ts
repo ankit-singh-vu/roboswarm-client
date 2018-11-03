@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   serverUrl: 'https://roboswarm.us',
-  stripeApiPublic: 'FILL ME IN'
+  stripeApiPublic: 'sk_live_cb6FtYtqj4u0H650FPArHsbP'
 };

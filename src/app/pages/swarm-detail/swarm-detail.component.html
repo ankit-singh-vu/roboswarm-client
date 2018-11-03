@@ -98,15 +98,13 @@
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
                     [results]="formattedResultData"
-                    [gradient]="gradient"
                     [xAxis]="showXAxis"
                     [yAxis]="showYAxis"
                     [showXAxisLabel]="showXAxisLabel"
                     [showYAxisLabel]="showYAxisLabel"
                     [xAxisLabel]="xAxisLabel"
                     [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"
-                    [legend]="showLegend"></ngx-charts-line-chart>
+                    [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
             <div class="card m-b-20 card-body">
@@ -114,10 +112,8 @@
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-bar-vertical
                         [results]="formattedDistributionData"
-                        [gradient]="gradient"
                         [xAxis]="showXAxis"
                         [yAxis]="showYAxis"
-                        [legend]="showLegend"
                         [showXAxisLabel]="showXAxisLabel"
                         [showYAxisLabel]="showYAxisLabel"
                         [xAxisLabel]="distributionXAxisLabel"
