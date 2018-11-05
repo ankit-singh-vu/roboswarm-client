@@ -13,7 +13,6 @@ import { BillingComponent } from './pages/billing/billing.component';
 const routes: Routes = [
 
     // Unauthenticated routes
-    // { path: '', component: HomeComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
@@ -33,7 +32,10 @@ const routes: Routes = [
             }
         ]
     },
-    { path: 'plans-and-billing', component: BillingComponent }
+    { path: 'plans-and-billing', component: BillingComponent },
+
+    // Home redirect.
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({

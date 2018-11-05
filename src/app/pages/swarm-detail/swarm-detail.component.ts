@@ -28,6 +28,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   previousRequestIdMarker = 0;
   formattedResultData = [];
   formattedDistributionData = [];
+  loading: boolean;
 
   // Request Chart
   showXAxis = true;
@@ -46,13 +47,21 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) { }
 
   async ngOnInit() {
+    this.loading = true;
     this.id = parseInt(this.route.snapshot.params.id, 10);
     this.swarm = await this.swarmService.getById(this.id);
     const initialData: LoadTestMetrics = await this.swarmService.getMetrics(this.id);
-    this.distributionData = this.distributionData.concat(initialData.distribution);
-    this.requestData = this.requestData.concat(initialData.requests);
-    this.previousDistributionIdMarker = this.distributionData[this.distributionData.length - 1].id;
-    this.previousRequestIdMarker = this.requestData[this.requestData.length - 1].id;
+    this.distributionData = initialData.distribution.reverse();
+    this.requestData = initialData.requests.reverse();
+
+    if (this.distributionData && this.distributionData.length > 0) {
+      this.previousDistributionIdMarker = this.distributionData[0].id;
+    }
+
+    if (this.requestData && this.requestData.length > 0) {
+      this.previousRequestIdMarker = this.requestData[0].id;
+    }
+
     if (this.swarm.status === 'ready') {
       this.timer = setInterval(async () => {
         await this.fetchUpdatedMetrics();
@@ -64,6 +73,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     }
 
     this.formatData();
+
+    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -83,20 +94,35 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       this.previousDistributionIdMarker,
       this.previousRequestIdMarker
     );
+
     if (this.swarm.status !== 'ready') {
       clearInterval(this.timer);
       await this.fetchFinalMetrics();
     }
-    this.distributionData = this.distributionData.concat(data.distribution);
-    this.requestData = this.requestData.concat(data.requests);
-    this.previousDistributionIdMarker = this.distributionData[this.distributionData.length - 1].id;
-    this.previousRequestIdMarker = this.requestData[this.requestData.length - 1].id;
+
+    if (data.distribution && data.distribution.length > 0) {
+      const distributionReversed = data.distribution.reverse();
+      distributionReversed.forEach(item => {
+        this.distributionData.unshift(item);
+      });
+      this.previousDistributionIdMarker = this.distributionData[0].id;
+    }
+
+    if (data.requests && data.requests.length > 0) {
+      const requestReversed = data.requests.reverse();
+      requestReversed.forEach(item => {
+        this.requestData.unshift(item);
+      });
+      this.previousRequestIdMarker = this.requestData[0].id;
+    }
+
     this.formatData();
   }
 
-  async onDeleteCompleted(evt: any) {
+  async onDeleteCompleted() {
     this.swarm.status = Status.destroyed;
     clearInterval(this.timer);
+    await this.fetchFinalMetrics();
   }
 
   formatData() {
@@ -104,7 +130,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     this.formattedResultData = [
       {
         name: 'Requests / second',
-        series: this.requestData.map(r => {
+        series: this.requestData.reverse().map(r => {
           return {
             value: r.requests_per_second,
             name: new Date(r.created_at)
@@ -113,7 +139,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Failures',
-        series: this.requestData.map(r => {
+        series: this.requestData.reverse().map(r => {
           return {
             value: r.failures,
             name: new Date(r.created_at)
@@ -122,18 +148,17 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       }
     ];
 
-    const i = this.distributionData.length - 1;
-    if (i > 1 && this.distributionData[i].percentiles['50%'] !== 'N/A') {
+    if (this.distributionData.length > 0 && this.distributionData[0].percentiles['50%'] !== 'N/A') {
       this.formattedDistributionData = [
-        { name: '50%', value: this.distributionData[i].percentiles['50%'] },
-        { name: '66%', value: this.distributionData[i].percentiles['66%'] },
-        { name: '75%', value: this.distributionData[i].percentiles['75%'] },
-        { name: '80%', value: this.distributionData[i].percentiles['80%'] },
-        { name: '90%', value: this.distributionData[i].percentiles['90%'] },
-        { name: '95%', value: this.distributionData[i].percentiles['95%'] },
-        { name: '98%', value: this.distributionData[i].percentiles['98%'] },
-        { name: '99%', value: this.distributionData[i].percentiles['99%'] },
-        { name: '100%', value: this.distributionData[i].percentiles['100%'] }
+        { name: '50%', value: this.distributionData[0].percentiles['50%'] },
+        { name: '66%', value: this.distributionData[0].percentiles['66%'] },
+        { name: '75%', value: this.distributionData[0].percentiles['75%'] },
+        { name: '80%', value: this.distributionData[0].percentiles['80%'] },
+        { name: '90%', value: this.distributionData[0].percentiles['90%'] },
+        { name: '95%', value: this.distributionData[0].percentiles['95%'] },
+        { name: '98%', value: this.distributionData[0].percentiles['98%'] },
+        { name: '99%', value: this.distributionData[0].percentiles['99%'] },
+        { name: '100%', value: this.distributionData[0].percentiles['100%'] }
       ];
     }
   }

@@ -75,6 +75,7 @@ export class SwarmTileComponent implements OnInit {
   }
 
   getFormattedSwarmSize() {
+    console.log({ data: this.data });
     return `${commaNumber(this.data.swarmSize - 1)} + 1 master node`;
   }
 

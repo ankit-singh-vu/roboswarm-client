@@ -44,6 +44,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="9" align="center">
+                                <app-spinner [show]="loading"></app-spinner>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!loading && requestData && requestData.length === 0">
+                            <td colspan="9">
+                                <div class="alert alert-info">
+                                    No load test request data available from this swarm. If the swarm just started, check back in a few minutes.
+                                </div>
+                            </td>
+                        </tr>
                         <tr *ngFor="let row of requestData">
                             <td>{{ row.created_at | date:"medium" }}</td>
                             <td>{{ row.requests }}</td>
@@ -77,6 +89,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr *ngIf="loading">
+                            <td colspan="11" align="center">
+                                <app-spinner [show]="loading"></app-spinner>
+                            </td>
+                        </tr>
+                        <tr *ngIf="!loading && distributionData && distributionData.length === 0">
+                            <td colspan="11">
+                                <div class="alert alert-info">
+                                    No load test distribution data available from this swarm. If the swarm just started, check back in a few minutes.
+                                </div>
+                            </td>
+                        </tr>
                         <tr *ngFor="let row of distributionData">
                             <td>{{ row.created_at | date:"medium" }}</td>
                             <td>{{ row.requests }}</td>
@@ -93,7 +117,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card m-b-20 card-body">
+            <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
                 <h4 class="card-title">Result Chart</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
@@ -107,7 +132,8 @@
                     [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
-            <div class="card m-b-20 card-body">
+            <div class="card m-b-20 card-body"
+                 *ngIf="!loading && distributionData && distributionData.length > 0">
                 <h4 class="card-title">Distribution Chart</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-bar-vertical
