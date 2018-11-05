@@ -9,11 +9,13 @@ import { SwarmService, Swarm } from '../../services/swarm.service';
 })
 export class DashboardComponent implements OnInit {
   swarms: Array<SwarmTile> = [];
+  loading: boolean;
 
   constructor(private swarmService: SwarmService) {
   }
 
   async ngOnInit() {
+    this.loading = true;
     const swarms: Swarm[] = await this.swarmService.getAll();
     this.swarms = swarms.map(swarm => {
       return {
@@ -30,6 +32,7 @@ export class DashboardComponent implements OnInit {
         swarm_ui_type: swarm.swarm_ui_type
       };
     });
+    this.loading = false;
   }
 
 }
