@@ -27,6 +27,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   swarm: Swarm;
   previousDistributionIdMarker = 0;
   previousRequestIdMarker = 0;
+  formattedFailureData = [];
   formattedResultData = [];
   formattedDistributionData = [];
   loading: boolean;
@@ -128,26 +129,25 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   formatData() {
     // Take the distribution data and the request data and put into format.
-    this.formattedResultData = [
-      {
-        name: 'Requests / second',
-        series: this.requestData.reverse().map(r => {
-          return {
-            value: r.requests_per_second,
-            name: new Date(r.created_at)
-          };
-        })
-      },
-      {
-        name: 'Failures',
-        series: this.requestData.reverse().map(r => {
-          return {
-            value: r.failures,
-            name: new Date(r.created_at)
-          };
-        })
-      }
-    ];
+    this.formattedResultData = [{
+      name: 'Requests / second',
+      series: this.requestData.reverse().map(r => {
+        return {
+          value: r.requests_per_second,
+          name: new Date(r.created_at)
+        };
+      })
+    }];
+
+    this.formattedFailureData = [{
+      name: 'Failures',
+      series: this.requestData.reverse().map(r => {
+        return {
+          value: r.failures,
+          name: new Date(r.created_at)
+        };
+      })
+    }];
 
     if (this.distributionData.length > 0 && this.distributionData[0].percentiles['50%'] !== 'N/A') {
       this.formattedDistributionData = [

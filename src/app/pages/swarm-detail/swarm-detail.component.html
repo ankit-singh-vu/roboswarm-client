@@ -120,7 +120,7 @@
             </div>
             <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Result Chart</h4>
+                <h4 class="card-title">Requests</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
                     [results]="formattedResultData"
@@ -134,8 +134,23 @@
                 </div>
             </div>
             <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
+                <h4 class="card-title">Failed Requests</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedFailureData"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+            <div class="card m-b-20 card-body"
                  *ngIf="!loading && distributionData && distributionData.length > 0">
-                <h4 class="card-title">Distribution Chart</h4>
+                <h4 class="card-title">Request Distribution</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-bar-vertical
                         [results]="formattedDistributionData"
