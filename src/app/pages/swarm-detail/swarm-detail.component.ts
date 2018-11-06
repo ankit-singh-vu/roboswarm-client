@@ -10,6 +10,7 @@ import {
   RequestFinal,
   LoadTestMetricsFinal} from '../../services/swarm.service';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-swarm-detail',
@@ -160,6 +161,32 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         { name: '99%', value: this.distributionData[0].percentiles['99%'] },
         { name: '100%', value: this.distributionData[0].percentiles['100%'] }
       ];
+    }
+  }
+
+  getDataStart(): moment.Moment {
+    if (this.requestData && Array.isArray(this.requestData) && this.requestData.length > 0) {
+      for (let i = this.requestData.length - 1; i > 0; i--) {
+        if (this.requestData[i].created_at) {
+          return moment(this.requestData[i].created_at);
+        }
+      }
+      return null;
+    } else {
+      return null;
+    }
+  }
+
+  getCurrentUsers(): number {
+    const start: moment.Moment = this.getDataStart();
+    if (start) {
+      const now: moment.Moment = moment();
+      const duration: moment.Duration = moment.duration(now.diff(start));
+      const seconds: number = duration.asSeconds();
+      const currentUsers = Math.floor(seconds * this.swarm.spawn_rate);
+      return currentUsers <= this.swarm.simulated_users ? currentUsers : this.swarm.simulated_users;
+    } else {
+      return 0;
     }
   }
 }
