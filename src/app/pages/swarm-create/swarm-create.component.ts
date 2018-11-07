@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service';
 import { RequestResult } from '../../services/http.service';
+import { MetricsService } from '../../services/metrics.service';
 
 interface CreateSwarmForm {
   name: string;
@@ -21,7 +22,7 @@ interface CreateSwarmForm {
   templateUrl: './swarm-create.component.html',
   styleUrls: ['./swarm-create.component.css']
 })
-export class SwarmCreateComponent {
+export class SwarmCreateComponent implements OnInit {
   model: CreateSwarmForm = {
     name: '',
     simulated_users: 50,
@@ -39,7 +40,12 @@ export class SwarmCreateComponent {
   test_type = 'headless';
 
   constructor(private router: Router,
-              private swarmService: SwarmService) {
+              private swarmService: SwarmService,
+              private metrics: MetricsService) {
+  }
+
+  ngOnInit() {
+    this.metrics.track('SWARM_CREATE_VIEW');
   }
 
   async onSubmit(form) {
@@ -76,14 +82,17 @@ export class SwarmCreateComponent {
 
         const result: RequestResult = await this.swarmService.createSwarm(formData, swarmData);
         if (result.statusCode === 201) {
+          this.metrics.track('SWARM_CREATE_SUCCESS', swarmData);
           this.router.navigate(['/dashboard']);
         } else {
+          this.metrics.track('SWARM_CREATE_FAILURE', swarmData);
           this.error = result.data;
         }
       } catch (err) {
         this.error = 'There was an error creating your load test. Please try again.';
       }
     } else {
+      this.metrics.track('SWARM_CREATE_INVALID');
       this.error = 'Invalid form data. Please make sure all fields are completed.';
     }
     this.submitted = false;

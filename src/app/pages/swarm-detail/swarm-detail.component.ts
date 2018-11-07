@@ -11,6 +11,7 @@ import {
   LoadTestMetricsFinal} from '../../services/swarm.service';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { MetricsService } from '../../services/metrics.service';
 
 @Component({
   selector: 'app-swarm-detail',
@@ -46,7 +47,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   distributionYAxisLabel = '# of Requests';
 
   constructor(private swarmService: SwarmService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private metrics: MetricsService) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -55,6 +57,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     const initialData: LoadTestMetrics = await this.swarmService.getMetrics(this.id);
     this.distributionData = initialData.distribution.reverse();
     this.requestData = initialData.requests.reverse();
+    this.metrics.track('SWARM_DETAIL_VIEW', { id: this.id });
 
     if (this.distributionData && this.distributionData.length > 0) {
       this.previousDistributionIdMarker = this.distributionData[0].id;
@@ -122,6 +125,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   }
 
   async onDeleteCompleted() {
+    this.metrics.track('SWARM_DETAIL_DELETE', { id: this.id });
     this.swarm.status = Status.destroyed;
     clearInterval(this.timer);
     await this.fetchFinalMetrics();

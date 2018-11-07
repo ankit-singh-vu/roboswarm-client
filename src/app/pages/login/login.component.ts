@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
+import { MetricsService } from '../../services/metrics.service';
 
 interface LoginForm {
   email: string;
@@ -13,11 +14,7 @@ interface LoginForm {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-
-  private http: HttpService;
-  private token: TokenService;
-  private router: Router;
+export class LoginComponent implements OnInit {
 
   model: LoginForm = {
     email: '',
@@ -26,12 +23,14 @@ export class LoginComponent {
   submitted = false;
   error = '';
 
-  constructor(_http: HttpService,
-    _token: TokenService,
-    _router: Router) {
-    this.http = _http;
-    this.token = _token;
-    this.router = _router;
+  constructor(private http: HttpService,
+              private token: TokenService,
+              private router: Router,
+              private metrics: MetricsService) {
+  }
+
+  ngOnInit() {
+    this.metrics.track('LOGIN_VIEW');
   }
 
   async onSubmit(form) {
@@ -46,15 +45,19 @@ export class LoginComponent {
           url: '/api/v1/public/user/auth'
         });
         if (response.statusCode !== 200) {
+          this.metrics.track('LOGIN_FAILURE');
           this.error = 'Invalid email or password. Please try again.';
         } else {
+          this.metrics.track('LOGIN_SUCCESS');
           this.token.saveToken(response.data);
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {
+        this.metrics.track('LOGIN_FAILURE');
         this.error = 'Invalid email or password. Please try again.';
       }
     } else {
+      this.metrics.track('LOGIN_INVALID');
       this.error = 'Invalid form data. Please make sure all fields are completed.';
     }
     this.submitted = false;

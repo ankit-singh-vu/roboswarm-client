@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
+import { MetricsService } from '../../services/metrics.service';
 
 @Component({
   selector: 'app-logout',
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
 export class LogoutComponent implements OnInit {
 
   constructor(private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router,
+              private metrics: MetricsService) { }
 
   ngOnInit() {
+    this.metrics.track('LOGOUT');
     this.tokenService.clear();
     this.router.navigate(['/login']);
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, User } from '../../services/user.service';
 import { RequestResult } from '../../services/http.service';
 import { environment } from '../../../environments/environment';
+import { MetricsService } from '../../services/metrics.service';
 
 declare const StripeCheckout: any;
 
@@ -17,11 +18,13 @@ export class BillingComponent implements OnInit {
   planToSelect: string;
   disableButtons = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private metrics: MetricsService) { }
 
   async ngOnInit() {
     this.loading = true;
     this.user = await this.userService.getCurrentUser();
+    this.metrics.track('BILLING_VIEW', { user: this.user });
     this.loading = false;
   }
 
@@ -36,6 +39,7 @@ export class BillingComponent implements OnInit {
       this.user = await this.userService.getCurrentUser();
     }
     this.disableButtons = false;
+    this.metrics.track('BILLING_SELECT_PLAN', { user: this.user , plan: planName });
   }
 
   async addOrUpdateCard() {
@@ -56,6 +60,7 @@ export class BillingComponent implements OnInit {
         await this.userService.updateCard(token.id, token.card.id);
         this.user = await this.userService.getCurrentUser();
         this.disableButtons = false;
+        this.metrics.track('BILLING_ADD_CARD', { user: this.user });
       },
       closed: async () => {
         this.disableButtons = false;

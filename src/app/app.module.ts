@@ -8,6 +8,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // Authored Services
 import { HttpService } from './services/http.service';
+import { MetricsService } from './services/metrics.service';
 import { TokenService } from './services/token.service';
 import { SwarmService } from './services/swarm.service';
 
@@ -60,6 +61,7 @@ import { UserService } from './services/user.service';
   ],
   providers: [
     HttpService,
+    MetricsService,
     TokenService,
     SwarmService,
     UserService

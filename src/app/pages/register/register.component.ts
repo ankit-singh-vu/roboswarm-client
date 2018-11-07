@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService, HttpRequestOptions } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
+import { MetricsService } from '../../services/metrics.service';
 
 interface RegisterForm {
   email: string;
@@ -15,7 +16,7 @@ interface RegisterForm {
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private http: HttpService;
   private token: TokenService;
 
@@ -30,9 +31,14 @@ export class RegisterComponent {
 
   constructor(_http: HttpService,
               private router: Router,
+              private metrics: MetricsService,
               _token: TokenService) {
     this.http = _http;
     this.token = _token;
+  }
+
+  ngOnInit() {
+    this.metrics.track('REGISTER_VIEW');
   }
 
   async onSubmit(form) {
@@ -49,13 +55,16 @@ export class RegisterComponent {
         if (response.statusCode !== 201) {
           this.error = response.data;
         } else {
+          this.metrics.track('REGISTER_SUCCESS');
           this.token.saveToken(response.data.token);
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {
+        this.metrics.track('REGISTER_FAILURE');
         this.error = 'There was an error creating your user. Please try again.';
       }
     } else {
+      this.metrics.track('REGISTER_INVALID');
       this.error = 'Invalid form data. Please make sure all fields are completed.';
     }
     this.submitted = false;
