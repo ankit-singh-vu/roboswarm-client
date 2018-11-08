@@ -42,13 +42,34 @@
             <p>Once the Swarm has come online the load test will start immediately.</p>
           </div>
           <div *ngIf='activeSection === "zipping_load_test"' class="card-body">
-            Zipping Your Load Test
+            <h3>Zipping Your Load Test</h3>
+            <p>When you upload your Locust load test to RoboSwarm we expect that it is in .zip format. But what should the underlying structure look like? We expect the following files to be present at the top-level of the .zip file:</p>
+            <ul>
+              <li>requirements.txt - This is the PIP requirements file. We will install any packages that your test require.</li>
+              <li>locustfile.py - This is the entry point to your load test. </li>
+            </ul>
+            <p>For example if you uploaded a file called "load_test.zip", our file system would look like:</p>
+            <pre>
+ /
+  - load_test.zip
+            </pre>
+            <p>Once we extract "load_test.zip", we expect that file system to look like:</p>
+            <pre>
+ /
+  - load_test.zip
+  - requirements.txt
+  - locustfile.py
+            </pre>
+            <p>Still have questions? Check out our example load test on <a target="_blank" href='https://github.com/vital101/roboswarm-example'>GitHub</a>.</p>
           </div>
           <div *ngIf='activeSection === "usage_and_pricing"' class="card-body">
-            Usage &amp; Pricing
+            <h3>Usage &amp; Pricing</h3>
+            <p>RoboSwarm usage is calculated using the concept of "machine hours". If you have a Swarm with three machines in it and it runs for 1 hour, you've consumed 3 machine hours. To figure out how many machine hours a test will consume use this formula:</p>
+            <p>(Machines in Swarm + 1) * Test Duration in Minutes) / 60 = machine hours consumed during this test</p>
           </div>
           <div *ngIf='activeSection === "supported_python_versions"' class="card-body">
-            Supported Python Versions
+            <h3>Supported Python Versions</h3>
+            <p>We currently only support Python 2.7. We are actively working to support Python 3.x versions.</p>
           </div>
         </div>
       </div>
