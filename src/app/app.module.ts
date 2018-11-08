@@ -30,6 +30,7 @@ import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.componen
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { UserService } from './services/user.service';
+import { DocumentationComponent } from './pages/documentation/documentation.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { UserService } from './services/user.service';
     LocustWebUiComponent,
     SwarmDetailComponent,
     LogoutComponent,
-    BillingComponent
+    BillingComponent,
+    DocumentationComponent
   ],
   imports: [
     BrowserModule,
