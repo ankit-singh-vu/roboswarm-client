@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MetricsService } from '../../services/metrics.service';
 
 @Component({
   selector: 'app-documentation',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocumentationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private metrics: MetricsService) { }
 
   ngOnInit() {
+    this.metrics.track('DOCUMENTATION_VIEW');
+  }
+
+  goToSection(sectionName) {
+    this.metrics.track('DOCUMENTATION_GO_TO_SECTION', { sectionName });
   }
 
 }
