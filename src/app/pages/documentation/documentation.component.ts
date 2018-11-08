@@ -7,6 +7,7 @@ import { MetricsService } from '../../services/metrics.service';
   styleUrls: ['./documentation.component.css']
 })
 export class DocumentationComponent implements OnInit {
+  activeSection = 'welcome';
 
   constructor(private metrics: MetricsService) { }
 
@@ -16,6 +17,7 @@ export class DocumentationComponent implements OnInit {
 
   goToSection(sectionName) {
     this.metrics.track('DOCUMENTATION_GO_TO_SECTION', { sectionName });
+    this.activeSection = sectionName;
   }
 
 }

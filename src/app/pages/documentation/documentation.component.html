@@ -10,14 +10,45 @@
       <div class="col-md-3">
         <div class="card m-b-20">
           <div class="card-body">
-            Links to all the docs go here.
+            <ul>
+              <li><a class='section-link' (click)="goToSection('welcome')">Welcome!</a></li>
+              <li><a class='section-link' (click)="goToSection('create_swarm')">Creating a Swarm</a></li>
+              <li><a class='section-link' (click)="goToSection('zipping_load_test')">Zipping Your Load Test</a></li>
+              <li><a class='section-link' (click)="goToSection('usage_and_pricing')">Usage &amp; Pricing</a></li>
+              <li><a class='section-link' (click)="goToSection('supported_python_versions')">Supported Python Versions</a></li>
+            </ul>
           </div>
         </div>
       </div>
       <div class="col-md-9">
         <div class="card m-b-20">
-          <div class="card-body">
-            Docs go here. Dynamically load content in and out of this sections (hide/show);
+          <div *ngIf='activeSection === "welcome"' class="card-body">
+            <h3>Welcome to RoboSwarm!</h3>
+            <p>RoboSwarm's goal is to make running large load &amp; performance tests with Locust easy. If you notice any bugs or have features that you would like to see, don't hesitate to reach out to <a href='mailto:jack@kernl.us'>jack@kernl.us</a>. We'll get back to you as soon as humanely possible.</p>
+          </div>
+          <div *ngIf='activeSection === "create_swarm"' class="card-body">
+            <h3>Creating a Swarm</h3>
+            <p>To create a swarm for your load tests to execute on you'll need to have the following information:</p>
+            <ul>
+              <li>How many users will you load test simulate?</li>
+              <li>What will be the duration of your load test?</li>
+              <li>How quickly will your load test ramp up?</li>
+              <li>Where should traffic originate from? RoboSwarm supports 8 different locations around the world.</li>
+              <li>A zipped copy of your load test.</li>
+            </ul>
+            <p>To get started click the "Swarms" menu button, and then click "Create Swarm". Fill out all of the form fields using the information above. The one potential hang up is how to determine the size your Swarm. This greatly depends on the complexity of your test suite, but our advice is somewhere around 300-400 users per machine in your Swarm.</p>
+            <p>For example, lets say that you were going to run a load test with 30,000 users. We would recommend creating a Swarm of around ~75 machines. (30000 / 400 = 75)</p>
+            <p>After you've created your Swarm it will take a few minutes for the Swarm to be created. All RoboSwarm test clusters are ephemeral, which means we create a new cluster on new hardware for every test. We do this using Digital Ocean's lovely API.</p>
+            <p>Once the Swarm has come online the load test will start immediately.</p>
+          </div>
+          <div *ngIf='activeSection === "zipping_load_test"' class="card-body">
+            Zipping Your Load Test
+          </div>
+          <div *ngIf='activeSection === "usage_and_pricing"' class="card-body">
+            Usage &amp; Pricing
+          </div>
+          <div *ngIf='activeSection === "supported_python_versions"' class="card-body">
+            Supported Python Versions
           </div>
         </div>
       </div>
