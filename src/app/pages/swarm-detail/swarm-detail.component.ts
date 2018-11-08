@@ -43,8 +43,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   view = [500, 300];
 
   // Distribution Chart
-  distributionXAxisLabel = 'Request Percentiles';
-  distributionYAxisLabel = '# of Requests';
+  distributionXAxisLabel = '% of requests completed in N milliseconds';
+  distributionYAxisLabel = 'Time in milliseconds';
 
   constructor(private swarmService: SwarmService,
               private route: ActivatedRoute,
