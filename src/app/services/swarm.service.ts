@@ -77,6 +77,7 @@ export interface Request {
   max_response_time: number;
   avg_content_size: number;
   requests_per_second: number;
+  failures_per_second?: number;
 }
 
 export interface Distribution {

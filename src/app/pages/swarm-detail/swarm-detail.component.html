@@ -42,6 +42,7 @@
                             <th>Max</th>
                             <th>Avg. Size</th>
                             <th>Req/s</th>
+                            <th>Failures/s</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +68,7 @@
                             <td>{{ row.max_response_time }}</td>
                             <td>{{ row.avg_content_size }}</td>
                             <td>{{ row.requests_per_second }}</td>
+                            <td>{{ row.failures_per_second }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,7 +122,7 @@
             </div>
             <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Requests</h4>
+                <h4 class="card-title">Requests / Failures per Second</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
                     [results]="formattedResultData"
@@ -135,7 +137,7 @@
             </div>
             <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Failed Requests</h4>
+                <h4 class="card-title">Total Failed Requests</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
                     [results]="formattedFailureData"
