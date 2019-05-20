@@ -11,6 +11,11 @@
                 [swarmStatus]="swarm.status"
                 [swarmId]="swarm.id"
                 (deleteCompleted)="onDeleteCompleted($event)"></app-stop-load-test-button>
+            <app-repeat-load-test
+                class="pull-right"
+                [swarmStatus]="swarm.status"
+                [swarmId]="swarm.id"
+                (repeatCompleted)="onRepeatCompleted($event)"></app-repeat-load-test>
         </h4>
       </div>
     </div>
@@ -25,10 +30,6 @@
                 <p><b>Duration (Minutes): {{ swarm.duration }}</b></p>
                 <p><b>Region: </b> {{ swarm.region }}</p>
                 <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
-                <app-repeat-load-test
-                    [swarmStatus]="swarm.status"
-                    [swarmId]="swarm.id"
-                    (repeatCompleted)="onRepeatCompleted($event)"></app-repeat-load-test>
             </div>
         </div>
         <div class="col-sm-9">
