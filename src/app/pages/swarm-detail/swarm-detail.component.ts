@@ -9,7 +9,7 @@ import {
   DistributionFinal,
   RequestFinal,
   LoadTestMetricsFinal} from '../../services/swarm.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MetricsService } from '../../services/metrics.service';
 
@@ -48,6 +48,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   constructor(private swarmService: SwarmService,
               private route: ActivatedRoute,
+              private router: Router,
               private metrics: MetricsService) { }
 
   async ngOnInit() {
@@ -84,6 +85,10 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.timer);
+  }
+
+  onRepeatCompleted = (evt: any) => {
+    this.router.navigate(['/dashboard']);
   }
 
   fetchFinalMetrics = async () => {

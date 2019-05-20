@@ -189,4 +189,14 @@ export class SwarmService {
     const results = await this.http.request(options);
     return results.data as LoadTestMetricsFinal;
   }
+
+  async repeat(swarmId: number): Promise<Swarm> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: `/api/v1/swarm/${swarmId}/repeat`
+    };
+    const results = await this.http.request(options);
+    return results.data as Swarm;
+  }
 }

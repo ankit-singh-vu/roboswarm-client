@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:3001',
+  serverUrl: 'http://localhost:3002',
   stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF'
 };

@@ -25,9 +25,58 @@
                 <p><b>Duration (Minutes): {{ swarm.duration }}</b></p>
                 <p><b>Region: </b> {{ swarm.region }}</p>
                 <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
+                <app-repeat-load-test
+                    [swarmStatus]="swarm.status"
+                    [swarmId]="swarm.id"
+                    (repeatCompleted)="onRepeatCompleted($event)"></app-repeat-load-test>
             </div>
         </div>
         <div class="col-sm-9">
+                <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
+                <h4 class="card-title">Requests / Failures per Second</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedResultData"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+            <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
+                <h4 class="card-title">Total Failed Requests</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedFailureData"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+            <div class="card m-b-20 card-body"
+                 *ngIf="!loading && distributionData && distributionData.length > 0">
+                <h4 class="card-title">Request Distribution</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-bar-vertical
+                        [results]="formattedDistributionData"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="distributionXAxisLabel"
+                        [yAxisLabel]="distributionYAxisLabel">
+                    </ngx-charts-bar-vertical>
+                </div>
+            </div>
             <div class="card m-b-20 card-body result-table">
                 <h4 class="card-title">Requests</h4>
                 <table class="table table-striped m-0">
@@ -119,51 +168,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="card m-b-20 card-body"
-                *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Requests / Failures per Second</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                    [results]="formattedResultData"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"></ngx-charts-line-chart>
-                </div>
-            </div>
-            <div class="card m-b-20 card-body"
-                *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Total Failed Requests</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                    [results]="formattedFailureData"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"></ngx-charts-line-chart>
-                </div>
-            </div>
-            <div class="card m-b-20 card-body"
-                 *ngIf="!loading && distributionData && distributionData.length > 0">
-                <h4 class="card-title">Request Distribution</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-bar-vertical
-                        [results]="formattedDistributionData"
-                        [xAxis]="showXAxis"
-                        [yAxis]="showYAxis"
-                        [showXAxisLabel]="showXAxisLabel"
-                        [showYAxisLabel]="showYAxisLabel"
-                        [xAxisLabel]="distributionXAxisLabel"
-                        [yAxisLabel]="distributionYAxisLabel">
-                    </ngx-charts-bar-vertical>
-                </div>
             </div>
         </div>
     </div>

@@ -31,6 +31,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { UserService } from './services/user.service';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
+import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-load-test.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { DocumentationComponent } from './pages/documentation/documentation.comp
     SwarmDetailComponent,
     LogoutComponent,
     BillingComponent,
-    DocumentationComponent
+    DocumentationComponent,
+    RepeatLoadTestComponent
   ],
   imports: [
     BrowserModule,

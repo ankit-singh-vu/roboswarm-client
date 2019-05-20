@@ -1,0 +1,7 @@
+<button type="button"
+        *ngIf="showButton() && !working"
+        (click)="repeatTest()"
+        class="btn btn-primary waves-effect w-md waves-light m-b-5">
+  Repeat Load Test
+</button>
+<app-spinner [show]="working"></app-spinner>

@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SwarmService } from '../../services/swarm.service';
 
 @Component({
-  selector: 'app-stop-load-test-button',
-  templateUrl: './stop-load-test-button.component.html',
-  styleUrls: ['./stop-load-test-button.component.css']
+  selector: 'app-repeat-load-test',
+  templateUrl: './repeat-load-test.component.html',
+  styleUrls: ['./repeat-load-test.component.css']
 })
-export class StopLoadTestButtonComponent {
+export class RepeatLoadTestComponent {
+
   @Input() swarmId: number;
   @Input() swarmStatus: string;
   @Output() repeatCompleted = new EventEmitter<number>();
@@ -17,13 +18,14 @@ export class StopLoadTestButtonComponent {
   }
 
   showButton() {
-    return this.swarmStatus !== 'destroyed';
+    return this.swarmStatus === 'destroyed';
   }
 
-  async stopTest() {
+  async repeatTest() {
     this.working = true;
-    await this.swarmService.destroy(this.swarmId);
+    await this.swarmService.repeat(this.swarmId);
     this.working = false;
     this.repeatCompleted.emit(this.swarmId);
   }
+
 }
