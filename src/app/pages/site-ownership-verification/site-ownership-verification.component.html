@@ -1,0 +1,55 @@
+<app-navigation></app-navigation>
+<div class="wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-20">
+          <button [routerLink]="['/site-ownership-verification/add']" type="button" class="btn btn-primary waves-effect waves-light">Verify Site</button>
+        </div>
+        <h4 class="page-title">
+            Site Ownership Verification
+        </h4>
+      </div>
+    </div>
+    <div *ngIf="loading" class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-2">
+        <app-spinner [show]="loading"></app-spinner>
+      </div>
+      <div class="col-sm-5"></div>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-sm-12">
+            <div class="card m-b-20 card-body">
+                <p>Before you can start a load test you must first verify that you own the site. This security measure helps prevent abuse. To verify your site, you'll need to add a TXT record to the domain.</p>
+            </div>
+            <div class="card m-b-20 card-body">
+              <table class="table table-striped">
+                <thead>
+                  <th>Site</th>
+                  <th>Verified?</th>
+                  <th>DNS TXT Record</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let site of sites">
+                      <td>{{ site.base_url }}</td>
+                      <td>{{ site.verified }}</td>
+                      <td>roboswarm-verify-{{ site.uuid }}</td>
+                      <td></td>
+                    </tr>
+                    <tr *ngIf="!sites || sites.length === 0">
+                      <td colspan=4>
+                        <div class="alert alert-info">
+                          No sites have been verified. Click the "Verify Site" button above to get started.
+                        </div>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+

@@ -10,6 +10,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HttpService } from './services/http.service';
 import { MetricsService } from './services/metrics.service';
 import { TokenService } from './services/token.service';
+import { SiteOwnershipService } from './services/site-ownership.service';
 import { SwarmService } from './services/swarm.service';
 
 // Authored Components
@@ -32,6 +33,8 @@ import { BillingComponent } from './pages/billing/billing.component';
 import { UserService } from './services/user.service';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-load-test.component';
+import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
+import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
 
 
 @NgModule({
@@ -53,7 +56,9 @@ import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-lo
     LogoutComponent,
     BillingComponent,
     DocumentationComponent,
-    RepeatLoadTestComponent
+    RepeatLoadTestComponent,
+    SiteOwnershipVerificationComponent,
+    SiteOwnershipVerificationAddComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +72,7 @@ import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-lo
     HttpService,
     MetricsService,
     TokenService,
+    SiteOwnershipService,
     SwarmService,
     UserService
   ],

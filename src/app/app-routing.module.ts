@@ -10,6 +10,8 @@ import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.componen
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
+import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
+import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
 
 const routes: Routes = [
 
@@ -31,6 +33,13 @@ const routes: Routes = [
                     { path: 'locust-web-ui', component: LocustWebUiComponent }
                 ]
             }
+        ]
+    },
+    {
+        path: 'site-ownership-verification',
+        children: [
+            { path: 'add', component: SiteOwnershipVerificationAddComponent },
+            { path: '', component: SiteOwnershipVerificationComponent }
         ]
     },
     { path: 'plans-and-billing', component: BillingComponent },
