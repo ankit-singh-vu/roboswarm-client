@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service';
 import { RequestResult } from '../../services/http.service';
 import { MetricsService } from '../../services/metrics.service';
+import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
 
 interface CreateSwarmForm {
   name: string;
@@ -12,7 +13,8 @@ interface CreateSwarmForm {
   duration_minutes: number;
   swarm_region: string;
   load_test_file: File;
-  host_url: string;
+  host_url?: string;
+  site_id: number;
   spawn_rate: number;
   swarm_ui_type?: string;
 }
@@ -33,19 +35,28 @@ export class SwarmCreateComponent implements OnInit {
     load_test_file: null,
     spawn_rate: 1,
     host_url: null,
+    site_id: null,
     swarm_ui_type: 'headless'
   };
   submitted = false;
   error = '';
   test_type = 'headless';
+  sites: SiteOwnership[] = [];
 
   constructor(private router: Router,
               private swarmService: SwarmService,
-              private metrics: MetricsService) {
+              private metrics: MetricsService,
+              private siteOwnershipService: SiteOwnershipService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.metrics.track('SWARM_CREATE_VIEW');
+    this.sites = await this.getVerifiedSites();
+  }
+
+  async getVerifiedSites(): Promise<SiteOwnership[]> {
+    const allSites: SiteOwnership[] = await this.siteOwnershipService.getAll();
+    return allSites.filter(site => site.verified);
   }
 
   async onSubmit(form) {

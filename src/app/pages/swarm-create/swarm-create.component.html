@@ -24,15 +24,19 @@
                   <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
                 </div>
                 <div class="form-group">
-                  <label for="host_url">Host URL</label>
-                  <input class="form-control"
-                        type="text"
-                        name="host_url"
-                        id="host_url"
-                        required
-                        placeholder="http://my.load.testing.com/environment"
-                        [(ngModel)]="model.host_url"
-                        [disabled]="submitted">
+                  <label for="site_id">Site To Test</label>
+                  <div *ngIf="!sites || sites.length === 0" class="alert alert-danger">
+                    You have no verified sites to test. To verify a site, click the "Verify Site Ownership" menu item at the top of the page and follow the instructions.
+                  </div>
+                  <select class="form-control"
+                    *ngIf="sites && sites.length > 0"
+                    id="site_id"
+                    name="site_id"
+                    required
+                    [(ngModel)]="model.site_id"
+                    [disabled]="submitted">
+                    <option *ngFor="let site of sites" [value]="site.id">{{site.base_url}}</option>
+                  </select>
                   <small class="form-text text-muted">The "--host" URL parameter that you pass in to Locust.</small>
                 </div>
                 <div class="form-group">
