@@ -37,7 +37,7 @@
                       <td>{{ site.verified }}</td>
                       <td>roboswarm-verify-{{ site.uuid }}</td>
                       <td>
-                        <button class='btn btn-small btn-danger'>Delete</button>&nbsp;
+                        <button (click)="deleteSite(site.id)" class='btn btn-small btn-danger'>Delete</button>&nbsp;
                         <app-verify-site-ownership-button
                           [siteOwnershipId]="site.id"
                           (verifyCompleted)="onVerifyCompleted($event)"></app-verify-site-ownership-button>

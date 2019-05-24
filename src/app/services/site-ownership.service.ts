@@ -27,6 +27,15 @@ export class SiteOwnershipService {
     return result.data as SiteOwnership;
   }
 
+  async delete(id: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/site-ownership/${id}`
+    };
+    await this.http.request(options);
+  }
+
   async getAll(): Promise<SiteOwnership[]> {
     const options: HttpRequestOptions = {
       authenticated: true,

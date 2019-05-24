@@ -19,6 +19,12 @@ export class SiteOwnershipVerificationComponent implements OnInit {
     this.loading = false;
   }
 
+  async deleteSite(id: number) {
+    await this.siteOwnershipService.delete(id);
+    const index: number = this.sites.findIndex(site => site.id === id);
+    this.sites.splice(index, 1);
+  }
+
   onVerifyCompleted(evt: VerifyComplete) {
     const index: number = this.sites.findIndex(site => site.id === evt.id);
     this.sites[index].verified = evt.verified;

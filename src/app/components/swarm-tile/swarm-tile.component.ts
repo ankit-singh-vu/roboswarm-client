@@ -39,7 +39,6 @@ export class SwarmTileComponent implements OnInit {
           this.data.status = swarm.status;
           clearInterval(this.statusCheckInterval);
         }
-        console.log(`Checking status for ${this.data.id}`);
       }, 5000);
     }
   }
@@ -75,7 +74,6 @@ export class SwarmTileComponent implements OnInit {
   }
 
   getFormattedSwarmSize() {
-    console.log({ data: this.data });
     return `${commaNumber(this.data.swarmSize - 1)} + 1 master node`;
   }
 
