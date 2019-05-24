@@ -1,0 +1,7 @@
+<button type="button"
+        *ngIf="!working"
+        (click)="verify()"
+        class="btn btn-small btn-primary">
+  Verify
+</button>
+<app-spinner [show]="working"></app-spinner>

@@ -37,4 +37,14 @@ export class SiteOwnershipService {
     return result.data as SiteOwnership[];
   }
 
+  async verify(id: number): Promise<SiteOwnership> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: `/api/v1/site-ownership/verify/${id}`
+    };
+    const result = await this.http.request(options);
+    return result.data as SiteOwnership;
+  }
+
 }

@@ -36,7 +36,12 @@
                       <td>{{ site.base_url }}</td>
                       <td>{{ site.verified }}</td>
                       <td>roboswarm-verify-{{ site.uuid }}</td>
-                      <td></td>
+                      <td>
+                        <button class='btn btn-small btn-danger'>Delete</button>&nbsp;
+                        <app-verify-site-ownership-button
+                          [siteOwnershipId]="site.id"
+                          (verifyCompleted)="onVerifyCompleted($event)"></app-verify-site-ownership-button>
+                      </td>
                     </tr>
                     <tr *ngIf="!sites || sites.length === 0">
                       <td colspan=4>
