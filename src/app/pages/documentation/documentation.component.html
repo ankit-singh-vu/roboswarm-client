@@ -12,6 +12,7 @@
           <div class="card-body">
             <ul>
               <li><a class='section-link' (click)="goToSection('welcome')">Welcome!</a></li>
+              <li><a class='section-link' (click)="goToSection('verify_site_ownership')">Verifying Site Ownership</a></li>
               <li><a class='section-link' (click)="goToSection('create_swarm')">Creating a Swarm</a></li>
               <li><a class='section-link' (click)="goToSection('zipping_load_test')">Zipping Your Load Test</a></li>
               <li><a class='section-link' (click)="goToSection('usage_and_pricing')">Usage &amp; Pricing</a></li>
@@ -25,6 +26,17 @@
           <div *ngIf='activeSection === "welcome"' class="card-body">
             <h3>Welcome to RoboSwarm!</h3>
             <p>RoboSwarm's goal is to make running large load &amp; performance tests with Locust easy. If you notice any bugs or have features that you would like to see, don't hesitate to reach out to <a href='mailto:jack@kernl.us'>jack@kernl.us</a>. We'll get back to you as soon as humanely possible.</p>
+          </div>
+          <div *ngIf='activeSection === "verify_site_ownership"' class="card-body">
+            <h3>Verifying Site Ownership</h3>
+            <p>TODO PLACEHOLDER</p>
+            <ul>
+              <li>WIP WIP WIP WIP</li>
+              <li>WIP WIP WIP WIP</li>
+              <li>WIP WIP WIP WIP</li>
+              <li>WIP WIP WIP WIP</li>
+              <li>WIP WIP WIP WIP</li>
+            </ul>
           </div>
           <div *ngIf='activeSection === "create_swarm"' class="card-body">
             <h3>Creating a Swarm</h3>

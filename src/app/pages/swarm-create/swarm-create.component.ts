@@ -86,6 +86,7 @@ export class SwarmCreateComponent implements OnInit {
           file_path: '',
           spawn_rate: this.model.spawn_rate,
           host_url: this.model.host_url,
+          site_id: this.model.site_id,
           region: this.model.swarm_region,
           duration: (this.model.duration_hours * 60) + this.model.duration_minutes,
           swarm_ui_type: this.test_type

@@ -58,7 +58,8 @@ export interface NewSwarm {
   duration: number;
   simulated_users: number;
   file_path: string;
-  host_url: string;
+  host_url?: string;
+  site_id?: number;
   spawn_rate: number;
   machines: Array<NewMachine>;
   region: string;
