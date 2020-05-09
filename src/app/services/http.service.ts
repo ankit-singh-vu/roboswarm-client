@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
-import * as request from 'request';
+import axios, { AxiosRequestConfig, Method } from 'axios';
 
 export interface HttpRequestOptions {
   authenticated: boolean;
@@ -19,20 +18,16 @@ export interface RequestResult {
 
 @Injectable()
 export class HttpService {
-  private http: Http;
   private tokenService: TokenService;
 
-  constructor(private _http: Http,
-              private _tokenService: TokenService) {
-    this.http = _http;
+  constructor(private _tokenService: TokenService) {
     this.tokenService = _tokenService;
   }
 
   request(requestOptions: HttpRequestOptions): Promise<RequestResult> {
-    const options = {
-      uri: `${environment.serverUrl}${requestOptions.url}`,
-      method: requestOptions.requestType,
-      json: true
+    const options: AxiosRequestConfig = {
+      url: `${environment.serverUrl}${requestOptions.url}`,
+      method: requestOptions.requestType as Method
     };
 
     // Add auth headers if required.
@@ -45,35 +40,32 @@ export class HttpService {
     // Add query params if required.
     if (requestOptions.requestType === 'GET') {
       if (requestOptions.data) {
-        options['qa'] = requestOptions.data;
+        options['params'] = requestOptions.data;
       }
     }
 
     // Add post/put/patch data if required.
     if (['POST', 'PUT', 'PATCH'].includes(requestOptions.requestType)) {
       if (requestOptions.data) {
-        options['body'] = requestOptions.data;
+        options['data'] = requestOptions.data;
       }
     }
 
     return this.makeRequest(options);
   }
 
-  private makeRequest(options: any): Promise<RequestResult> {
-    return new Promise((resolve, reject) => {
-      request(options, (err, res, body) => {
-        if (!err) {
-          resolve({
-            data: body,
-            statusCode: res.statusCode
-          });
-        } else {
-          reject({
-            err,
-            statusCode: res.statusCode
-          });
-        }
-      });
-    });
+  private async makeRequest(options: AxiosRequestConfig): Promise<RequestResult> {
+    try {
+      const result = await axios.request(options);
+      return {
+        data: result.data,
+        statusCode: result.status
+      };
+    } catch (err) {
+      return {
+        err,
+        statusCode: null
+      };
+    }
   }
 }

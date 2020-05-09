@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
 import { TokenService } from './token.service';
-import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../../environments/environment';
 
 export enum Status {
@@ -114,7 +113,6 @@ export interface LoadTestMetricsFinal {
 export class SwarmService {
 
   constructor(private http: HttpService,
-              private rawHttp: Http,
               private token: TokenService) { }
 
   async createSwarm(fileUploadData: FormData, swarm: NewSwarm): Promise<RequestResult> {
@@ -133,9 +131,14 @@ export class SwarmService {
     const headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Authorization', `Bearer ${this.token.jwt}`);
-    const options = new RequestOptions({ headers: headers });
-    const result: any = await this.rawHttp.post(`${environment.serverUrl}/api/v1/swarm/file-upload`, fileUploadData, options).toPromise();
-    return JSON.parse(result._body).filePath;
+    // const options = new RequestOptions({ headers: headers });
+    //
+    // WIP -> Convert to use home grown HTTP Service.
+    //
+    // const result: any = await
+    // this.rawHttp.post(`${environment.serverUrl}/api/v1/swarm/file-upload`, fileUploadData, options).toPromise();
+    // return JSON.parse(result._body).filePath;
+    return 'WIP';
   }
 
   async getById(id: number): Promise<Swarm> {
