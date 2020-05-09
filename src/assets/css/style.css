@@ -2163,20 +2163,18 @@ File: Pages
     border-radius: 3px; }
 
 /* Multiple */
-.ms-container {
-  background: transparent url("../images/multiple-arrow.png") no-repeat 50% 50%; }
-  .ms-container .ms-list {
-    box-shadow: none;
-    border: 1px solid #e3e3e3; }
-  .ms-container .ms-list.ms-focus {
-    box-shadow: none;
-    border: 1px solid #aaaaaa; }
-  .ms-container .ms-selectable li.ms-elem-selectable {
-    border: none;
-    padding: 5px 10px; }
-  .ms-container .ms-selection li.ms-elem-selection {
-    border: none;
-    padding: 5px 10px; }
+.ms-container .ms-list {
+  box-shadow: none;
+  border: 1px solid #e3e3e3; }
+.ms-container .ms-list.ms-focus {
+  box-shadow: none;
+  border: 1px solid #aaaaaa; }
+.ms-container .ms-selectable li.ms-elem-selectable {
+  border: none;
+  padding: 5px 10px; }
+.ms-container .ms-selection li.ms-elem-selection {
+  border: none;
+  padding: 5px 10px; }
 
 /* Select 2 */
 .select2-container .select2-choice {
