@@ -36,6 +36,7 @@ import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verif
 import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
 import { VerifySiteOwnershipButtonComponent } from './components/verify-site-ownership-button/verify-site-ownership-button.component';
 import { DeleteLoadTestComponent } from './components/delete-load-test/delete-load-test.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { DeleteLoadTestComponent } from './components/delete-load-test/delete-lo
     FormsModule,
     NgxChartsModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [
     HttpService,
