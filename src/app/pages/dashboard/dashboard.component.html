@@ -35,6 +35,7 @@
       <div *ngIf="swarms && swarms.length > 0" class="row">
         <app-swarm-tile *ngFor="let swarm of swarms"
           [data]="swarm"
+          (deleted)="onSwarmDeleted($event)"
           class="col-xl-4"></app-swarm-tile>
       </div>
     </div>

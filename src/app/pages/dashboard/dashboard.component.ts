@@ -38,4 +38,8 @@ export class DashboardComponent implements OnInit {
     this.loading = false;
   }
 
+  onSwarmDeleted(swarmId: number) {
+    this.swarms = this.swarms.filter(swarm => swarm.id !== swarmId);
+  }
+
 }

@@ -203,4 +203,13 @@ export class SwarmService {
     const results = await this.http.request(options);
     return results.data as Swarm;
   }
+
+  async deleteLoadTest(swarmId: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/swarm/${swarmId}/soft-delete`
+    };
+    await this.http.request(options);
+  }
 }

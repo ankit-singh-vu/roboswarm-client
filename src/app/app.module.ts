@@ -35,6 +35,7 @@ import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-lo
 import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
 import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
 import { VerifySiteOwnershipButtonComponent } from './components/verify-site-ownership-button/verify-site-ownership-button.component';
+import { DeleteLoadTestComponent } from './components/delete-load-test/delete-load-test.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { VerifySiteOwnershipButtonComponent } from './components/verify-site-own
     RepeatLoadTestComponent,
     SiteOwnershipVerificationComponent,
     SiteOwnershipVerificationAddComponent,
-    VerifySiteOwnershipButtonComponent
+    VerifySiteOwnershipButtonComponent,
+    DeleteLoadTestComponent
   ],
   imports: [
     BrowserModule,

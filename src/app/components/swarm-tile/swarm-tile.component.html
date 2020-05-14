@@ -15,20 +15,21 @@
       <li><b>Region(s)</b>: {{ getFormattedRegion() }}</li>
     </ul>
     <div align='center'>
-      <div *ngIf="showDetailButtons()">
-        <button
-          [routerLink]="['/swarm', data.id]"
-          type="button"
-          class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
-        <button
-          *ngIf="showLocustButton()"
-          [routerLink]="['/swarm', data.id, 'locust-web-ui']"
-          type="button"
-          class="btn btn-info waves-effect w-md waves-light m-b-5">View Locust Web UI</button>
-      </div>
-      <app-stop-load-test-button
-        [swarmStatus]="data.status"
-        [swarmId]="data.id"
-        (deleteCompleted)="onDeleteCompleted($event)"></app-stop-load-test-button>
+      <div class="btn-group">
+        <div *ngIf="showDetailButtons()">
+          <button
+            [routerLink]="['/swarm', data.id]"
+            type="button"
+            class="btn btn-info waves-effect w-md waves-light m-b-5">Details</button>
+        </div>
+        <app-stop-load-test-button
+          [swarmStatus]="data.status"
+          [swarmId]="data.id"
+          (deleteCompleted)="onStopCompleted($event)"></app-stop-load-test-button>
+        <app-delete-load-test
+          [swarmStatus]="data.status"
+          [swarmId]="data.id"
+          (complete)="onSoftDelete($event)"></app-delete-load-test>
+        </div>
     </div>
 </div>

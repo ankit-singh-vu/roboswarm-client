@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { SwarmService, Swarm } from '../../services/swarm.service';
 const commaNumber = require('comma-number');
@@ -24,6 +24,8 @@ export interface SwarmTile {
 })
 export class SwarmTileComponent implements OnInit {
   @Input() data: SwarmTile;
+  @Output() deleted = new EventEmitter<number>();
+
   private statusCheckInterval;
 
   constructor(private swarmService: SwarmService) {
@@ -109,8 +111,12 @@ export class SwarmTileComponent implements OnInit {
     }
   }
 
-  onDeleteCompleted(swarmId: number) {
+  onStopCompleted(swarmId: number) {
     this.data.status = 'destroyed';
+  }
+
+  onSoftDelete(swarmId: number) {
+    this.deleted.emit(swarmId);
   }
 
   getFormattedRegion() {
@@ -137,10 +143,6 @@ export class SwarmTileComponent implements OnInit {
         }
       })
       .join(', ');
-  }
-
-  showLocustButton(): boolean {
-    return this.data.swarm_ui_type === 'locust' && this.data.status === 'ready';
   }
 
   showDetailButtons(): boolean {
