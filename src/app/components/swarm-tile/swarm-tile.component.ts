@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
-import { HttpService } from '../../services/http.service';
 import { SwarmService, Swarm } from '../../services/swarm.service';
-import { timingSafeEqual } from 'crypto';
 const commaNumber = require('comma-number');
 
 export interface SwarmTile {
@@ -73,10 +71,6 @@ export class SwarmTileComponent implements OnInit {
     return formattedString;
   }
 
-  getFormattedSwarmSize() {
-    return `${commaNumber(this.data.swarmSize - 1)} + 1 master node`;
-  }
-
   showDataButtons() {
     return this.data.status === 'ready';
   }
@@ -120,24 +114,29 @@ export class SwarmTileComponent implements OnInit {
   }
 
   getFormattedRegion() {
-    switch (this.data.region) {
-      case 'sfo2':
-        return 'San Francisco';
-      case 'ams3':
-        return 'Amsterdam';
-      case 'blr1':
-        return 'Bangalore';
-      case 'fra1':
-        return 'Frankfurt';
-      case 'lon1':
-        return 'London';
-      case 'nyc3':
-        return 'New York City';
-      case 'sgp1':
-        return 'Singapore';
-      case 'tor1':
-        return 'Toronto';
-    }
+    return this.data.region
+      .split(',')
+      .map(region => {
+        switch (region) {
+          case 'sfo2':
+            return 'San Francisco';
+          case 'ams3':
+            return 'Amsterdam';
+          case 'blr1':
+            return 'Bangalore';
+          case 'fra1':
+            return 'Frankfurt';
+          case 'lon1':
+            return 'London';
+          case 'nyc3':
+            return 'New York City';
+          case 'sgp1':
+            return 'Singapore';
+          case 'tor1':
+            return 'Toronto';
+        }
+      })
+      .join(', ');
   }
 
   showLocustButton(): boolean {

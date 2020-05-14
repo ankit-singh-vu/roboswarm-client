@@ -6,15 +6,13 @@
       Details of your swarm. Click below to learn more and see results.
     </p>
     <ul>
-      <li><b>Swarm Type: </b> {{ getFormattedSwarmType() }}</li>
       <li><b>Started at:</b> {{ getFormattedDate() }}</li>
       <li><b>Status</b>: <span class="badge badge-{{ getStatusClass() }}">{{ getFormattedStatus() }}</span></li>
-      <li><b>Host URL</b>: {{ data.host_url }}</li>
-      <li *ngIf="data.swarm_ui_type === 'headless'"><b>Users</b>: {{ getFormattedUsers() }}</li>
-      <li><b>Swarm Size</b>: {{ getFormattedSwarmSize() }}</li>
-      <li *ngIf="data.swarm_ui_type === 'headless'"><b>Spawn Rate</b>: {{ data.spawn_rate }} per second</li>
-      <li *ngIf="data.swarm_ui_type === 'headless'"><b>Duration</b>: {{ getFormattedDuration() }}</li>
-      <li><b>Region</b>: {{ getFormattedRegion() }}</li>
+      <li><b>Site</b>: {{ data.host_url }}</li>
+      <li><b>Users</b>: {{ getFormattedUsers() }}</li>
+      <li><b>Ramp Up</b>: {{ data.spawn_rate }} user<span *ngIf="data.spawn_rate > 1">s</span> per second</li>
+      <li><b>Duration</b>: {{ getFormattedDuration() }}</li>
+      <li><b>Region(s)</b>: {{ getFormattedRegion() }}</li>
     </ul>
     <div align='center'>
       <div *ngIf="showDetailButtons()">
