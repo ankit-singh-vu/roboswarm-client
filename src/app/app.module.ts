@@ -11,6 +11,7 @@ import { MetricsService } from './services/metrics.service';
 import { TokenService } from './services/token.service';
 import { SiteOwnershipService } from './services/site-ownership.service';
 import { SwarmService } from './services/swarm.service';
+import { TemplateService } from './services/template.service';
 
 // Authored Components
 import { AppComponent } from './app.component';
@@ -37,6 +38,8 @@ import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-ve
 import { VerifySiteOwnershipButtonComponent } from './components/verify-site-ownership-button/verify-site-ownership-button.component';
 import { DeleteLoadTestComponent } from './components/delete-load-test/delete-load-test.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TemplatesComponent } from './pages/templates/templates.component';
+import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
 
 
 @NgModule({
@@ -62,7 +65,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SiteOwnershipVerificationComponent,
     SiteOwnershipVerificationAddComponent,
     VerifySiteOwnershipButtonComponent,
-    DeleteLoadTestComponent
+    DeleteLoadTestComponent,
+    TemplatesComponent,
+    TemplatesAddEditComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +83,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TokenService,
     SiteOwnershipService,
     SwarmService,
+    TemplateService,
     UserService
   ],
   bootstrap: [AppComponent]

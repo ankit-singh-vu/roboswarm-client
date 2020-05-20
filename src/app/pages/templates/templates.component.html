@@ -1,0 +1,49 @@
+<app-navigation></app-navigation>
+<div class="wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-20">
+          <button [routerLink]="['/template/add']" type="button" class="btn btn-primary waves-effect waves-light">Add Load Test Template</button>
+        </div>
+        <h4 class="page-title">
+            Load Test Templates
+        </h4>
+      </div>
+    </div>
+    <div *ngIf="loading" class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-2">
+        <app-spinner [show]="loading"></app-spinner>
+      </div>
+      <div class="col-sm-5"></div>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-sm-12">
+            <div class="card m-b-20 card-body">
+                <p>Each load test you run executes against a load test template. A template is a collection of routes that define where Roboswarm should send traffic to. If you aren't sure where to start, click the "Add Load Test Template" button and we'll walk you through the process.</p>
+            </div>
+            <div class="card m-b-20 card-body">
+                WIP
+              <!-- <table class="table table-striped">
+                <thead>
+                  <th>Site</th>
+                  <th>Verified?</th>
+                  <th>DNS TXT Record</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!sites || sites.length === 0">
+                      <td colspan=4>
+                        <div class="alert alert-info">
+                          No sites have been verified. Click the "Verify Site" button above to get started.
+                        </div>
+                      </td>
+                    </tr>
+                </tbody>
+              </table> -->
+          </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

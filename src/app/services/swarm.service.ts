@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
 import { TokenService } from './token.service';
-import { environment } from '../../environments/environment';
 
 export enum Status {
   destroyed = 'destroyed',

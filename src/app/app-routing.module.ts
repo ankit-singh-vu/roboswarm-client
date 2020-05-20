@@ -12,6 +12,8 @@ import { BillingComponent } from './pages/billing/billing.component';
 import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
 import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
+import { TemplatesComponent} from './pages/templates/templates.component';
+import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
 
 const routes: Routes = [
 
@@ -40,6 +42,13 @@ const routes: Routes = [
         children: [
             { path: 'add', component: SiteOwnershipVerificationAddComponent },
             { path: '', component: SiteOwnershipVerificationComponent }
+        ]
+    },
+    {
+        path: 'template',
+        children: [
+            { path: 'add', component: TemplatesAddEditComponent },
+            { path: '', component: TemplatesComponent }
         ]
     },
     { path: 'plans-and-billing', component: BillingComponent },
