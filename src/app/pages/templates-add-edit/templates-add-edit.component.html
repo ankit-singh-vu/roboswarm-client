@@ -3,18 +3,62 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
-        <h4 class="page-title">Create Swarm &amp; Load Test</h4>
+        <h4 class="page-title">Create Load Test Template</h4>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-          <div class="card m-b-20 card-body">
-              <p class="card-text">Fill out the information below to create your load test. Once the form as been submitted RoboSwarm will generate your swarm and start your load test.</p>
-              <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
-                
-              </form>
-          </div>
+        <div class="card m-b-20 card-body">
+          <p class="card-text">To create a load test template enter a name and start adding routes! Routes should be relative urls (/my-page, NOT http://example.com/my-page), this way you can use the same template for different environment (dev, staging, production, etc).</p>
+          <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
+            <div class="form-group">
+              <label for="name">Template Name</label>
+              <input class="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    required
+                    [(ngModel)]="model.name"
+                    [disabled]="submitted">
+              <small class="form-text text-muted">The name of this template. It could be something like "Heavy Traffic Template".</small>
+            </div>
+            <div class="form-group">
+              <label for="name">Add Route</label>
+              <input class="form-control"
+                    type="text"
+                    name="tmpRoute"
+                    id="tmpRoute"
+                    (keyup.enter)="addTmpRoute()"
+                    [(ngModel)]="tmpRoute">
+              <small class="form-text text-muted">The name of this template. It could be something like "Heavy Traffic Template".</small>
+              <button (click)="addTmpRoute()" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Route</button>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Route</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let route of model.routes; let i = index;">
+                  <td>{{ route.method }}</td>
+                  <td>
+                    <input class="form-control"
+                      type="text"
+                      name="path-{{i}}"
+                      id="name-{{i}}"
+                      required
+                      [(ngModel)]="model.routes[i].path">
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
       </div>
       <div class="col-sm-2"></div>
     </div>
