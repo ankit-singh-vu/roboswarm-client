@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
+  sitemapUrl: string;
 }
 
 @Component({
@@ -16,7 +17,8 @@ interface AddEditTemplate extends Template {
 export class TemplatesAddEditComponent implements OnInit {
   model: AddEditTemplate = {
     name: '',
-    routes: []
+    routes: [],
+    sitemapUrl: null
   };
   tmpRoute =  '';
   id: number = null;
@@ -46,6 +48,11 @@ export class TemplatesAddEditComponent implements OnInit {
   canSave() {
     return this.model.name.trim() !== ''
       && this.model.routes.length > 0;
+  }
+
+  async importFromSitemap() {
+    console.log(`Import sitemap from ${this.model.sitemapUrl}`);
+    // WIP -> This will need to be on the server.
   }
 
   async onSubmit(form: NgForm) {

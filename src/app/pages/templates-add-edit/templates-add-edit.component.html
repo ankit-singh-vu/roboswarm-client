@@ -24,6 +24,24 @@
               <small class="form-text text-muted">The name of this template. It could be something like "Heavy Traffic Template".</small>
             </div>
             <div class="form-group">
+              <div class="row">
+                <div class="col-sm-8">
+                  <label for="sitemapUrl">Import via Sitemap</label>
+                  <input class="form-control"
+                        type="text"
+                        name="sitemapUrl"
+                        id="sitemapUrl"
+                        required
+                        [(ngModel)]="model.sitemapUrl"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">The URL of your sitemap. Ex: https://example.com/sitemap.xml</small>
+                </div>
+                <div class="col-sm-4 import-button">
+                  <button (click)="importFromSitemap()" [disabled]="!model.sitemapUrl" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Start Import</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
               <label for="name">Add Route</label>
               <input class="form-control"
                     type="text"
