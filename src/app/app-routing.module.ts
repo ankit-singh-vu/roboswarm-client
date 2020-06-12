@@ -47,6 +47,12 @@ const routes: Routes = [
     {
         path: 'template',
         children: [
+            {
+                path: 'edit',
+                children: [
+                    { path: ':id', component: TemplatesAddEditComponent }
+                ]
+            },
             { path: 'add', component: TemplatesAddEditComponent },
             { path: '', component: TemplatesComponent }
         ]

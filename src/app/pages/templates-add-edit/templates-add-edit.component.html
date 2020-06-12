@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-        <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
+        <form class="form-horizontal m-t-20" #createTemplateForm="ngForm">
           <div class="card m-b-20 card-body">
             <p class="card-text">To create a load test template enter a name and start adding routes! Routes should be relative urls (/my-page, NOT http://example.com/my-page), this way you can use the same template for different environment (dev, staging, production, etc).</p>
             <div class="form-group">
@@ -29,14 +29,14 @@
                     type="text"
                     name="tmpRoute"
                     id="tmpRoute"
-                    (keyup.enter)="addTmpRoute()"
+                    (keyup.enter)="addTmpRoute($event)"
                     [(ngModel)]="tmpRoute">
               <small class="form-text text-muted">The name of this template. It could be something like "Heavy Traffic Template".</small>
-              <button (click)="addTmpRoute()" [disabled]="!tmpRoute" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Route</button>
+              <button (click)="addTmpRoute($event)" [disabled]="!tmpRoute" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Route</button>
             </div>
             <div class="form-group text-center m-t-40 mb-0">
                 <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
-                        type="submit"
+                        (click)="onSubmit(createTemplateForm)"
                         [disabled]="saving || !canSave()">
                   Save Template
                 </button>

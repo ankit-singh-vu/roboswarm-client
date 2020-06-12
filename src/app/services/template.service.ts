@@ -17,12 +17,26 @@ export interface TemplateRoute {
   path: string;
 }
 
+export interface TemplateHydrated extends Template {
+  routes: TemplateRoute[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
 
   constructor(private http: HttpService) { }
+
+  async get(id: number): Promise<TemplateHydrated> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/template/${id}`
+    };
+    const result = await this.http.request(options);
+    return result.data as TemplateHydrated;
+  }
 
   async getAll(): Promise<Template[]> {
     const options: HttpRequestOptions = {
@@ -46,5 +60,24 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as Template;
+  }
+
+  async update(id: number, routes: TemplateRoute[]): Promise<TemplateHydrated> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'PUT',
+      url: `/api/v1/template/${id}`,
+      data: {
+        routes: routes.map(r => {
+          return {
+            load_test_template_id: r.load_test_template_id,
+            method: r.method,
+            path: r.path
+          };
+        })
+      }
+    };
+    const result = await this.http.request(options);
+    return result.data as TemplateHydrated;
   }
 }

@@ -24,24 +24,29 @@
                 <p>Each load test you run executes against a load test template. A template is a collection of routes that define where Roboswarm should send traffic to. If you aren't sure where to start, click the "Add Load Test Template" button and we'll walk you through the process.</p>
             </div>
             <div class="card m-b-20 card-body">
-                WIP
-              <!-- <table class="table table-striped">
+              <table class="table table-striped">
                 <thead>
-                  <th>Site</th>
-                  <th>Verified?</th>
-                  <th>DNS TXT Record</th>
+                  <th>Template Name</th>
+                  <th># of Routes</th>
+                  <th>Created at</th>
                   <th></th>
                 </thead>
                 <tbody>
-                    <tr *ngIf="!sites || sites.length === 0">
+                    <tr *ngIf="!templates || templates.length === 0">
                       <td colspan=4>
                         <div class="alert alert-info">
-                          No sites have been verified. Click the "Verify Site" button above to get started.
+                          You have no load test templates. Click the "Add Load Test Template" button to get started.
                         </div>
                       </td>
                     </tr>
+                    <tr *ngFor="let template of templates">
+                      <td>{{ template.name }}</td>
+                      <td>TODO</td>
+                      <td>{{ template.created_at }} </td>
+                      <td><button [routerLink]="['/template/edit', template.id]"class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button></td>
+                    </tr>
                 </tbody>
-              </table> -->
+              </table>
           </div>
         </div>
     </div>

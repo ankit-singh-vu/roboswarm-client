@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateService, Template, TemplateRoute } from '../../services/template.service';
+import { TemplateService, Template, TemplateRoute, TemplateHydrated } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
@@ -19,19 +19,27 @@ export class TemplatesAddEditComponent implements OnInit {
     routes: []
   };
   tmpRoute =  '';
+  id: number = null;
+  existingTemplate: TemplateHydrated = null;
   saving = false;
-  sites: SiteOwnership[] = [];
   submitted = false;
   working = true;
   error = '';
 
   constructor(private siteOwnershipService: SiteOwnershipService,
+              private route: ActivatedRoute,
               private templateService: TemplateService,
               private router: Router) { }
 
   async ngOnInit() {
     this.working = true;
-    this.sites = await this.siteOwnershipService.getAll();
+    const tmpId = this.route.snapshot.params?.id;
+    this.id = tmpId ? parseInt(tmpId, 10) : null;
+    if (this.id) {
+      this.existingTemplate = await this.templateService.get(this.id);
+      this.model.name = this.existingTemplate.name;
+      this.model.routes = this.existingTemplate.routes;
+    }
     this.working = false;
   }
 
@@ -42,12 +50,17 @@ export class TemplatesAddEditComponent implements OnInit {
 
   async onSubmit(form: NgForm) {
     this.saving = true;
-    await this.templateService.create(this.model.name, this.model.routes);
+    if (!this.id) {
+      await this.templateService.create(this.model.name, this.model.routes);
+    } else {
+      await this.templateService.update(this.id, this.model.routes);
+    }
     this.saving = false;
     this.router.navigate(['/template']);
   }
 
-  addTmpRoute() {
+  addTmpRoute($event: Event) {
+    $event.stopImmediatePropagation();
     if (this.tmpRoute.trim() !== '') {
       this.model.routes.push({
         method: 'GET',
