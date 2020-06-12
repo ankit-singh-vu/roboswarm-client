@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Template, TemplateRoute } from '../../services/template.service';
+import { TemplateService, Template, TemplateRoute } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
+import { Router } from '@angular/router';
 
 interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
@@ -17,14 +18,16 @@ export class TemplatesAddEditComponent implements OnInit {
     name: '',
     routes: []
   };
-  tmpRoute: '';
-  showRoutes: false;
+  tmpRoute =  '';
+  saving = false;
   sites: SiteOwnership[] = [];
   submitted = false;
   working = true;
   error = '';
 
-  constructor(private siteOwnershipService: SiteOwnershipService) { }
+  constructor(private siteOwnershipService: SiteOwnershipService,
+              private templateService: TemplateService,
+              private router: Router) { }
 
   async ngOnInit() {
     this.working = true;
@@ -32,20 +35,34 @@ export class TemplatesAddEditComponent implements OnInit {
     this.working = false;
   }
 
-  onSubmit(form: NgForm) {
-    console.log(`Template name set: ${this.model.name}`);
+  canSave() {
+    return this.model.name.trim() !== ''
+      && this.model.routes.length > 0;
+  }
+
+  async onSubmit(form: NgForm) {
+    this.saving = true;
+    await this.templateService.create(this.model.name, this.model.routes);
+    this.saving = false;
+    this.router.navigate(['/template']);
   }
 
   addTmpRoute() {
-    this.model.routes.push({
-      method: 'GET',
-      path: this.tmpRoute
-    });
-    this.tmpRoute = '';
+    if (this.tmpRoute.trim() !== '') {
+      this.model.routes.push({
+        method: 'GET',
+        path: this.tmpRoute
+      });
+      this.tmpRoute = '';
+    }
   }
 
   allFieldsCompleted(): boolean {
     return this.model.name && this.model.name.trim() !== '';
+  }
+
+  deleteRouteAtIndex(i: number) {
+    this.model.routes.splice(i, 1);
   }
 
 }

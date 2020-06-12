@@ -13,7 +13,7 @@ export class TemplatesComponent implements OnInit {
   constructor(private templateService: TemplateService) { }
 
   async ngOnInit() {
-    this.templates = await this.templateService.getTemplates();
+    this.templates = await this.templateService.getAll();
     this.loading = false;
   }
 

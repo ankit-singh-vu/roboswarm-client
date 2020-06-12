@@ -9,9 +9,9 @@
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-        <div class="card m-b-20 card-body">
-          <p class="card-text">To create a load test template enter a name and start adding routes! Routes should be relative urls (/my-page, NOT http://example.com/my-page), this way you can use the same template for different environment (dev, staging, production, etc).</p>
-          <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
+        <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
+          <div class="card m-b-20 card-body">
+            <p class="card-text">To create a load test template enter a name and start adding routes! Routes should be relative urls (/my-page, NOT http://example.com/my-page), this way you can use the same template for different environment (dev, staging, production, etc).</p>
             <div class="form-group">
               <label for="name">Template Name</label>
               <input class="form-control"
@@ -32,8 +32,18 @@
                     (keyup.enter)="addTmpRoute()"
                     [(ngModel)]="tmpRoute">
               <small class="form-text text-muted">The name of this template. It could be something like "Heavy Traffic Template".</small>
-              <button (click)="addTmpRoute()" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Route</button>
+              <button (click)="addTmpRoute()" [disabled]="!tmpRoute" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Route</button>
             </div>
+            <div class="form-group text-center m-t-40 mb-0">
+                <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
+                        type="submit"
+                        [disabled]="saving || !canSave()">
+                  Save Template
+                </button>
+            </div>
+          </div>
+          <div *ngIf="model.routes && model.routes.length > 0" class="card m-b-20 card-body">
+            <p>These are the routes that we will run the load test against.</p>
             <table class="table">
               <thead>
                 <tr>
@@ -53,12 +63,12 @@
                       required
                       [(ngModel)]="model.routes[i].path">
                   </td>
-                  <td></td>
+                  <td><button (click)="deleteRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button></td>
                 </tr>
               </tbody>
             </table>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
       <div class="col-sm-2"></div>
     </div>

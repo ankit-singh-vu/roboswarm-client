@@ -24,7 +24,7 @@ export class TemplateService {
 
   constructor(private http: HttpService) { }
 
-  async getTemplates(): Promise<Template[]> {
+  async getAll(): Promise<Template[]> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'GET',
@@ -32,5 +32,19 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as Template[];
+  }
+
+  async create(name: string, routes: TemplateRoute[]): Promise<Template> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: '/api/v1/template',
+      data: {
+        name,
+        routes,
+      }
+    };
+    const result = await this.http.request(options);
+    return result.data as Template;
   }
 }
