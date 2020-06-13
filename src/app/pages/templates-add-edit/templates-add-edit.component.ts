@@ -24,6 +24,7 @@ export class TemplatesAddEditComponent implements OnInit {
   id: number = null;
   existingTemplate: TemplateHydrated = null;
   saving = false;
+  sitemapImportWorking = false;
   submitted = false;
   working = true;
   error = '';
@@ -51,8 +52,17 @@ export class TemplatesAddEditComponent implements OnInit {
   }
 
   async importFromSitemap() {
-    console.log(`Import sitemap from ${this.model.sitemapUrl}`);
-    // WIP -> This will need to be on the server.
+    this.sitemapImportWorking = true;
+    const results = await this.templateService.getSitemap(this.model.sitemapUrl);
+    const resultsWithId = results.map(r => {
+      return {
+        ...r,
+        id: Math.floor(Math.random() * 1000000) * 23
+      };
+    });
+    this.model.routes = this.model.routes.concat(resultsWithId);
+    this.model.sitemapUrl = '';
+    this.sitemapImportWorking = false;
   }
 
   async onSubmit(form: NgForm) {
@@ -70,6 +80,7 @@ export class TemplatesAddEditComponent implements OnInit {
     $event.stopImmediatePropagation();
     if (this.tmpRoute.trim() !== '') {
       this.model.routes.push({
+        id: Math.floor(Math.random() * 1000000) * 56,
         method: 'GET',
         path: this.tmpRoute
       });
@@ -83,6 +94,10 @@ export class TemplatesAddEditComponent implements OnInit {
 
   deleteRouteAtIndex(i: number) {
     this.model.routes.splice(i, 1);
+  }
+
+  trackByFn(index, item) {
+    return (item.id);
   }
 
 }

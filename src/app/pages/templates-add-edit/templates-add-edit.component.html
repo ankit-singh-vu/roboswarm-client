@@ -6,12 +6,10 @@
         <h4 class="page-title">Create Load Test Template</h4>
       </div>
     </div>
+    <form class="form-horizontal m-t-20" #createTemplateForm="ngForm">
     <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-8">
-        <form class="form-horizontal m-t-20" #createTemplateForm="ngForm">
+        <div class="col-sm-4">
           <div class="card m-b-20 card-body">
-            <p class="card-text">To create a load test template enter a name and start adding routes! Routes should be relative urls (/my-page, NOT http://example.com/my-page), this way you can use the same template for different environment (dev, staging, production, etc).</p>
             <div class="form-group">
               <label for="name">Template Name</label>
               <input class="form-control"
@@ -34,10 +32,11 @@
                         required
                         [(ngModel)]="model.sitemapUrl"
                         [disabled]="submitted">
-                  <small class="form-text text-muted">The URL of your sitemap. Ex: https://example.com/sitemap.xml</small>
+                  <small class="form-text text-muted">The URL of your site. This should <strong>not</strong> include any reference to the sitemap. Ex: https://example.com</small>
                 </div>
                 <div class="col-sm-4 import-button">
-                  <button (click)="importFromSitemap()" [disabled]="!model.sitemapUrl" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Start Import</button>
+                  <button *ngIf="!sitemapImportWorking" (click)="importFromSitemap()" [disabled]="!model.sitemapUrl" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Start Import</button>
+                  <app-spinner [show]="sitemapImportWorking"></app-spinner>
                 </div>
               </div>
             </div>
@@ -60,35 +59,39 @@
                 </button>
             </div>
           </div>
-          <div *ngIf="model.routes && model.routes.length > 0" class="card m-b-20 card-body">
-            <p>These are the routes that we will run the load test against.</p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Method</th>
-                  <th>Route</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let route of model.routes; let i = index;">
-                  <td>{{ route.method }}</td>
-                  <td>
-                    <input class="form-control"
-                      type="text"
-                      name="path-{{i}}"
-                      id="name-{{i}}"
-                      required
-                      [(ngModel)]="model.routes[i].path">
-                  </td>
-                  <td><button (click)="deleteRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
-      <div class="col-sm-2"></div>
+        </div>
+        <div class="col-sm-8">
+            <div *ngIf="!model.routes || model.routes.length == 0" class="alert alert-info">
+              You don't have any routes in this template yet. Use the menu on the left to add some.
+            </div>
+            <div *ngIf="model.routes && model.routes.length > 0" class="card m-b-20 card-body">
+              <p>These are the routes that we will run the load test against.</p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Route</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let route of model.routes; trackBy: trackByFn; let i = index;">
+                    <td>{{ route.method }}</td>
+                    <td>
+                      <input class="form-control"
+                        type="text"
+                        name="path-{{i}}"
+                        id="name-{{i}}"
+                        required
+                        [(ngModel)]="model.routes[i].path">
+                    </td>
+                    <td><button (click)="deleteRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
     </div>
+    </form>
 </div>
 <app-footer></app-footer>

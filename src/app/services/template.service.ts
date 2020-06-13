@@ -80,4 +80,15 @@ export class TemplateService {
     const result = await this.http.request(options);
     return result.data as TemplateHydrated;
   }
+
+  async getSitemap(url: string): Promise<TemplateRoute[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: '/api/v1/template/sitemap',
+      data: { url }
+    };
+    const result = await this.http.request(options);
+    return result.data as TemplateRoute[];
+  }
 }
