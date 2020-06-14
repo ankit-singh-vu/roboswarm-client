@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateService, Template } from '../../services/template.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-templates',
@@ -15,6 +16,16 @@ export class TemplatesComponent implements OnInit {
   async ngOnInit() {
     this.templates = await this.templateService.getAll();
     this.loading = false;
+  }
+
+  async deleteTemplate(id: number) {
+    await this.templateService.delete(id);
+    const index = this.templates.findIndex(t => t.id === id);
+    this.templates.splice(index, 1);
+  }
+
+  getFormattedDate(d: Date): string {
+    return moment(d).format('MMM D YYYY');
   }
 
 }

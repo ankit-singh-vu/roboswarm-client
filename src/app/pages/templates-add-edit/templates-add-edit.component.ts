@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateService, Template, TemplateRoute, TemplateHydrated } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
-import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 interface AddEditTemplate extends Template {
@@ -29,8 +28,7 @@ export class TemplatesAddEditComponent implements OnInit {
   working = true;
   error = '';
 
-  constructor(private siteOwnershipService: SiteOwnershipService,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private templateService: TemplateService,
               private router: Router) { }
 
@@ -70,7 +68,7 @@ export class TemplatesAddEditComponent implements OnInit {
     if (!this.id) {
       await this.templateService.create(this.model.name, this.model.routes);
     } else {
-      await this.templateService.update(this.id, this.model.routes);
+      await this.templateService.update(this.id, this.model.name, this.model.routes);
     }
     this.saving = false;
     this.router.navigate(['/template']);

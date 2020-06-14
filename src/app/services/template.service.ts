@@ -62,12 +62,22 @@ export class TemplateService {
     return result.data as Template;
   }
 
-  async update(id: number, routes: TemplateRoute[]): Promise<TemplateHydrated> {
+  async delete(id: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/template/${id}`
+    };
+    await this.http.request(options);
+  }
+
+  async update(id: number, name: string, routes: TemplateRoute[]): Promise<TemplateHydrated> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'PUT',
       url: `/api/v1/template/${id}`,
       data: {
+        name,
         routes: routes.map(r => {
           return {
             load_test_template_id: r.load_test_template_id,

@@ -19,7 +19,8 @@
       <div class="col-sm-5"></div>
     </div>
     <div *ngIf="!loading" class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
             <div class="card m-b-20 card-body">
                 <p>Each load test you run executes against a load test template. A template is a collection of routes that define where Roboswarm should send traffic to. If you aren't sure where to start, click the "Add Load Test Template" button and we'll walk you through the process.</p>
             </div>
@@ -27,13 +28,12 @@
               <table class="table table-striped">
                 <thead>
                   <th>Template Name</th>
-                  <th># of Routes</th>
                   <th>Created at</th>
                   <th></th>
                 </thead>
                 <tbody>
                     <tr *ngIf="!templates || templates.length === 0">
-                      <td colspan=4>
+                      <td colspan=3>
                         <div class="alert alert-info">
                           You have no load test templates. Click the "Add Load Test Template" button to get started.
                         </div>
@@ -41,14 +41,17 @@
                     </tr>
                     <tr *ngFor="let template of templates">
                       <td>{{ template.name }}</td>
-                      <td>TODO</td>
-                      <td>{{ template.created_at }} </td>
-                      <td><button [routerLink]="['/template/edit', template.id]"class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button></td>
+                      <td>{{ getFormattedDate(template.created_at) }} </td>
+                      <td class="action-buttons">
+                        <button [routerLink]="['/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
+                        <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
+                      </td>
                     </tr>
                 </tbody>
               </table>
           </div>
         </div>
+        <div class="col-sm-3"></div>
     </div>
 </div>
 <app-footer></app-footer>
