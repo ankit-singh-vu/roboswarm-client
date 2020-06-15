@@ -30,7 +30,7 @@
                 <thead>
                   <th>Site</th>
                   <th>Verified?</th>
-                  <th>DNS TXT Record</th>
+                  <th>Verification Method</th>
                   <th></th>
                 </thead>
                 <tbody>
@@ -40,7 +40,12 @@
                         <span *ngIf="site.verified" class="badge badge-success">Verified</span>
                         <span *ngIf="!site.verified" class="badge badge-warning">Not Verified</span>
                       </td>
-                      <td>roboswarm-verify-{{ site.uuid }}</td>
+                      <td>
+                        <ul>
+                          <li>DNS TXT Record: roboswarm-verify-{{ site.uuid }}</li>
+                          <li>HTML Meta Tag: <span [innerHTML]="getMetaTag(site.uuid)"></span>
+                        </ul>
+                      </td>
                       <td>
                         <button (click)="deleteSite(site.id)" class='btn btn-small btn-danger'>Delete</button>&nbsp;
                         <app-verify-site-ownership-button
