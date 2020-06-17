@@ -58,10 +58,12 @@ export interface NewSwarm {
   file_path: string;
   host_url?: string;
   site_id?: number;
+  template_id?: number;
   spawn_rate: number;
   machines: Array<NewMachine>;
   region: string;
   swarm_ui_type: string;
+  generate_test_from_template?: boolean;
 }
 
 export interface Request {
@@ -114,9 +116,7 @@ export class SwarmService {
   constructor(private http: HttpService,
               private token: TokenService) { }
 
-  async createSwarm(fileUploadData: FormData, swarm: NewSwarm): Promise<RequestResult> {
-    const filePath = await this.uploadFile(fileUploadData);
-    swarm.file_path = filePath;
+  async createSwarm(swarm: NewSwarm): Promise<RequestResult> {
     const options: HttpRequestOptions = {
       authenticated: true,
       data: swarm,
@@ -124,20 +124,6 @@ export class SwarmService {
       url: '/api/v1/swarm'
     };
     return await this.http.request(options);
-  }
-
-  async uploadFile(fileUploadData: FormData): Promise<string> {
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `Bearer ${this.token.jwt}`);
-    // const options = new RequestOptions({ headers: headers });
-    //
-    // WIP -> Convert to use home grown HTTP Service.
-    //
-    // const result: any = await
-    // this.rawHttp.post(`${environment.serverUrl}/api/v1/swarm/file-upload`, fileUploadData, options).toPromise();
-    // return JSON.parse(result._body).filePath;
-    return 'WIP';
   }
 
   async getById(id: number): Promise<Swarm> {

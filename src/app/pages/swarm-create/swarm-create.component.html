@@ -23,94 +23,62 @@
                         [disabled]="submitted">
                   <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
                 </div>
-                <div class="form-group">
-                  <label for="site_id">Site To Test</label>
-                  <div *ngIf="!sites || sites.length === 0" class="alert alert-danger">
-                    You have no verified sites to test. To verify a site, click the "Verify Site Ownership" menu item at the top of the page and follow the instructions.
-                  </div>
-                  <select class="form-control"
-                    *ngIf="sites && sites.length > 0"
-                    id="site_id"
-                    name="site_id"
-                    required
-                    [(ngModel)]="model.site_id"
-                    [disabled]="submitted">
-                    <option *ngFor="let site of sites" [value]="site.id">{{site.base_url}}</option>
-                  </select>
-                  <small class="form-text text-muted">The "--host" URL parameter that you pass in to Locust.</small>
-                </div>
-                <div class="form-group">
-                  <label for="test_type">Test Type</label>
-                  <select class="form-control"
-                        id="test_type"
-                        name="test_type"
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="site_id">Site To Test</label>
+                      <div *ngIf="!sites || sites.length === 0" class="alert alert-danger">
+                        You have no verified sites to test. To verify a site, click the "Verify Site Ownership" menu item at the top of the page and follow the instructions.
+                      </div>
+                      <select class="form-control"
+                        *ngIf="sites && sites.length > 0"
+                        id="site_id"
+                        name="site_id"
                         required
-                        [(ngModel)]="test_type"
+                        [(ngModel)]="model.site_id"
                         [disabled]="submitted">
-                    <option value="locust">Locust Web UI</option>
-                    <option value="headless">Headless</option>
-                  </select>
-                  <small class="form-text text-muted">Selecting "Locust Web UI" will allow you to access the Locust Web UI for this swarm. You will be able to select your spawn rate, user test size, and view all of the graphs that come with Locust. Choose Headless if you want the test to start immediately and end automatically.</small>
-                </div>
-                <div class="form-group">
-                  <label for="simulated_users"># of Simulated Users</label>
-                  <input class="form-control"
-                        type="number"
-                        name="simulated_users"
-                        id="simulated_users"
+                        <option *ngFor="let site of sites" [value]="site.id">{{site.base_url}}</option>
+                      </select>
+                      <small class="form-text text-muted">The site that we will load test.</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="template_id">Template</label>
+                      <div *ngIf="!templates || templates.length === 0" class="alert alert-danger">
+                        You have no templates created. Click the "Templates" menu to get started.
+                      </div>
+                      <select class="form-control"
+                        *ngIf="templates && templates.length > 0"
+                        id="template_id"
+                        name="template_id"
                         required
-                        [(ngModel)]="model.simulated_users"
-                        [disabled]="submitted"
-                        placeholder="150, 2500, 25000, etc">
-                  <small class="form-text text-muted">This is the total number of users for the load test.</small>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="swarm_size">Swarm Size</label>
-                      <input class="form-control"
-                            type="number"
-                            id="swarm_size"
-                            name="swarm_size"
-                            required
-                            [(ngModel)]="model.swarm_size"
-                            [disabled]="submitted"
-                            placeholder="5, 20, 50, etc">
-                      <small class="form-text text-muted">How many machines should we distribute the load over? A good rule is for every 300 users add 1 machine. For example if you were load testing 1500 users, then 5 would be a good number to enter here.</small>
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <label for="spawn_rate">Spawn Rate</label>
-                      <input class="form-control"
-                            type="number"
-                            id="spawn_rate"
-                            name="spawn_rate"
-                            required
-                            [(ngModel)]="model.spawn_rate"
-                            [disabled]="submitted"
-                            placeholder="5, 20, 50, etc">
-                      <small class="form-text text-muted">How many users should RoboSwarm spawn per second?</small>
+                        [(ngModel)]="model.template_id"
+                        [disabled]="submitted">
+                        <option *ngFor="let template of templates" [value]="template.id">{{template.name}}</option>
+                      </select>
+                      <small class="form-text text-muted">The load test template we will run against the site selected above.</small>
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="duration_hours">Test Duration (hours)</label>
+                      <label for="simulated_users"># of Simulated Users</label>
                       <input class="form-control"
                             type="number"
-                            id="duration_hours"
-                            name="duration_hours"
+                            name="simulated_users"
+                            id="simulated_users"
                             required
-                            [(ngModel)]="model.duration_hours"
-                            [disabled]="submitted">
-                      <small class="form-text text-muted">How many hours should this load test continue for?</small>
+                            [(ngModel)]="model.simulated_users"
+                            [disabled]="submitted"
+                            placeholder="150, 2500, 25000, etc">
+                      <small class="form-text text-muted">This is the total number of users for the load test.</small>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="duration_minutes">Test Duration (minutes)</label>
+                      <label for="duration_minutes">Test Duration in Minutes</label>
                       <input class="form-control"
                             type="number"
                             id="duration_minutes"
@@ -118,15 +86,16 @@
                             required
                             [(ngModel)]="model.duration_minutes"
                             [disabled]="submitted">
-                      <small class="form-text text-muted">How many additional minutes should this load test continue for?</small>
+                      <small class="form-text text-muted">How many minutes should this load test run for?</small>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="swarm_region">Swarm Region</label>
+                  <label for="swarm_region">Swarm Region(s)</label>
                   <select class="form-control"
                         id="swarm_region"
                         name="swarm_region"
+                        multiple
                         required
                         [(ngModel)]="model.swarm_region"
                         [disabled]="submitted">
@@ -139,19 +108,7 @@
                     <option value="sgp1">Singapore</option>
                     <option value="tor1">Toronto</option>
                   </select>
-                  <small class="form-text text-muted">The geographic location that your load test traffic should originate from. Defaults to New York City.</small>
-                </div>
-                <div class="form-group">
-                  <label for="load_test_file">Load Test Files</label>
-                  <input type="file"
-                        class="form-control"
-                        name="load_test_file"
-                        id="load_test_file"
-                        required
-                        accept = ".zip"
-                        [(ngModel)]="model.load_test_file"
-                        [disabled]="submitted">
-                  <small class="form-text text-muted">A .zip file containing your load test files. <i>locustfile.py</i> and <i>requirements.txt</i> should be at the top level.</small>
+                  <small class="form-text text-muted">The geographic location(s) that your load test traffic should originate from.</small>
                 </div>
                 <div class="form-group text-center m-t-40 mb-0">
                     <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
