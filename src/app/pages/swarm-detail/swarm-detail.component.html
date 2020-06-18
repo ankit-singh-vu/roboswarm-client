@@ -29,7 +29,12 @@
                 <p><b>Site: </b> {{ swarm.host_url }}</p>
                 <p><b>Duration: {{ swarm.duration }} minutes</b></p>
                 <p><b>Region(s): </b> {{ getFormattedRegions(swarm.region) }}</p>
-                <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
+                <p *ngIf="swarm.ready_at">
+                    <b>Started At: </b> {{ swarm.ready_at | date:"short" }}
+                </p>
+                <div *ngIf="!swarm.ready_at" class="alert alert-danger text-center">
+                    <strong>Load test never started.</strong>
+                </div>
             </div>
         </div>
         <div class="col-sm-9">
