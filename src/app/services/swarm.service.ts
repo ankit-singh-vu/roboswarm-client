@@ -197,4 +197,30 @@ export class SwarmService {
     };
     await this.http.request(options);
   }
+
+  getFormattedRegion(regions: string): string {
+    return regions
+      .split(',')
+      .map(region => {
+        switch (region) {
+          case 'sfo2':
+            return 'San Francisco';
+          case 'ams3':
+            return 'Amsterdam';
+          case 'blr1':
+            return 'Bangalore';
+          case 'fra1':
+            return 'Frankfurt';
+          case 'lon1':
+            return 'London';
+          case 'nyc3':
+            return 'New York City';
+          case 'sgp1':
+            return 'Singapore';
+          case 'tor1':
+            return 'Toronto';
+        }
+      })
+      .join(', ');
+  }
 }

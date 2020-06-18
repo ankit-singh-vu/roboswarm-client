@@ -209,4 +209,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       return 0;
     }
   }
+
+  getFormattedRegions(regions: string): string {
+    return this.swarmService.getFormattedRegion(regions);
+  }
 }

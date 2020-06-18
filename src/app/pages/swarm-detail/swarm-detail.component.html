@@ -24,16 +24,16 @@
             <div *ngIf="swarm" class="card m-b-20 card-body meta">
                 <p *ngIf="!swarm.destroyed_at"><b>Current Users: </b>{{ getCurrentUsers() }}</p>
                 <p><b>Total Users: </b> {{ swarm.simulated_users }}</p>
-                <p><b>Spawn Rate: </b> {{ swarm.spawn_rate }}</p>
+                <p><b>Ramp Up: </b> {{ swarm.spawn_rate }} user(s) per second</p>
                 <p><b>Swarm Size: </b> {{ swarm.size }} + 1 master</p>
-                <p><b>Host URL: </b> {{ swarm.host_url }}</p>
-                <p><b>Duration (Minutes): {{ swarm.duration }}</b></p>
-                <p><b>Region: </b> {{ swarm.region }}</p>
+                <p><b>Site: </b> {{ swarm.host_url }}</p>
+                <p><b>Duration: {{ swarm.duration }} minutes</b></p>
+                <p><b>Region(s): </b> {{ getFormattedRegions(swarm.region) }}</p>
                 <p><b>Started At: </b> {{ swarm.ready_at | date:"short" }}</p>
             </div>
         </div>
         <div class="col-sm-9">
-                <div class="card m-b-20 card-body"
+            <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
                 <h4 class="card-title">Requests / Failures per Second</h4>
                 <div style="height:400px; width: 100%;">
@@ -48,6 +48,10 @@
                     [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
             <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
                 <h4 class="card-title">Total Failed Requests</h4>
@@ -63,6 +67,8 @@
                     [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-6">
             <div class="card m-b-20 card-body"
                  *ngIf="!loading && distributionData && distributionData.length > 0">
                 <h4 class="card-title">Request Distribution</h4>
@@ -78,6 +84,10 @@
                     </ngx-charts-bar-vertical>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div class="card m-b-20 card-body result-table">
                 <h4 class="card-title">Requests</h4>
                 <table class="table table-striped m-0">
@@ -123,6 +133,10 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div class="card m-b-20 card-body result-table">
                 <h4 class="card-title">Distribution</h4>
                 <table class="table table-striped m-0">
