@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SwarmService } from '../../services/swarm.service';
 
 @Component({
@@ -13,16 +14,24 @@ export class DeleteLoadTestComponent {
 
   working = false;
 
-  constructor(private swarmService: SwarmService) { }
+  constructor(private swarmService: SwarmService,
+              private modalService: NgbModal) { }
 
   showButton() {
     return this.swarmStatus === 'destroyed';
   }
 
-  async deleteLoadTest() {
+  deleteLoadTest(modalContent: TemplateRef<any>) {
     this.working = true;
-    await this.swarmService.deleteLoadTest(this.swarmId);
-    this.working = false;
-    this.complete.emit(this.swarmId);
+    this.modalService
+      .open(modalContent)
+      .result
+      .then(async () => {
+        await this.swarmService.deleteLoadTest(this.swarmId);
+        this.complete.emit(this.swarmId);
+        this.working = false;
+      }, () => {
+        this.working = false;
+      });
   }
 }

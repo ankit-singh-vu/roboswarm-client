@@ -5,6 +5,12 @@
       <div class="col-sm-12">
         <h4 *ngIf="swarm && swarm.name" class="page-title">
             {{ swarm.name }}
+            <app-delete-load-test
+                class="delete-test-button pull-right"
+                *ngIf="swarm && swarm.status !== destroyed"
+                [swarmStatus]="swarm.status"
+                [swarmId]="swarm.id"
+                (complete)="onSoftDelete($event)"></app-delete-load-test>
             <app-stop-load-test-button
                 class="pull-right"
                 *ngIf="swarm && swarm.status !== destroyed"

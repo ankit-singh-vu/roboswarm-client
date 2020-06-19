@@ -213,4 +213,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   getFormattedRegions(regions: string): string {
     return this.swarmService.getFormattedRegion(regions);
   }
+
+  onSoftDelete() {
+    this.router.navigate(['/dashboard']);
+  }
 }

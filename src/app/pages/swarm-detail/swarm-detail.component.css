@@ -2,3 +2,7 @@
     max-height: 400px;
     overflow-y: scroll;
 }
+
+.swarm-detail .delete-test-button {
+    margin-left: 5px;
+}

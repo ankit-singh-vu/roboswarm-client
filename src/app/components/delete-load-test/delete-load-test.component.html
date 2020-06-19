@@ -1,7 +1,22 @@
 <button type="button"
         *ngIf="!working && showButton()"
-        (click)="deleteLoadTest()"
+        (click)="deleteLoadTest(deleteLoadTestModal)"
         class="btn btn-danger waves-effect w-md waves-light m-b-5">
   Delete Load Test
 </button>
 <app-spinner [show]="working"></app-spinner>
+<ng-template #deleteLoadTestModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Load Test</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this load test?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('delete')">Delete Load Test</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('cancel')">Cancel</button>
+  </div>
+</ng-template>
