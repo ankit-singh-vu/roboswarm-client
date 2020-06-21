@@ -31,7 +31,9 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   formattedFailureData = [];
   formattedResultData = [];
   formattedDistributionData = [];
+  formattedResponseTimeData = [];
   loading: boolean;
+  editName: false;
 
   // Request Chart
   showXAxis = true;
@@ -41,6 +43,9 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   showYAxisLabel = true;
   yAxisLabel = 'Requests';
   view = [500, 300];
+
+  // Response Time Chart
+  responseTimeYAxisLabel = 'Response Time (ms)';
 
   // Distribution Chart
   distributionXAxisLabel = '% of requests completed in N milliseconds';
@@ -94,7 +99,13 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   fetchFinalMetrics = async () => {
     const result: LoadTestMetricsFinal = await this.swarmService.getMetricsFinal(this.id);
     this.distributionDataFinal = result.distribution;
-    this.requestDataFinal = result.requests;
+    this.requestDataFinal = result.requests.map(rdf => {
+      return {
+        ...rdf,
+        method: rdf.method.replace('"', '').replace('"', ''),
+        route: rdf.route.replace('"', '').replace('"', '')
+      };
+    });
   }
 
   fetchUpdatedMetrics = async () => {
@@ -138,10 +149,11 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   formatData() {
     // Take the distribution data and the request data and put into format.
+    const orderedData = this.requestData.slice().reverse();
     this.formattedResultData = [
       {
         name: 'Requests / second',
-        series: this.requestData.slice().reverse().map(r => {
+        series: orderedData.map(r => {
           return {
             value: r.requests_per_second,
             name: new Date(r.created_at)
@@ -150,7 +162,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Failures / second',
-        series: this.requestData.slice().reverse().map(r => {
+        series: orderedData.map(r => {
           return {
             value: r.failures_per_second,
             name: new Date(r.created_at)
@@ -159,9 +171,30 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       }
     ];
 
+    this.formattedResponseTimeData = [
+      {
+        name: 'Response Time (Average)',
+        series: orderedData.map(r => {
+          return {
+            value: r.average_response_time,
+            name: new Date(r.created_at)
+          };
+        })
+      },
+      {
+        name: 'Response Time (Median)',
+        series: orderedData.map(r => {
+          return {
+            value: r.median_response_time,
+            name: new Date(r.created_at)
+          };
+        })
+      }
+    ];
+
     this.formattedFailureData = [{
       name: 'Failures',
-      series: this.requestData.slice().reverse().map(r => {
+      series: orderedData.map(r => {
         return {
           value: r.failures,
           name: new Date(r.created_at)

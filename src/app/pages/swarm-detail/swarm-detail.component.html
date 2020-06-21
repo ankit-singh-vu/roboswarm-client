@@ -65,16 +65,16 @@
         <div class="col-sm-6">
             <div class="card m-b-20 card-body"
                 *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Total Failed Requests</h4>
+                <h4 class="card-title">Average / Median Response Time</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
-                    [results]="formattedFailureData"
+                    [results]="formattedResponseTimeData"
                     [xAxis]="showXAxis"
                     [yAxis]="showYAxis"
                     [showXAxisLabel]="showXAxisLabel"
                     [showYAxisLabel]="showYAxisLabel"
                     [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
+                    [yAxisLabel]="responseTimeYAxisLabel"
                     [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
@@ -95,6 +95,28 @@
                     </ngx-charts-bar-vertical>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
+                <h4 class="card-title">Total Failed Requests</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedFailureData"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            TBD
         </div>
     </div>
     <div class="row">
@@ -204,7 +226,6 @@
                 <table class="table table-striped m-0">
                     <thead>
                         <tr>
-                            <th>Time</th>
                             <th>Method</th>
                             <th>Route</th>
                             <th>Requests</th>
@@ -219,7 +240,6 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of requestDataFinal">
-                            <td>{{ row.created_at | date:"medium" }}</td>
                             <td>{{ row.method }}</td>
                             <td>{{ row.route }}</td>
                             <td>{{ row.requests }}</td>
