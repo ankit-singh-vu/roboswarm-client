@@ -29,12 +29,17 @@ export class BillingComponent implements OnInit {
   }
 
   async selectPlan(planName: string) {
+    this.error = undefined;
     this.disableButtons = true;
     this.planToSelect = planName;
     this.error = undefined;
     const result: RequestResult = await this.userService.selectPlan(planName);
-    if (result.statusCode === 500) {
-      this.error = result.data;
+    console.log({ result });
+    if (!result.statusCode) {
+      const res: any = result.err.response;
+      if (res.status === 500 || res.status === 400) {
+        this.error = res.data;
+      }
     } else {
       this.user = await this.userService.getCurrentUser();
     }
@@ -60,6 +65,7 @@ export class BillingComponent implements OnInit {
         await this.userService.updateCard(token.id, token.card.id);
         this.user = await this.userService.getCurrentUser();
         this.disableButtons = false;
+        this.error = undefined;
         this.metrics.track('BILLING_ADD_CARD', { user: this.user });
       },
       closed: async () => {
@@ -67,6 +73,15 @@ export class BillingComponent implements OnInit {
       }
     });
     handler.open();
+  }
+
+  async deleteCard() {
+    this.disableButtons = true;
+    await this.userService.deleteCard();
+    this.disableButtons = false;
+    this.loading = true;
+    this.user = await this.userService.getCurrentUser();
+    this.loading = false;
   }
 
 }

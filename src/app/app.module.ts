@@ -90,6 +90,6 @@ import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-
 })
 export class AppModule {
   constructor(private _tokenService: TokenService) {
-    console.log('launching app...');
+    console.log('Launching Roboswarm...');
   }
 }

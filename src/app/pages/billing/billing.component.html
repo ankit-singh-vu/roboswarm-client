@@ -9,22 +9,6 @@
     <div class="row m-t-10">
       <div *ngIf="!loading" class="col-md-10 offset-md-1">
           <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
-                    <div class="card m-b-20 card-body">
-                        <h4 class="card-title">Add or Update Credit Card</h4>
-                        <p class="card-text">
-                            Before you can select a higher level RoboSwarm plan you will need to add a valid credit card.
-                        </p>
-                        <button (click)="addOrUpdateCard()" [disabled]="disableButtons" class="btn btn-primary">Add or Update Credit Card</button>
-                        <div class="alert alert-info card-exists" *ngIf="user && user.stripe_card_id && user.stripe_card_id !== ''">
-                            You have a credit card on file with RoboSwarm.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3"></div>
-          </div>
-          <div class="row">
               <!--Pricing Column-->
               <article class="pricing-column col-xl-4 col-md-6">
                   <div class="inner-box card-box">
@@ -34,26 +18,25 @@
                           <div class="plan-duration">Per Month</div>
                       </div>
                       <ul class="plan-stats list-unstyled text-center">
-                          <li>5 Machine Hours / month</li>
                           <li>2 Load Tests / month</li>
-                          <li>15 Minutes Max Load Test Duration</li>
-                          <li>5 Day Data Retention</li>
+                          <li>20 Minutes Max Load Test Duration</li>
+                          <li>5 Virtual Users</li>
                           <li>Email Support</li>
                       </ul>
 
                       <div class="text-center">
-                            <button *ngIf="user.stripe_plan_description === 'free'"
+                            <button *ngIf="user.stripe_plan_description === '2020-roboswarm-free'"
                                 disabled
                                 class="btn btn-secondary btn-bordred btn-rounded waves-effect waves-light">
                                 Current Plan
                             </button>
-                            <button *ngIf="user.stripe_plan_description !== 'free'"
+                            <button *ngIf="user.stripe_plan_description !== '2020-roboswarm-free'"
                                 [disabled]="disableButtons"
                                 class="btn btn-success btn-bordred btn-rounded waves-effect waves-light"
-                                (click)="selectPlan('free')">
+                                (click)="selectPlan('2020-roboswarm-free')">
                                 Select Plan
                             </button>
-                            <div *ngIf="error && planToSelect === 'free'" class="alert alert-danger">{{ error }}</div>
+                            <div *ngIf="error && planToSelect === '2020-roboswarm-free'" class="alert alert-danger">{{ error }}</div>
                       </div>
                   </div>
               </article>
@@ -63,32 +46,30 @@
                   <div class="inner-box card-box">
                       <div class="plan-header text-center">
                           <h3 class="plan-title">Startup</h3>
-                          <h2 class="plan-price">$79</h2>
+                          <h2 class="plan-price">$29</h2>
                           <div class="plan-duration">Per Month</div>
                       </div>
                       <ul class="plan-stats list-unstyled text-center">
-                          <li>1000 Machine Hours / month</li>
-                          <li>30 Load Tests / month</li>
+                          <li>20 Load Tests / month</li>
                           <li>2 Hour Max Load Test Duration</li>
-                          <li>90 Day Data Retention</li>
-                          <li>Scheduled Live Chat &amp; Email Support</li>
+                          <li>500 Virtual Users</li>
+                          <li>Scheduled Video Chat &amp; Email Support</li>
                       </ul>
 
                       <div class="text-center">
-                            <button *ngIf="user.stripe_plan_description === 'startup'"
+                            <button *ngIf="user.stripe_plan_description === '2020-roboswarm-startup'"
                                 disabled
                                 class="btn btn-secondary btn-bordred btn-rounded waves-effect waves-light">
                                 Current Plan
                             </button>
-                            <button *ngIf="user.stripe_plan_description !== 'startup'"
+                            <button *ngIf="user.stripe_plan_description !== '2020-roboswarm-startup'"
                                 [disabled]="disableButtons"
                                 class="btn btn-success btn-bordred btn-rounded waves-effect waves-light"
-                                (click)="selectPlan('startup')">
+                                (click)="selectPlan('2020-roboswarm-startup')">
                                 Select Plan
                             </button>
                             <br />
-                            <i *ngIf="user.stripe_plan_description !== 'startup'" >Note: You will be charged immediately for the current month.</i>
-                            <div *ngIf="error && planToSelect === 'startup'" class="alert alert-danger">{{ error }}</div>
+                            <div *ngIf="error && planToSelect === '2020-roboswarm-startup'" class="alert alert-danger">{{ error }}</div>
                       </div>
                   </div>
               </article>
@@ -97,41 +78,54 @@
                   <div class="inner-box card-box">
                       <div class="plan-header text-center">
                           <h3 class="plan-title">Enterprise</h3>
-                          <h2 class="plan-price">$399</h2>
+                          <h2 class="plan-price">$59</h2>
                           <div class="plan-duration">Per Month</div>
                       </div>
                       <ul class="plan-stats list-unstyled text-center">
-                          <li>7000 Machine Hours / month</li>
-                          <li>300 Load Tests / Month</li>
-                          <li>6 Hour Max Load Test Duration</li>
-                          <li>1 Year Data Retention</li>
-                          <li>API Access</li>
-                          <li>User &amp; Group Management</li>
-                          <li>Live Chat, Phone, &amp; Email Support</li>
+                          <li>50 Load Tests / month</li>
+                          <li>4 Hour Max Load Test Duration</li>
+                          <li>200 Virtual Users</li>
+                          <li>Scheduled Video Chat &amp; Email Support</li>
                       </ul>
-
                       <div class="text-center">
-                          <button disabled href="#" class="btn btn-success btn-bordred btn-rounded waves-effect waves-light">Coming Soon!</button>
+                            <button *ngIf="user.stripe_plan_description === '2020-roboswarm-enterprise'"
+                                disabled
+                                class="btn btn-secondary btn-bordred btn-rounded waves-effect waves-light">
+                                Current Plan
+                            </button>
+                            <button *ngIf="user.stripe_plan_description !== '2020-roboswarm-enterprise'"
+                                [disabled]="disableButtons"
+                                class="btn btn-success btn-bordred btn-rounded waves-effect waves-light"
+                                (click)="selectPlan('2020-roboswarm-enterprise')">
+                                Select Plan
+                            </button>
+                            <br />
+                            <div *ngIf="error && planToSelect === '2020-roboswarm-enterprise'" class="alert alert-danger">{{ error }}</div>
                       </div>
                   </div>
               </article>
-
-              <!--Pricing Column-->
-              <!--<article class="pricing-column col-xl-3 col-md-6">
-                  <div class="inner-box card-box">
-                      <div class="plan-header text-center">
-                          <h3 class="plan-title">Custom</h3>
-                          <h2 class="plan-price">Contact Us</h2>
-                      </div>
-                      <ul class="plan-stats list-unstyled text-center">
-                          <li>Need more machine hours?</li>
-                          <li>Need more load tests?</li>
-                          <li>Contact us! We'll create a tailored plan just for you.</li>
-                      </ul>
-                  </div>
-              </article>-->
-
           </div><!-- end row -->
+          <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="card m-b-20 card-body">
+                        <h4 class="card-title">Add or Update Credit Card</h4>
+                        <p class="card-text">
+                            Before you can select a higher level RoboSwarm plan you will need to add a valid credit card.
+                        </p>
+                        <button
+                            (click)="addOrUpdateCard()"
+                            [disabled]="disableButtons"
+                            class="btn btn-primary card-modify">Add or Update Credit Card</button>
+                        <button
+                            *ngIf="user && user.stripe_card_id && user.stripe_card_id !== ''"
+                            (click)="deleteCard()"
+                            [disabled]="disableButtons"
+                            class="btn btn-danger card-modify">Delete Card</button>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+          </div>
       </div>
     </div>
   </div>

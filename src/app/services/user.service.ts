@@ -55,4 +55,13 @@ export class UserService {
     };
     await this.http.request(options);
   }
+
+  async deleteCard(): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: '/api/v1/user/me/card'
+    };
+    await this.http.request(options);
+  }
 }
