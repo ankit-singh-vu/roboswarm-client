@@ -51,9 +51,9 @@ export class BillingComponent implements OnInit {
     this.disableButtons = true;
     const handler = StripeCheckout.configure({
       key: environment.stripeApiPublic,
-      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      image: 'https://kernl.us/static/img/kernl_cloud.png',
       locale: 'auto',
-      name: 'RoboSwarm',
+      name: 'RoboSwarm by Kernl',
       description: 'Add or Update Credit Card',
       panelLabel: 'Save Credit Card',
       label: 'Save Credit Card',
