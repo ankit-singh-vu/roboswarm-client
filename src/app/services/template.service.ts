@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
+import { HttpService, HttpRequestOptions} from './http.service';
 
 export interface Template {
   id?: number;
@@ -19,6 +19,12 @@ export interface TemplateRoute {
 
 export interface TemplateHydrated extends Template {
   routes: TemplateRoute[];
+}
+
+export enum WordPressRouteType {
+  AUTHENTICATED_FRONTEND_NAVIGATE,
+  AUTHENTICATED_ADMIN_NAVIGATE,
+  UNAUTHENTICATED_FRONTEND_NAVIGATE
 }
 
 @Injectable({

@@ -19,11 +19,12 @@
       <div class="col-sm-5"></div>
     </div>
     <div *ngIf="!loading" class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <div class="card m-b-20 card-body">
-                <p>Each load test you run executes against a load test template. A template is a collection of routes that define where Roboswarm should send traffic to. If you aren't sure where to start, click the "Add Load Test Template" button and we'll walk you through the process.</p>
-            </div>
+        <div class="col-sm-3">
+          <div class="card m-b-20 card-body">
+              <p>Each load test you run executes against a load test template. A template is a collection of routes that define where Roboswarm should send traffic to. If you aren't sure where to start, click the "Add Load Test Template" button and we'll walk you through the process.</p>
+          </div>
+        </div>
+        <div class="col-sm-9">
             <div class="card m-b-20 card-body">
               <table class="table table-striped">
                 <thead>
@@ -51,7 +52,6 @@
               </table>
           </div>
         </div>
-        <div class="col-sm-3"></div>
     </div>
 </div>
 <app-footer></app-footer>

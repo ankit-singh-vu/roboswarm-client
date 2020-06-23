@@ -31,7 +31,6 @@
                 <p *ngIf="!swarm.destroyed_at"><b>Current Users: </b>{{ getCurrentUsers() }}</p>
                 <p><b>Total Users: </b> {{ swarm.simulated_users }}</p>
                 <p><b>Ramp Up: </b> {{ swarm.spawn_rate }} user(s) per second</p>
-                <p><b>Swarm Size: </b> {{ swarm.size }} + 1 master</p>
                 <p><b>Site: </b> {{ swarm.host_url }}</p>
                 <p><b>Duration: {{ swarm.duration }} minutes</b></p>
                 <p><b>Region(s): </b> {{ getFormattedRegions(swarm.region) }}</p>
@@ -58,6 +57,11 @@
                     [yAxisLabel]="yAxisLabel"
                     [autoScale]="true"></ngx-charts-line-chart>
                 </div>
+            </div>
+            <div class="card m-b-20 card-body"
+                *ngIf="!loading && !requestData || requestData.length === 0">
+                <h4 class="card-title">No Data</h4>
+                We don't have data yet for this test. If it just started check back in a minute or two.
             </div>
         </div>
     </div>
@@ -116,7 +120,6 @@
             </div>
         </div>
         <div class="col-sm-6">
-            TBD
         </div>
     </div>
     <div class="row">

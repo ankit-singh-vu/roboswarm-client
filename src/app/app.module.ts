@@ -40,6 +40,7 @@ import { DeleteLoadTestComponent } from './components/delete-load-test/delete-lo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TemplatesComponent } from './pages/templates/templates.component';
 import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
+import { WordpressRouteComponent } from './components/wordpress-route/wordpress-route.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-
     VerifySiteOwnershipButtonComponent,
     DeleteLoadTestComponent,
     TemplatesComponent,
-    TemplatesAddEditComponent
+    TemplatesAddEditComponent,
+    WordpressRouteComponent
   ],
   imports: [
     BrowserModule,

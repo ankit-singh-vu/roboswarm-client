@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateService, Template, TemplateRoute, TemplateHydrated } from '../../services/template.service';
+import { TemplateService, Template, TemplateRoute, TemplateHydrated, WordPressRouteType } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
   sitemapUrl: string;
+}
+
+interface WordPressRouteTemplate {
+  name: string;
+  description: string;
+  routeType: WordPressRouteType;
 }
 
 @Component({
@@ -27,6 +33,23 @@ export class TemplatesAddEditComponent implements OnInit {
   submitted = false;
   working = true;
   error = '';
+  wordpressRouteTypes: WordPressRouteTemplate[] = [
+    {
+      name: 'Authenticated Frontend Browsing',
+      description: 'Roboswarm will authenticate with a WordPress user and then navigate routes in your sitemap.xml file.',
+      routeType: WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE
+    },
+    {
+      name: 'Authenticated WordPress Admin Browsing',
+      description: 'Roboswarm will authenticate with a WordPress user and then navigate around the /wp-admin section of your site.',
+      routeType: WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE
+    },
+    {
+      name: 'Unauthenticated Frontend Browsing',
+      description: 'Roboswarm will browse all pages listed in you sitemap.xml file while not logged in.',
+      routeType: WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE
+    }
+  ];
 
   constructor(private route: ActivatedRoute,
               private templateService: TemplateService,
@@ -98,4 +121,9 @@ export class TemplatesAddEditComponent implements OnInit {
     return (item.id);
   }
 
+  onWpRouteAdd(routeType: WordPressRouteType) {
+    // Add a route to the routes list. We may need to render
+    // some additional configuration in the route panel that gets
+    // rendered there (sitemap.xml, user to authenticate with, etc)
+  }
 }
