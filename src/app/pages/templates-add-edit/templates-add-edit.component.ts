@@ -160,16 +160,36 @@ export class TemplatesAddEditComponent implements OnInit {
     }
     /*
     Todo:
-      - next: display these 'complex routes' in the template area. They should
+      # next: display these 'complex routes' in the template area. They should
              just be boxes like they are now, with a remove button instead.
-      - next+0: Need fields (optional) in left side with username/password to
-        authenticate with. If they are not filled out, authenticated routes are
-        disabled.
+      - In the area to add templates, need to make sure we can't select
+        WP frontend routes without sitemap and that we can't select authenticated
+        routes with username/password. Will need UI for username/password.
       - next+1: Need to serialize the complex route object and POST it to the
-            backend. Save thes
+            backend. Save these as JSON maybe?
       - Allow user to select percentage of traffic that will use specific route
         types. default to even split, but allow to change so long as it adds up
         to 100. <---- NOT MVP
     */
+  }
+
+  private hasModelRoutes(): boolean {
+    return this.model.routes && this.model.routes.length > 0;
+  }
+
+  private hasComplexRoutes(): boolean {
+    return this.complexRoutes && this.complexRoutes.length > 0;
+  }
+
+  hasRoutes(): boolean {
+    return this.hasModelRoutes() || this.hasComplexRoutes();
+  }
+
+  deleteComplexRouteAtIndex(i: number): void {
+    this.complexRoutes.splice(i, 1);
+  }
+
+  getWordPressRouteTypeName(routeType: WordPressRouteType): string {
+    return this.templateService.getWordPressRouteTypeName(routeType);
   }
 }

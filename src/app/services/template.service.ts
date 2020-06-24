@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions} from './http.service';
+import { WordpressRouteComponent } from '../components/wordpress-route/wordpress-route.component';
 
 export interface Template {
   id?: number;
@@ -106,5 +107,18 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as TemplateRoute[];
+  }
+
+  getWordPressRouteTypeName(routeType: WordPressRouteType): string {
+    switch (routeType) {
+      case WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE:
+        return 'Authenticated Admin Navigation';
+      case WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE:
+        return 'Authenticated Frontend Navigation';
+      case WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE:
+        return 'Unauthenticated Frontend Navigation';
+      default:
+        return '';
+    }
   }
 }
