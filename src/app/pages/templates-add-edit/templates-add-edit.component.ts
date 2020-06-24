@@ -14,6 +14,12 @@ interface WordPressRouteTemplate {
   routeType: WordPressRouteType;
 }
 
+interface WordPressRoute {
+  routeType: WordPressRouteType;
+  routes: TemplateRoute[];
+  sitemapUrl?: string;
+}
+
 @Component({
   selector: 'app-templates-add-edit',
   templateUrl: './templates-add-edit.component.html',
@@ -25,6 +31,7 @@ export class TemplatesAddEditComponent implements OnInit {
     routes: [],
     sitemapUrl: null
   };
+  complexRoutes: WordPressRoute[] = [];
   tmpRoute =  '';
   id: number = null;
   existingTemplate: TemplateHydrated = null;
@@ -35,7 +42,7 @@ export class TemplatesAddEditComponent implements OnInit {
   error = '';
   wordpressRouteTypes: WordPressRouteTemplate[] = [
     {
-      name: 'Authenticated Frontend Browsing',
+      name: 'Authenticated WordPress Frontend Browsing',
       description: 'Roboswarm will authenticate with a WordPress user and then navigate routes in your sitemap.xml file.',
       routeType: WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE
     },
@@ -45,8 +52,8 @@ export class TemplatesAddEditComponent implements OnInit {
       routeType: WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE
     },
     {
-      name: 'Unauthenticated Frontend Browsing',
-      description: 'Roboswarm will browse all pages listed in you sitemap.xml file while not logged in.',
+      name: 'Unauthenticated Wordpress Frontend Browsing',
+      description: 'Roboswarm will browse all pages listed in your sitemap.xml file while not logged in.',
       routeType: WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE
     }
   ];
@@ -121,9 +128,48 @@ export class TemplatesAddEditComponent implements OnInit {
     return (item.id);
   }
 
-  onWpRouteAdd(routeType: WordPressRouteType) {
-    // Add a route to the routes list. We may need to render
-    // some additional configuration in the route panel that gets
-    // rendered there (sitemap.xml, user to authenticate with, etc)
+  async onWpRouteAdd(routeType: WordPressRouteType) {
+    switch (routeType) {
+      case WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE:
+        this.complexRoutes.push({
+          routeType,
+          routes: [
+            { method: 'GET', path: '/wp-admin/index.php' },
+            { method: 'GET', path: '/wp-admin/edit.php' },
+            { method: 'GET', path: '/wp-admin/edit-tags.php' },
+            { method: 'GET', path: '/wp-admin/upload.php' },
+            { method: 'GET', path: '/wp-admin/edit.php?post_type=page' },
+            { method: 'GET', path: '/wp-admin/edit-comments.php' },
+            { method: 'GET', path: '/wp-admin/profile.php' },
+            { method: 'GET', path: '/wp-admin/edit-comments.php' },
+          ],
+        });
+        break;
+      case WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE:
+        this.complexRoutes.push({
+          routeType,
+          routes: await this.templateService.getSitemap(this.model.sitemapUrl)
+        });
+        break;
+      case WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE:
+        this.complexRoutes.push({
+          routeType,
+          routes: await this.templateService.getSitemap(this.model.sitemapUrl)
+        });
+        break;
+    }
+    /*
+    Todo:
+      - next: display these 'complex routes' in the template area. They should
+             just be boxes like they are now, with a remove button instead.
+      - next+0: Need fields (optional) in left side with username/password to
+        authenticate with. If they are not filled out, authenticated routes are
+        disabled.
+      - next+1: Need to serialize the complex route object and POST it to the
+            backend. Save thes
+      - Allow user to select percentage of traffic that will use specific route
+        types. default to even split, but allow to change so long as it adds up
+        to 100. <---- NOT MVP
+    */
   }
 }
