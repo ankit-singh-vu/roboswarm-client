@@ -2,16 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { TemplateService, Template, TemplateRoute, TemplateHydrated, WordPressRouteType } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
 
 interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
   sitemapUrl: string;
-}
-
-interface WordPressRouteTemplate {
-  name: string;
-  description: string;
-  routeType: WordPressRouteType;
+  username?: string;
 }
 
 interface WordPressRoute {
@@ -29,7 +25,8 @@ export class TemplatesAddEditComponent implements OnInit {
   model: AddEditTemplate = {
     name: '',
     routes: [],
-    sitemapUrl: null
+    sitemapUrl: null,
+    username: null
   };
   complexRoutes: WordPressRoute[] = [];
   tmpRoute =  '';
@@ -40,21 +37,31 @@ export class TemplatesAddEditComponent implements OnInit {
   submitted = false;
   working = true;
   error = '';
-  wordpressRouteTypes: WordPressRouteTemplate[] = [
+
+  wordpressRouteTypes: WordPressRouteFields[] = [
     {
       name: 'Authenticated WordPress Frontend Browsing',
       description: 'Roboswarm will authenticate with a WordPress user and then navigate routes in your sitemap.xml file.',
-      routeType: WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE
+      routeType: WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE,
+      hasPassword: false,
+      hasUsername: false,
+      hasSitemap: false
     },
     {
       name: 'Authenticated WordPress Admin Browsing',
       description: 'Roboswarm will authenticate with a WordPress user and then navigate around the /wp-admin section of your site.',
-      routeType: WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE
+      routeType: WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE,
+      hasPassword: false,
+      hasUsername: false,
+      hasSitemap: false
     },
     {
       name: 'Unauthenticated Wordpress Frontend Browsing',
       description: 'Roboswarm will browse all pages listed in your sitemap.xml file while not logged in.',
-      routeType: WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE
+      routeType: WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE,
+      hasPassword: false,
+      hasUsername: false,
+      hasSitemap: false
     }
   ];
 
@@ -162,9 +169,12 @@ export class TemplatesAddEditComponent implements OnInit {
     Todo:
       # next: display these 'complex routes' in the template area. They should
              just be boxes like they are now, with a remove button instead.
-      - In the area to add templates, need to make sure we can't select
+      # In the area to add templates, need to make sure we can't select
         WP frontend routes without sitemap and that we can't select authenticated
         routes with username/password. Will need UI for username/password.
+      - next: When a user clicks "Add", we need to have a modal spinner that pops
+            up telling them we're adding their routes to the template.
+      - next: Work on the UI a bit. We're hiding too much below the fold
       - next+1: Need to serialize the complex route object and POST it to the
             backend. Save these as JSON maybe?
       - Allow user to select percentage of traffic that will use specific route
@@ -191,5 +201,20 @@ export class TemplatesAddEditComponent implements OnInit {
 
   getWordPressRouteTypeName(routeType: WordPressRouteType): string {
     return this.templateService.getWordPressRouteTypeName(routeType);
+  }
+
+  onModelChange(eventType: string, newValue: string) {
+    const hasValue = newValue && newValue.trim() !== '';
+    for (let i = 0; i < this.wordpressRouteTypes.length; i++) {
+      if (eventType === 'site_url') {
+        this.wordpressRouteTypes[i].hasSitemap = hasValue;
+      }
+      if (eventType === 'username') {
+        this.wordpressRouteTypes[i].hasUsername = hasValue;
+      }
+      if (eventType === 'password') {
+        this.wordpressRouteTypes[i].hasPassword = hasValue;
+      }
+    }
   }
 }

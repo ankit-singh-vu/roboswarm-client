@@ -27,17 +27,37 @@
                     type="text"
                     name="sitemapUrl"
                     id="sitemapUrl"
-                    required
+                    (ngModelChange)="onModelChange('site_url', $event)"
                     [(ngModel)]="model.sitemapUrl"
+                    [disabled]="submitted">
+              <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input class="form-control"
+                    type="text"
+                    name="username"
+                    id="username"
+                    (ngModelChange)="onModelChange('username', $event)"
+                    [(ngModel)]="model.username"
+                    [disabled]="submitted">
+              <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control"
+                    type="password"
+                    name="password"
+                    id="password"
+                    (ngModelChange)="onModelChange('password', $event)"
+                    [(ngModel)]="model.password"
                     [disabled]="submitted">
               <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
             </div>
             <div class="form-group">
               <app-wordpress-route
                 *ngFor="let wpRoute of wordpressRouteTypes"
-                [name]="wpRoute.name"
-                [description]="wpRoute.description"
-                [routeType]="wpRoute.routeType"
+                [fields]="wpRoute"
                 (clicked)="onWpRouteAdd($event)"></app-wordpress-route>
             </div>
             <div class="form-group">
