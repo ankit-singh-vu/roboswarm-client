@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateService, Template, TemplateRoute, TemplateHydrated, WordPressRouteType } from '../../services/template.service';
+import { TemplateService, Template, TemplateRoute, TemplateHydrated, WordPressRouteType, WordPressRoute, TemplateComplex } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
@@ -9,12 +9,6 @@ interface AddEditTemplate extends Template {
   sitemapUrl: string;
   username?: string;
   password?: string;
-}
-
-interface WordPressRoute {
-  routeType: WordPressRouteType;
-  routes: TemplateRoute[];
-  sitemapUrl?: string;
 }
 
 @Component({
@@ -103,10 +97,17 @@ export class TemplatesAddEditComponent implements OnInit {
 
   async onSubmit(form: NgForm) {
     this.saving = true;
+    const data: TemplateComplex = {
+      name: this.model.name,
+      siteUrl: this.model.sitemapUrl,
+      username: this.model.username,
+      password: this.model.password,
+      routes: this.complexRoutes
+    };
     if (!this.id) {
-      await this.templateService.create(this.model.name, this.model.routes);
+      await this.templateService.create(data);
     } else {
-      await this.templateService.update(this.id, this.model.name, this.model.routes);
+      await this.templateService.update(this.id, data);
     }
     this.saving = false;
     this.router.navigate(['/template']);

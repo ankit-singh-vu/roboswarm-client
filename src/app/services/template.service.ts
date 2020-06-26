@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions} from './http.service';
-import { WordpressRouteComponent } from '../components/wordpress-route/wordpress-route.component';
 
 export interface Template {
   id?: number;
@@ -20,6 +19,22 @@ export interface TemplateRoute {
 
 export interface TemplateHydrated extends Template {
   routes: TemplateRoute[];
+}
+
+export interface WordPressRoute {
+  routeType: WordPressRouteType;
+  routes: TemplateRoute[];
+  sitemapUrl?: string;
+}
+
+export interface TemplateComplex {
+  id?: number;
+  created_at?: Date;
+  name: string;
+  siteUrl?: string;
+  username?: string;
+  password?: string;
+  routes: WordPressRoute[];
 }
 
 export enum WordPressRouteType {
@@ -55,15 +70,12 @@ export class TemplateService {
     return result.data as Template[];
   }
 
-  async create(name: string, routes: TemplateRoute[]): Promise<Template> {
+  async create(data: TemplateComplex): Promise<Template> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'POST',
       url: '/api/v1/template',
-      data: {
-        name,
-        routes,
-      }
+      data
     };
     const result = await this.http.request(options);
     return result.data as Template;
@@ -78,21 +90,12 @@ export class TemplateService {
     await this.http.request(options);
   }
 
-  async update(id: number, name: string, routes: TemplateRoute[]): Promise<TemplateHydrated> {
+  async update(id: number, data: TemplateComplex): Promise<TemplateHydrated> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'PUT',
       url: `/api/v1/template/${id}`,
-      data: {
-        name,
-        routes: routes.map(r => {
-          return {
-            load_test_template_id: r.load_test_template_id,
-            method: r.method,
-            path: r.path
-          };
-        })
-      }
+      data
     };
     const result = await this.http.request(options);
     return result.data as TemplateHydrated;
