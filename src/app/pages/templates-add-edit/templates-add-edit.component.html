@@ -6,70 +6,73 @@
         <h4 class="page-title">Create Load Test Template</h4>
       </div>
     </div>
-    <form class="form-horizontal m-t-20" #createTemplateForm="ngForm">
+    <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" autocomplete="off">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-6">
           <div class="card m-b-20 card-body">
-            <div class="form-group">
-              <label for="name">Template Name</label>
-              <input class="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
-                    required
-                    [(ngModel)]="model.name"
-                    [disabled]="submitted">
-              <small class="form-text text-muted">The name of this load test template. Example: "Basic authenticated template"</small>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Template Name</label>
+                  <input class="form-control"
+                        type="text"
+                        name="name"
+                        id="name"
+                        required
+                        [(ngModel)]="model.name"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">The name of this load test template. Example: "Basic authenticated template"</small>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="sitemapUrl">Site URL</label>
+                  <input class="form-control"
+                        type="text"
+                        name="sitemapUrl"
+                        id="sitemapUrl"
+                        (ngModelChange)="onModelChange('site_url', $event)"
+                        [(ngModel)]="model.sitemapUrl"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">The URL of your site. We need this so we can fetch your site structure from your sitemap.xml file. Ex: https://example.com</small>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="sitemapUrl">Site URL</label>
-              <input class="form-control"
-                    type="text"
-                    name="sitemapUrl"
-                    id="sitemapUrl"
-                    (ngModelChange)="onModelChange('site_url', $event)"
-                    [(ngModel)]="model.sitemapUrl"
-                    [disabled]="submitted">
-              <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
-            </div>
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input class="form-control"
-                    type="text"
-                    name="username"
-                    id="username"
-                    (ngModelChange)="onModelChange('username', $event)"
-                    [(ngModel)]="model.username"
-                    [disabled]="submitted">
-              <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input class="form-control"
-                    type="password"
-                    name="password"
-                    id="password"
-                    (ngModelChange)="onModelChange('password', $event)"
-                    [(ngModel)]="model.password"
-                    [disabled]="submitted">
-              <small class="form-text text-muted">The URL of your site. Roboswarm will use your sitemap.xml to build out your load test in several of the scenarios below. Ex: https://example.com</small>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input class="form-control"
+                        type="text"
+                        name="username"
+                        id="username"
+                        autocomplete="off"
+                        (ngModelChange)="onModelChange('username', $event)"
+                        [(ngModel)]="model.username"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">(optional) The WordPress user we should authenticate with if an authenticated scenario is chosen.</small>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input class="form-control"
+                        type="text"
+                        name="password"
+                        id="password"
+                        autocomplete="off"
+                        (ngModelChange)="onModelChange('password', $event)"
+                        [(ngModel)]="model.password"
+                        [disabled]="submitted">
+                  <small class="form-text text-muted">(optional) The WordPress user's password if an authenticated scenario is chosen.</small>
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <app-wordpress-route
                 *ngFor="let wpRoute of wordpressRouteTypes"
                 [fields]="wpRoute"
                 (clicked)="onWpRouteAdd($event)"></app-wordpress-route>
-            </div>
-            <div class="form-group">
-              <label for="name">Custom Route</label>
-              <input class="form-control"
-                    type="text"
-                    name="tmpRoute"
-                    id="tmpRoute"
-                    (keyup.enter)="addTmpRoute($event)"
-                    [(ngModel)]="tmpRoute">
-              <small class="form-text text-muted">A custom route that might not be included in your sitemap.xml file. For instance: /api/v1/some-path.</small>
-              <button (click)="addTmpRoute($event)" [disabled]="!tmpRoute" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Add Custom Route</button>
             </div>
             <div class="form-group text-center mb-0">
                 <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
@@ -80,13 +83,17 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-8">
-            <div *ngIf="!hasRoutes()" class="alert alert-info">
+        <div class="col-sm-6">
+            <div *ngIf="working" align="center">
+              <app-spinner [show]="working"></app-spinner>
+              <p></p>
+              <p>Loading Scenario Data</p>
+            </div>
+            <div *ngIf="!working && !hasRoutes()" class="alert alert-info">
               You don't have any load test scenarios in this template yet. Use the menu on the left to add some.
             </div>
-            <div *ngIf="hasRoutes()" class="card m-b-20 card-body">
+            <div *ngIf="!working && hasRoutes()" class="card m-b-20 card-body">
               <p>These are the load test scenarios that we will run the load test against.</p>
-              <b>WordSpecific Scenarios</b>
               <table class="table">
                 <thead>
                   <tr>
@@ -107,30 +114,6 @@
                         You have not selected any WordPress specific load test scenarios.
                       </div>
                     </td>
-                  </tr>
-                </tbody>
-              </table>
-              <b>Custom Scenarios</b>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Route</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let route of model.routes; trackBy: trackByFn; let i = index;">
-                    <td>{{ route.method }}</td>
-                    <td>
-                      <input class="form-control"
-                        type="text"
-                        name="path-{{i}}"
-                        id="name-{{i}}"
-                        required
-                        [(ngModel)]="model.routes[i].path">
-                    </td>
-                    <td><button (click)="deleteRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button></td>
                   </tr>
                 </tbody>
               </table>

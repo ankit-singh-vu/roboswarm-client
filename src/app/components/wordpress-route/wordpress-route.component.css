@@ -16,3 +16,8 @@
     top: 50%;
     transform: translateY(-50%);
 }
+
+.wordpress-route-container .disabled-row {
+    margin-left: 10px;
+    margin-right: 10px;
+}

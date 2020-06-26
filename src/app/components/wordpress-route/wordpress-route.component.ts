@@ -46,7 +46,18 @@ export class WordpressRouteComponent {
     }
   }
 
-  getDisabledReason() {
+  getDisabledReason(): string {
+    switch (this.fields.routeType) {
+      case WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE: {
+        return 'Username and Password are required for this scenario.';
+      }
+      case WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE: {
+        return 'Username, Password, and Site URL are required for this scenario.';
+      }
+      case WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE: {
+        return 'Site URL is required for this scenario.';
+      }
+    }
   }
 
 }

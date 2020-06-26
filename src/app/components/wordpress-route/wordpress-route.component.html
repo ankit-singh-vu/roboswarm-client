@@ -1,13 +1,20 @@
-<div class="wordpress-route-container row">
-    <div class="col-sm-9">
-        <h4>{{ fields.name }}</h4>
-        <p>{{ fields.description }}</p>
+<div class="wordpress-route-container">
+    <div class="row">
+        <div class="col-sm-9">
+            <h4>{{ fields.name }}</h4>
+            <p>{{ fields.description }}</p>
+        </div>
+        <div class="col-sm-3">
+            <button
+                [disabled]="!isEnabled()"
+                (click)="onClick()"
+                type="button"
+                class="btn btn-primary btn-sm">Add</button>
+        </div>
     </div>
-    <div class="col-sm-3">
-        <button
-            [disabled]="!isEnabled()"
-            (click)="onClick()"
-            type="button"
-            class="btn btn-primary btn-sm">Add</button>
+    <div *ngIf="!isEnabled()" class="row disabled-row">
+        <div class="col-sm-12 alert alert-warning">
+            {{ getDisabledReason() }}
+        </div>
     </div>
 </div>

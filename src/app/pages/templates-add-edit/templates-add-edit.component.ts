@@ -8,6 +8,7 @@ interface AddEditTemplate extends Template {
   routes: TemplateRoute[];
   sitemapUrl: string;
   username?: string;
+  password?: string;
 }
 
 interface WordPressRoute {
@@ -26,7 +27,8 @@ export class TemplatesAddEditComponent implements OnInit {
     name: '',
     routes: [],
     sitemapUrl: null,
-    username: null
+    username: null,
+    password: null
   };
   complexRoutes: WordPressRoute[] = [];
   tmpRoute =  '';
@@ -82,8 +84,7 @@ export class TemplatesAddEditComponent implements OnInit {
   }
 
   canSave() {
-    return this.model.name.trim() !== ''
-      && this.model.routes.length > 0;
+    return this.model.name.trim() !== '' && this.complexRoutes.length > 0;
   }
 
   async importFromSitemap() {
@@ -136,6 +137,7 @@ export class TemplatesAddEditComponent implements OnInit {
   }
 
   async onWpRouteAdd(routeType: WordPressRouteType) {
+    this.working = true;
     switch (routeType) {
       case WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE:
         this.complexRoutes.push({
@@ -165,22 +167,7 @@ export class TemplatesAddEditComponent implements OnInit {
         });
         break;
     }
-    /*
-    Todo:
-      # next: display these 'complex routes' in the template area. They should
-             just be boxes like they are now, with a remove button instead.
-      # In the area to add templates, need to make sure we can't select
-        WP frontend routes without sitemap and that we can't select authenticated
-        routes with username/password. Will need UI for username/password.
-      - next: When a user clicks "Add", we need to have a modal spinner that pops
-            up telling them we're adding their routes to the template.
-      - next: Work on the UI a bit. We're hiding too much below the fold
-      - next+1: Need to serialize the complex route object and POST it to the
-            backend. Save these as JSON maybe?
-      - Allow user to select percentage of traffic that will use specific route
-        types. default to even split, but allow to change so long as it adds up
-        to 100. <---- NOT MVP
-    */
+    this.working = false;
   }
 
   private hasModelRoutes(): boolean {
