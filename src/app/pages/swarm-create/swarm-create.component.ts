@@ -4,7 +4,7 @@ import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service
 import { RequestResult } from '../../services/http.service';
 import { MetricsService } from '../../services/metrics.service';
 import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
-import { TemplateService, Template } from '../../services/template.service';
+import { TemplateService, TemplateSimple } from '../../services/template.service';
 
 interface CreateSwarmForm {
   name: string;
@@ -43,7 +43,7 @@ export class SwarmCreateComponent implements OnInit {
   error = '';
   test_type = 'headless';
   sites: SiteOwnership[] = [];
-  templates: Template[] = [];
+  templates: TemplateSimple[] = [];
 
   constructor(private router: Router,
               private swarmService: SwarmService,

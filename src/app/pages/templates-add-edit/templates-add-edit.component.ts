@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateService, Template, TemplateRoute, TemplateHydrated, WordPressRouteType, WordPressRoute, TemplateComplex } from '../../services/template.service';
+import {
+  TemplateService,
+  TemplateRoute,
+  WordPressRouteType,
+  WordPressRoute,
+  TemplateComplex } from '../../services/template.service';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
 
-interface AddEditTemplate extends Template {
-  routes: TemplateRoute[];
+interface AddEditTemplate extends TemplateComplex {
   sitemapUrl: string;
   username?: string;
   password?: string;
@@ -27,7 +31,6 @@ export class TemplatesAddEditComponent implements OnInit {
   complexRoutes: WordPressRoute[] = [];
   tmpRoute =  '';
   id: number = null;
-  existingTemplate: TemplateHydrated = null;
   saving = false;
   sitemapImportWorking = false;
   submitted = false;
@@ -70,9 +73,15 @@ export class TemplatesAddEditComponent implements OnInit {
     const tmpId = this.route.snapshot.params?.id;
     this.id = tmpId ? parseInt(tmpId, 10) : null;
     if (this.id) {
-      this.existingTemplate = await this.templateService.get(this.id);
-      this.model.name = this.existingTemplate.name;
-      this.model.routes = this.existingTemplate.routes;
+      const existingTemplate: TemplateComplex = await this.templateService.get(this.id);
+      this.model.name = existingTemplate.name;
+      this.model.sitemapUrl = existingTemplate.site_url;
+      this.model.username = existingTemplate.username;
+      this.model.password = existingTemplate.password;
+      this.complexRoutes = existingTemplate.routes;
+      this.onModelChange('site_url', this.model.sitemapUrl);
+      this.onModelChange('username', this.model.username);
+      this.onModelChange('password', this.model.password);
     }
     this.working = false;
   }
@@ -81,25 +90,11 @@ export class TemplatesAddEditComponent implements OnInit {
     return this.model.name.trim() !== '' && this.complexRoutes.length > 0;
   }
 
-  async importFromSitemap() {
-    this.sitemapImportWorking = true;
-    const results = await this.templateService.getSitemap(this.model.sitemapUrl);
-    const resultsWithId = results.map(r => {
-      return {
-        ...r,
-        id: Math.floor(Math.random() * 1000000) * 23
-      };
-    });
-    this.model.routes = this.model.routes.concat(resultsWithId);
-    this.model.sitemapUrl = '';
-    this.sitemapImportWorking = false;
-  }
-
   async onSubmit(form: NgForm) {
     this.saving = true;
     const data: TemplateComplex = {
       name: this.model.name,
-      siteUrl: this.model.sitemapUrl,
+      site_url: this.model.sitemapUrl,
       username: this.model.username,
       password: this.model.password,
       routes: this.complexRoutes
@@ -111,18 +106,6 @@ export class TemplatesAddEditComponent implements OnInit {
     }
     this.saving = false;
     this.router.navigate(['/template']);
-  }
-
-  addTmpRoute($event: Event) {
-    $event.stopImmediatePropagation();
-    if (this.tmpRoute.trim() !== '') {
-      this.model.routes.push({
-        id: Math.floor(Math.random() * 1000000) * 56,
-        method: 'GET',
-        path: this.tmpRoute
-      });
-      this.tmpRoute = '';
-    }
   }
 
   allFieldsCompleted(): boolean {

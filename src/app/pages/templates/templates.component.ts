@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TemplateService, Template } from '../../services/template.service';
+import { TemplateService, TemplateSimple } from '../../services/template.service';
 import * as moment from 'moment';
 
 @Component({
@@ -9,7 +9,7 @@ import * as moment from 'moment';
 })
 export class TemplatesComponent implements OnInit {
   loading = true;
-  templates: Template[] = [];
+  templates: TemplateSimple[] = [];
 
   constructor(private templateService: TemplateService) { }
 
