@@ -80,11 +80,11 @@ export class SwarmTileComponent implements OnInit {
   getFormattedStatus() {
     switch (this.data.status) {
       case 'new':
-        return 'Building Swarm';
+        return 'Deploying Infrastructure';
       case 'ready':
-        return 'Running';
+        return 'Running Load Test';
       case 'destroyed':
-        return 'Swarm Destroyed';
+        return 'Load Test Completed';
       default:
         return 'Error';
     }

@@ -125,7 +125,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Requests</h4>
+                <h4 class="card-title">Request Timings</h4>
                 <table class="table table-striped m-0">
                     <thead>
                         <tr>
@@ -150,7 +150,7 @@
                         <tr *ngIf="!loading && requestData && requestData.length === 0">
                             <td colspan="9">
                                 <div class="alert alert-info">
-                                    No load test request data available from this swarm. If the swarm just started, check back in a few minutes.
+                                    No load test request data available. If the load test just started check back in a minute or two to see your data.
                                 </div>
                             </td>
                         </tr>
@@ -200,7 +200,7 @@
                         <tr *ngIf="!loading && distributionData && distributionData.length === 0">
                             <td colspan="11">
                                 <div class="alert alert-info">
-                                    No load test distribution data available from this swarm. If the swarm just started, check back in a few minutes.
+                                    No response time distribution data available. If the load test just started check back in a minute or two to see your data.
                                 </div>
                             </td>
                         </tr>
