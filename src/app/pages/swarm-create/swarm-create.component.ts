@@ -39,6 +39,16 @@ export class SwarmCreateComponent implements OnInit {
     swarm_ui_type: 'headless',
     generate_test_from_template: true
   };
+  regions = [
+    { value: 'ams3', name: 'Amsterdam' },
+    { value: 'blr1', name: 'Bangalore' },
+    { value: 'fra1', name: 'Frankfurt' },
+    { value: 'lon1', name: 'London' },
+    { value: 'nyc3', name: 'New York City' },
+    { value: 'sfo2', name: 'San Francisco' },
+    { value: 'sgp1', name: 'Singapore' },
+    { value: 'tor1', name: 'Toronto' },
+  ];
   submitted = false;
   error = '';
   test_type = 'headless';
@@ -71,7 +81,7 @@ export class SwarmCreateComponent implements OnInit {
 
       try {
         const MACHINE_CPUS = 2;
-        let totalMachines = Math.ceil(this.model.simulated_users / (300 * MACHINE_CPUS));
+        let totalMachines = Math.ceil(this.model.simulated_users / (1200 * MACHINE_CPUS));
         if (this.model.swarm_region.length > totalMachines) {
           totalMachines = this.model.swarm_region.length;
         }

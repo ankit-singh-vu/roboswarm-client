@@ -30,15 +30,18 @@
                       <div *ngIf="!sites || sites.length === 0" class="alert alert-danger">
                         You have no verified sites to test. To verify a site, click the "Verify Site Ownership" menu item at the top of the page and follow the instructions.
                       </div>
-                      <select class="form-control"
-                        *ngIf="sites && sites.length > 0"
-                        id="site_id"
-                        name="site_id"
-                        required
-                        [(ngModel)]="model.site_id"
-                        [disabled]="submitted">
-                        <option *ngFor="let site of sites" [value]="site.id">{{site.base_url}}</option>
-                      </select>
+                      <ng-select
+                          [items]="sites"
+                          [multiple]="false"
+                          [closeOnSelect]="true"
+                          [searchable]="false"
+                          [disabled]='submitted'
+                          name="site_id"
+                          bindValue="id"
+                          bindLabel="base_url"
+                          placeholder="Select Site"
+                          [(ngModel)]="model.site_id">
+                      </ng-select>
                       <small class="form-text text-muted">The site that we will load test.</small>
                     </div>
                   </div>
@@ -48,15 +51,18 @@
                       <div *ngIf="!templates || templates.length === 0" class="alert alert-danger">
                         You have no templates created. Click the "Templates" menu to get started.
                       </div>
-                      <select class="form-control"
-                        *ngIf="templates && templates.length > 0"
-                        id="template_id"
-                        name="template_id"
-                        required
-                        [(ngModel)]="model.template_id"
-                        [disabled]="submitted">
-                        <option *ngFor="let template of templates" [value]="template.id">{{template.name}}</option>
-                      </select>
+                      <ng-select
+                          [items]="templates"
+                          [multiple]="false"
+                          [closeOnSelect]="true"
+                          [searchable]="false"
+                          [disabled]='submitted'
+                          name="template_id"
+                          bindValue="id"
+                          bindLabel="name"
+                          placeholder="Select Template"
+                          [(ngModel)]="model.template_id">
+                      </ng-select>
                       <small class="form-text text-muted">The load test template we will run against the site selected above.</small>
                     </div>
                   </div>
@@ -91,30 +97,26 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="swarm_region">Swarm Region(s)</label>
-                  <select class="form-control"
-                        id="swarm_region"
-                        name="swarm_region"
-                        multiple
-                        required
-                        [(ngModel)]="model.swarm_region"
-                        [disabled]="submitted">
-                    <option value="ams3">Amsterdam</option>
-                    <option value="blr1">Bangalore</option>
-                    <option value="fra1">Frankfurt</option>
-                    <option value="lon1">London</option>
-                    <option value="nyc3">New York City</option>
-                    <option value="sfo2">San Francisco</option>
-                    <option value="sgp1">Singapore</option>
-                    <option value="tor1">Toronto</option>
-                  </select>
+                  <label for="swarm_region">Load Test Region(s)</label>
+                  <ng-select
+                      [items]="regions"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [searchable]="false"
+                      [disabled]='submitted'
+                      name="swarm_region"
+                      bindValue="value"
+                      bindLabel="name"
+                      placeholder="Select 1 or more regions"
+                      [(ngModel)]="model.swarm_region">
+                  </ng-select>
                   <small class="form-text text-muted">The geographic location(s) that your load test traffic should originate from.</small>
                 </div>
                 <div class="form-group text-center m-t-40 mb-0">
                     <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
                             type="submit"
                             [disabled]="submitted || !allFieldsCompleted()">
-                      Create Swarm &amp; Start Load Test
+                      Start Load Test
                     </button>
                     <p></p>
                     <div *ngIf='error !== ""' class="alert alert-danger" role="alert">

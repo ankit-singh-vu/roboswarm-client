@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 // Authored Services
 import { HttpService } from './services/http.service';
@@ -73,11 +74,12 @@ import { WordpressRouteComponent } from './components/wordpress-route/wordpress-
   ],
   imports: [
     BrowserModule,
+    NgSelectModule,
     FormsModule,
     NgxChartsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [
     HttpService,

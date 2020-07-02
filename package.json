@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^10.0.1",
-    "@angular/cdk": "^9.2.3",
+    "@angular/cdk": "^10.0.1",
     "@angular/common": "^10.0.1",
     "@angular/compiler": "^10.0.1",
     "@angular/core": "^10.0.1",
@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^10.0.1",
     "@angular/router": "^10.0.1",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
+    "@ng-select/ng-select": "^4.0.4",
     "@swimlane/ngx-charts": "^14.0.0",
     "acorn": "^6.4.1",
     "aws-sdk": "^2.676.0",
