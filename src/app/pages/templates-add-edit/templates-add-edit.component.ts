@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   TemplateService,
-  TemplateRoute,
   WordPressRouteType,
   WordPressRoute,
   TemplateComplex } from '../../services/template.service';

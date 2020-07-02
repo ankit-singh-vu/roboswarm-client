@@ -23,6 +23,7 @@ export interface TemplateComplex {
   site_url?: string;
   username?: string;
   password?: string;
+  scenario_names?: string;
   routes: WordPressRoute[];
 }
 
