@@ -9,7 +9,6 @@ import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.compon
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
-import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
 import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
 import { TemplatesComponent} from './pages/templates/templates.component';
@@ -58,7 +57,6 @@ const routes: Routes = [
         ]
     },
     { path: 'plans-and-billing', component: BillingComponent },
-    { path: 'documentation', component: DocumentationComponent },
 
     // Home redirect.
     { path: '', redirectTo: 'login', pathMatch: 'full' },

@@ -32,7 +32,6 @@ import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.componen
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
 import { UserService } from './services/user.service';
-import { DocumentationComponent } from './pages/documentation/documentation.component';
 import { RepeatLoadTestComponent } from './components/repeat-load-test/repeat-load-test.component';
 import { SiteOwnershipVerificationComponent } from './pages/site-ownership-verification/site-ownership-verification.component';
 import { SiteOwnershipVerificationAddComponent } from './pages/site-ownership-verification-add/site-ownership-verification-add.component';
@@ -62,7 +61,6 @@ import { WordpressRouteComponent } from './components/wordpress-route/wordpress-
     SwarmDetailComponent,
     LogoutComponent,
     BillingComponent,
-    DocumentationComponent,
     RepeatLoadTestComponent,
     SiteOwnershipVerificationComponent,
     SiteOwnershipVerificationAddComponent,
