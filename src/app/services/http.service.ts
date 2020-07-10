@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
-import axios, { AxiosRequestConfig, Method } from 'axios';
+
+interface AngularHttpOptions {
+  headers?: HttpHeaders | {[header: string]: string | string[]};
+  observe?: 'body' | 'events' | 'response';
+  params?: HttpParams|{[param: string]: string | string[]};
+  reportProgress?: boolean;
+  responseType?: 'arraybuffer'|'blob'|'json'|'text';
+  withCredentials?: boolean;
+}
 
 export interface HttpRequestOptions {
   authenticated: boolean;
@@ -18,14 +27,12 @@ export interface RequestResult {
 
 @Injectable()
 export class HttpService {
-  private tokenService: TokenService;
-
-  constructor(private _tokenService: TokenService) {
-    this.tokenService = _tokenService;
+  constructor(private _tokenService: TokenService,
+              private _http: HttpClient) {
   }
 
   request(requestOptions: HttpRequestOptions): Promise<RequestResult> {
-    const options: AxiosRequestConfig = {
+    const options: AngularHttpOptions = {
       url: `${environment.serverUrl}${requestOptions.url}`,
       method: requestOptions.requestType as Method
     };
@@ -33,7 +40,7 @@ export class HttpService {
     // Add auth headers if required.
     if (requestOptions.authenticated) {
       options['headers'] =  {
-        Authorization: `Bearer ${this.tokenService.jwt}`
+        Authorization: `Bearer ${this._tokenService.jwt}`
       };
     }
 
