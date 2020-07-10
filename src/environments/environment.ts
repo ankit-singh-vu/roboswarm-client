@@ -7,12 +7,10 @@ interface AngularEnvironment {
   production: boolean;
   serverUrl: string;
   stripeApiPublic: string;
-  assetBase: string;
 }
 
 export const environment: AngularEnvironment = {
   production: false,
   serverUrl: 'http://localhost:3002',
-  stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF',
-  assetBase: ''
+  stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF'
 };

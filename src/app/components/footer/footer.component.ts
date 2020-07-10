@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -9,6 +8,5 @@ import { environment } from '../../../environments/environment';
 })
 export class FooterComponent {
   currentYear: string = moment().format('YYYY');
-  logoPath = `${environment.assetBase}/assets/images/logo.png`;
   constructor() {}
 }
