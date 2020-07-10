@@ -3,8 +3,16 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-export const environment = {
+export interface AngularEnvironment {
+  production: boolean;
+  serverUrl: string;
+  stripeApiPublic: string;
+  assetBase: string;
+}
+
+export const environment: AngularEnvironment = {
   production: false,
   serverUrl: 'http://localhost:3002',
-  stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF'
+  stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF',
+  assetBase: ''
 };
