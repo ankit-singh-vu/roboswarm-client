@@ -86,7 +86,7 @@
         <div class="col-sm-6">
             <div class="card m-b-20 card-body"
                  *ngIf="!loading && distributionData && distributionData.length > 0">
-                <h4 class="card-title">Request Distribution</h4>
+                <h4 class="card-title">Response Time Distribution</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-bar-vertical
                         [results]="formattedDistributionData"
@@ -124,180 +124,194 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Request Timings</h4>
-                <table class="table table-striped m-0">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Requests</th>
-                            <th>Failures</th>
-                            <th>Med. Time</th>
-                            <th>Avg. Time</th>
-                            <th>Min</th>
-                            <th>Max</th>
-                            <th>Avg. Size</th>
-                            <th>Req/s</th>
-                            <th>Failures/s</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngIf="loading">
-                            <td colspan="9" align="center">
-                                <app-spinner [show]="loading"></app-spinner>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!loading && requestData && requestData.length === 0">
-                            <td colspan="9">
-                                <div class="alert alert-info">
-                                    No load test request data available. If the load test just started check back in a minute or two to see your data.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr *ngFor="let row of requestData">
-                            <td>{{ row.created_at | date:"medium" }}</td>
-                            <td>{{ row.requests }}</td>
-                            <td>{{ row.failures }}</td>
-                            <td>{{ row.median_response_time }}</td>
-                            <td>{{ row.average_response_time }}</td>
-                            <td>{{ row.min_response_time }}</td>
-                            <td>{{ row.max_response_time }}</td>
-                            <td>{{ row.avg_content_size }}</td>
-                            <td>{{ row.requests_per_second }}</td>
-                            <td>{{ row.failures_per_second }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Distribution</h4>
-                <table class="table table-striped m-0">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Requests</th>
-                            <th>50%</th>
-                            <th>66%</th>
-                            <th>75%</th>
-                            <th>80%</th>
-                            <th>90%</th>
-                            <th>95%</th>
-                            <th>98%</th>
-                            <th>99%</th>
-                            <th>100%</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngIf="loading">
-                            <td colspan="11" align="center">
-                                <app-spinner [show]="loading"></app-spinner>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!loading && distributionData && distributionData.length === 0">
-                            <td colspan="11">
-                                <div class="alert alert-info">
-                                    No response time distribution data available. If the load test just started check back in a minute or two to see your data.
-                                </div>
-                            </td>
-                        </tr>
-                        <tr *ngFor="let row of distributionData">
-                            <td>{{ row.created_at | date:"medium" }}</td>
-                            <td>{{ row.requests }}</td>
-                            <td>{{ row.percentiles['50%'] }}</td>
-                            <td>{{ row.percentiles['66%'] }}</td>
-                            <td>{{ row.percentiles['75%'] }}</td>
-                            <td>{{ row.percentiles['80%'] }}</td>
-                            <td>{{ row.percentiles['90%'] }}</td>
-                            <td>{{ row.percentiles['95%'] }}</td>
-                            <td>{{ row.percentiles['98%'] }}</td>
-                            <td>{{ row.percentiles['99%'] }}</td>
-                            <td>{{ row.percentiles['100%'] }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="requestDataFinal && requestDataFinal.length > 0"class="row">
-        <div class="col-sm-12">
-            <div class="card m-b-20 card-body result-table">
-                <h4 class="card-title">Final Request Results</h4>
-                <table class="table table-striped m-0">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Route</th>
-                            <th>Requests</th>
-                            <th>Failures</th>
-                            <th>Med. Time</th>
-                            <th>Avg. Time</th>
-                            <th>Min</th>
-                            <th>Max</th>
-                            <th>Avg. Size</th>
-                            <th>Req/s</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of requestDataFinal">
-                            <td>{{ row.method }}</td>
-                            <td>{{ row.route }}</td>
-                            <td>{{ row.requests }}</td>
-                            <td>{{ row.failures }}</td>
-                            <td>{{ row.median_response_time }}</td>
-                            <td>{{ row.average_response_time }}</td>
-                            <td>{{ row.min_response_time }}</td>
-                            <td>{{ row.max_response_time }}</td>
-                            <td>{{ row.avg_content_size }}</td>
-                            <td>{{ row.requests_per_second }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="distributionDataFinal && distributionDataFinal.length > 0" class="row">
-        <div class="card m-b-20 card-body result-table">
-            <h4 class="card-title">Final Distribution Results</h4>
-            <table class="table table-striped m-0">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Method</th>
-                        <th>Route</th>
-                        <th>Requests</th>
-                        <th>50%</th>
-                        <th>66%</th>
-                        <th>75%</th>
-                        <th>80%</th>
-                        <th>90%</th>
-                        <th>95%</th>
-                        <th>98%</th>
-                        <th>99%</th>
-                        <th>100%</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let row of distributionDataFinal">
-                        <td>{{ row.created_at | date:"medium" }}</td>
-                        <td>{{ row.method }}</td>
-                        <td>{{ row.route }}</td>
-                        <td>{{ row.requests }}</td>
-                        <td>{{ row.percentiles['50%'] }}</td>
-                        <td>{{ row.percentiles['66%'] }}</td>
-                        <td>{{ row.percentiles['75%'] }}</td>
-                        <td>{{ row.percentiles['80%'] }}</td>
-                        <td>{{ row.percentiles['90%'] }}</td>
-                        <td>{{ row.percentiles['95%'] }}</td>
-                        <td>{{ row.percentiles['98%'] }}</td>
-                        <td>{{ row.percentiles['99%'] }}</td>
-                        <td>{{ row.percentiles['100%'] }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                    <a ngbNavLink>Request Timings</a>
+                    <ng-template ngbNavContent>
+                        <div class="card m-b-20 card-body result-table">
+                            <h4 class="card-title">Request Timings</h4>
+                            <table class="table table-striped m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Requests</th>
+                                        <th>Failures</th>
+                                        <th>Med. Time</th>
+                                        <th>Avg. Time</th>
+                                        <th>Min</th>
+                                        <th>Max</th>
+                                        <th>Avg. Size</th>
+                                        <th>Req/s</th>
+                                        <th>Failures/s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="loading">
+                                        <td colspan="9" align="center">
+                                            <app-spinner [show]="loading"></app-spinner>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!loading && requestData && requestData.length === 0">
+                                        <td colspan="9">
+                                            <div class="alert alert-info">
+                                                No load test request data available. If the load test just started check back in a minute or two to see your data.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let row of requestData">
+                                        <td>{{ row.created_at | date:"medium" }}</td>
+                                        <td>{{ row.requests }}</td>
+                                        <td>{{ row.failures }}</td>
+                                        <td>{{ row.median_response_time }}</td>
+                                        <td>{{ row.average_response_time }}</td>
+                                        <td>{{ row.min_response_time }}</td>
+                                        <td>{{ row.max_response_time }}</td>
+                                        <td>{{ row.avg_content_size }}</td>
+                                        <td>{{ row.requests_per_second }}</td>
+                                        <td>{{ row.failures_per_second }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <a ngbNavLink>Response Time Distribution</a>
+                    <ng-template ngbNavContent>
+                        <div class="card m-b-20 card-body result-table">
+                            <h4 class="card-title">Response Time Distribution</h4>
+                            <table class="table table-striped m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Requests</th>
+                                        <th>50%</th>
+                                        <th>66%</th>
+                                        <th>75%</th>
+                                        <th>80%</th>
+                                        <th>90%</th>
+                                        <th>95%</th>
+                                        <th>98%</th>
+                                        <th>99%</th>
+                                        <th>100%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="loading">
+                                        <td colspan="11" align="center">
+                                            <app-spinner [show]="loading"></app-spinner>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!loading && distributionData && distributionData.length === 0">
+                                        <td colspan="11">
+                                            <div class="alert alert-info">
+                                                No response time distribution data available. If the load test just started check back in a minute or two to see your data.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let row of distributionData">
+                                        <td>{{ row.created_at | date:"medium" }}</td>
+                                        <td>{{ row.requests }}</td>
+                                        <td>{{ row.percentiles['50%'] }}</td>
+                                        <td>{{ row.percentiles['66%'] }}</td>
+                                        <td>{{ row.percentiles['75%'] }}</td>
+                                        <td>{{ row.percentiles['80%'] }}</td>
+                                        <td>{{ row.percentiles['90%'] }}</td>
+                                        <td>{{ row.percentiles['95%'] }}</td>
+                                        <td>{{ row.percentiles['98%'] }}</td>
+                                        <td>{{ row.percentiles['99%'] }}</td>
+                                        <td>{{ row.percentiles['100%'] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="3" *ngIf="requestDataFinal && requestDataFinal.length > 0" >
+                    <a ngbNavLink>Final Request Results</a>
+                    <ng-template ngbNavContent>
+                        <div class="card m-b-20 card-body result-table">
+                        <h4 class="card-title">Final Request Results</h4>
+                        <table class="table table-striped m-0">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Route</th>
+                                    <th>Requests</th>
+                                    <th>Failures</th>
+                                    <th>Med. Time</th>
+                                    <th>Avg. Time</th>
+                                    <th>Min</th>
+                                    <th>Max</th>
+                                    <th>Avg. Size</th>
+                                    <th>Req/s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of requestDataFinal">
+                                    <td>{{ row.method }}</td>
+                                    <td>{{ row.route }}</td>
+                                    <td>{{ row.requests }}</td>
+                                    <td>{{ row.failures }}</td>
+                                    <td>{{ row.median_response_time }}</td>
+                                    <td>{{ row.average_response_time }}</td>
+                                    <td>{{ row.min_response_time }}</td>
+                                    <td>{{ row.max_response_time }}</td>
+                                    <td>{{ row.avg_content_size }}</td>
+                                    <td>{{ row.requests_per_second }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="4" *ngIf="distributionDataFinal && distributionDataFinal.length > 0">
+                    <a ngbNavLink>Final Response Time Distribution Results</a>
+                    <ng-template ngbNavContent>
+                        <div class="card m-b-20 card-body result-table">
+                            <h4 class="card-title">Final Response Time Distribution Results</h4>
+                            <table class="table table-striped m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Method</th>
+                                        <th>Route</th>
+                                        <th>Requests</th>
+                                        <th>50%</th>
+                                        <th>66%</th>
+                                        <th>75%</th>
+                                        <th>80%</th>
+                                        <th>90%</th>
+                                        <th>95%</th>
+                                        <th>98%</th>
+                                        <th>99%</th>
+                                        <th>100%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of distributionDataFinal">
+                                        <td>{{ row.created_at | date:"medium" }}</td>
+                                        <td>{{ row.method }}</td>
+                                        <td>{{ row.route }}</td>
+                                        <td>{{ row.requests }}</td>
+                                        <td>{{ row.percentiles['50%'] }}</td>
+                                        <td>{{ row.percentiles['66%'] }}</td>
+                                        <td>{{ row.percentiles['75%'] }}</td>
+                                        <td>{{ row.percentiles['80%'] }}</td>
+                                        <td>{{ row.percentiles['90%'] }}</td>
+                                        <td>{{ row.percentiles['95%'] }}</td>
+                                        <td>{{ row.percentiles['98%'] }}</td>
+                                        <td>{{ row.percentiles['99%'] }}</td>
+                                        <td>{{ row.percentiles['100%'] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
         </div>
     </div>
 </div>

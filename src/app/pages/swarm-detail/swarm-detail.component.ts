@@ -34,6 +34,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   formattedResponseTimeData = [];
   loading: boolean;
   editName: false;
+  activeTabId: number;
 
   // Request Chart
   showXAxis = true;
