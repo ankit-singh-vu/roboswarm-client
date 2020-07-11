@@ -44,6 +44,12 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   showYAxisLabel = true;
   yAxisLabel = 'Requests';
   view = [500, 300];
+  requestColorScheme = {
+    domain: [
+      '#009cff', // blue
+      '#ff8073'  // red
+    ]
+  };
 
   // Response Time Chart
   responseTimeYAxisLabel = 'Response Time (ms)';
