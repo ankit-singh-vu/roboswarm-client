@@ -42,6 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TemplatesComponent } from './pages/templates/templates.component';
 import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
 import { WordpressRouteComponent } from './components/wordpress-route/wordpress-route.component';
+import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swarm-detail-status.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { WordpressRouteComponent } from './components/wordpress-route/wordpress-
     DeleteLoadTestComponent,
     TemplatesComponent,
     TemplatesAddEditComponent,
-    WordpressRouteComponent
+    WordpressRouteComponent,
+    SwarmDetailStatusComponent
   ],
   imports: [
     BrowserModule,

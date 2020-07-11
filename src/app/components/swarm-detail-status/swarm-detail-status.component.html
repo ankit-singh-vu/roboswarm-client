@@ -1,0 +1,9 @@
+<div *ngIf="loadTestBroke()" class="alert alert-danger text-center">
+    <strong>Load test never started.</strong>
+</div>
+<div *ngIf="loadTestRunning()" class="alert alert-info text-center">
+    <strong>Load test in progress.</strong>
+</div>
+<div *ngIf="loadTestStopped()" class="alert alert-success text-center">
+    <strong>Load test complete.</strong>
+</div>

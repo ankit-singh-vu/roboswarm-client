@@ -37,9 +37,7 @@
                 <p *ngIf="swarm.ready_at">
                     <b>Started At: </b> {{ swarm.ready_at | date:"short" }}
                 </p>
-                <div *ngIf="!swarm.ready_at" class="alert alert-danger text-center">
-                    <strong>Load test never started.</strong>
-                </div>
+                <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
         </div>
         <div class="col-sm-9">
