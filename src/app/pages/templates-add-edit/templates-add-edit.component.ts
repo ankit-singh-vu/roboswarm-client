@@ -121,6 +121,11 @@ export class TemplatesAddEditComponent implements OnInit {
 
   async onWpRouteAdd(routeType: WordPressRouteType) {
     this.working = true;
+    const existingItem: WordPressRoute = this.complexRoutes.find(r => r.routeType === routeType);
+    if (existingItem) {
+      this.working = false;
+      return;
+    }
     switch (routeType) {
       case WordPressRouteType.AUTHENTICATED_ADMIN_NAVIGATE:
         this.complexRoutes.push({

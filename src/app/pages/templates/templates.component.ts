@@ -28,4 +28,8 @@ export class TemplatesComponent implements OnInit {
     return moment(d).format('MMM D YYYY');
   }
 
+  formatScenarioNames(names: string): string {
+    return names.split(',').join(', ');
+  }
+
 }

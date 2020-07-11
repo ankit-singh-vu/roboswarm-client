@@ -16,3 +16,7 @@
 .swarm-detail .nav-tabs {
     border-bottom: 0px;
 }
+
+.container-fluid {
+    margin-bottom: 20px;
+}
