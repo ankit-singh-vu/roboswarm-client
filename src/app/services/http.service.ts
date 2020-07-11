@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
-import axios, { AxiosRequestConfig, Method } from 'axios';
+
+interface AngularHttpOptions {
+  headers?: HttpHeaders | {[header: string]: string | string[]};
+  observe?: 'body' | 'events' | 'response';
+  params?: HttpParams|{[param: string]: string | string[]};
+  reportProgress?: boolean;
+  responseType?: 'arraybuffer'|'blob'|'json'|'text';
+  withCredentials?: boolean;
+}
 
 export interface HttpRequestOptions {
   authenticated: boolean;
@@ -18,22 +27,21 @@ export interface RequestResult {
 
 @Injectable()
 export class HttpService {
-  private tokenService: TokenService;
-
-  constructor(private _tokenService: TokenService) {
-    this.tokenService = _tokenService;
+  constructor(private _tokenService: TokenService,
+              private _http: HttpClient) {
   }
 
   request(requestOptions: HttpRequestOptions): Promise<RequestResult> {
-    const options: AxiosRequestConfig = {
-      url: `${environment.serverUrl}${requestOptions.url}`,
-      method: requestOptions.requestType as Method
+    const requestUrl = `${environment.serverUrl}${requestOptions.url}`;
+    const method: string = requestOptions.requestType;
+    const options: AngularHttpOptions = {
+      observe: 'response'
     };
 
     // Add auth headers if required.
     if (requestOptions.authenticated) {
       options['headers'] =  {
-        Authorization: `Bearer ${this.tokenService.jwt}`
+        Authorization: `Bearer ${this._tokenService.jwt}`
       };
     }
 
@@ -44,21 +52,32 @@ export class HttpService {
       }
     }
 
-    // Add post/put/patch data if required.
-    if (['POST', 'PUT', 'PATCH'].includes(requestOptions.requestType)) {
-      if (requestOptions.data) {
-        options['data'] = requestOptions.data;
-      }
-    }
-
-    return this.makeRequest(options);
+    return this.makeRequest(requestUrl, method, requestOptions.data, options);
   }
 
-  private async makeRequest(options: AxiosRequestConfig): Promise<RequestResult> {
+  private async makeRequest(url: string, method: string, body: any, options: AngularHttpOptions): Promise<RequestResult> {
     try {
-      const result = await axios.request(options);
+      let req: any;
+      switch (method) {
+        case 'GET':
+          req = this._http.get(url, options as any);
+          break;
+        case 'POST':
+          req = this._http.post(url, body, options as any);
+          break;
+        case 'PUT':
+          req = this._http.put(url, body, options as any);
+          break;
+        case 'PATCH':
+          req = this._http.patch(url, body, options as any);
+          break;
+        case 'DELETE':
+          req = this._http.delete(url, options as any);
+          break;
+      }
+      const result = await req.toPromise();
       return {
-        data: result.data,
+        data: result.body,
         statusCode: result.status
       };
     } catch (err) {
