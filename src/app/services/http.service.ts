@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
 
@@ -32,9 +32,10 @@ export class HttpService {
   }
 
   request(requestOptions: HttpRequestOptions): Promise<RequestResult> {
+    const requestUrl = `${environment.serverUrl}${requestOptions.url}`;
+    const method: string = requestOptions.requestType;
     const options: AngularHttpOptions = {
-      url: `${environment.serverUrl}${requestOptions.url}`,
-      method: requestOptions.requestType as Method
+      observe: 'response'
     };
 
     // Add auth headers if required.
@@ -51,21 +52,32 @@ export class HttpService {
       }
     }
 
-    // Add post/put/patch data if required.
-    if (['POST', 'PUT', 'PATCH'].includes(requestOptions.requestType)) {
-      if (requestOptions.data) {
-        options['data'] = requestOptions.data;
-      }
-    }
-
-    return this.makeRequest(options);
+    return this.makeRequest(requestUrl, method, requestOptions.data, options);
   }
 
-  private async makeRequest(options: AxiosRequestConfig): Promise<RequestResult> {
+  private async makeRequest(url: string, method: string, body: any, options: AngularHttpOptions): Promise<RequestResult> {
     try {
-      const result = await axios.request(options);
+      let req: any;
+      switch (method) {
+        case 'GET':
+          req = this._http.get(url, options as any);
+          break;
+        case 'POST':
+          req = this._http.post(url, body, options as any);
+          break;
+        case 'PUT':
+          req = this._http.put(url, body, options as any);
+          break;
+        case 'PATCH':
+          req = this._http.patch(url, body, options as any);
+          break;
+        case 'DELETE':
+          req = this._http.delete(url, options as any);
+          break;
+      }
+      const result = await req.toPromise();
       return {
-        data: result.data,
+        data: result.body,
         statusCode: result.status
       };
     } catch (err) {
