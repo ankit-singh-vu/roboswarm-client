@@ -28,7 +28,6 @@ import { LoginComponent } from './pages/login/login.component';
 import { SwarmCreateComponent } from './pages/swarm-create/swarm-create.component';
 import { StopLoadTestButtonComponent } from './components/stop-load-test-button/stop-load-test-button.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { LocustWebUiComponent } from './pages/locust-web-ui/locust-web-ui.component';
 import { SwarmDetailComponent } from './pages/swarm-detail/swarm-detail.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { BillingComponent } from './pages/billing/billing.component';
@@ -43,6 +42,7 @@ import { TemplatesComponent } from './pages/templates/templates.component';
 import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
 import { WordpressRouteComponent } from './components/wordpress-route/wordpress-route.component';
 import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swarm-detail-status.component';
+import { PaymentStatusBannerComponent } from './components/payment-status-banner/payment-status-banner.component';
 
 
 @NgModule({
@@ -59,7 +59,6 @@ import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swa
     SwarmCreateComponent,
     StopLoadTestButtonComponent,
     SpinnerComponent,
-    LocustWebUiComponent,
     SwarmDetailComponent,
     LogoutComponent,
     BillingComponent,
@@ -71,7 +70,8 @@ import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swa
     TemplatesComponent,
     TemplatesAddEditComponent,
     WordpressRouteComponent,
-    SwarmDetailStatusComponent
+    SwarmDetailStatusComponent,
+    PaymentStatusBannerComponent
   ],
   imports: [
     BrowserModule,

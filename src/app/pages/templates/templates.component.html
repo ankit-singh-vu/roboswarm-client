@@ -1,10 +1,9 @@
-<app-navigation></app-navigation>
 <div class="wrapper">
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
         <div class="btn-group pull-right m-t-20">
-          <button [routerLink]="['/template/add']" type="button" class="btn btn-primary waves-effect waves-light">Create Load Test Template</button>
+          <button [routerLink]="['/dashboard/template/add']" type="button" class="btn btn-primary waves-effect waves-light">Create Load Test Template</button>
         </div>
         <h4 class="page-title">
             Load Test Templates
@@ -46,7 +45,7 @@
                       <td>{{ formatScenarioNames(template.scenario_names) }}</td>
                       <td>{{ getFormattedDate(template.created_at) }} </td>
                       <td class="action-buttons">
-                        <button [routerLink]="['/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
+                        <button [routerLink]="['/dashboard/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
                         <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
                       </td>
                     </tr>
@@ -56,4 +55,3 @@
         </div>
     </div>
 </div>
-<app-footer></app-footer>

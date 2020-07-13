@@ -104,7 +104,7 @@ export class TemplatesAddEditComponent implements OnInit {
       await this.templateService.update(this.id, data);
     }
     this.saving = false;
-    this.router.navigate(['/template']);
+    this.router.navigate(['/dashboard/template']);
   }
 
   allFieldsCompleted(): boolean {

@@ -17,7 +17,7 @@ export class LogoutComponent implements OnInit {
   ngOnInit() {
     this.metrics.track('LOGOUT');
     this.tokenService.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
 }
