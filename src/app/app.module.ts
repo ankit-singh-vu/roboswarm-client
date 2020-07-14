@@ -43,6 +43,7 @@ import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-
 import { WordpressRouteComponent } from './components/wordpress-route/wordpress-route.component';
 import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swarm-detail-status.component';
 import { PaymentStatusBannerComponent } from './components/payment-status-banner/payment-status-banner.component';
+import { InvoiceManagementComponent } from './components/invoice-management/invoice-management.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { PaymentStatusBannerComponent } from './components/payment-status-banner
     TemplatesAddEditComponent,
     WordpressRouteComponent,
     SwarmDetailStatusComponent,
-    PaymentStatusBannerComponent
+    PaymentStatusBannerComponent,
+    InvoiceManagementComponent
   ],
   imports: [
     BrowserModule,

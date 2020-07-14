@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
 
 export interface User {
@@ -16,6 +16,17 @@ export interface User {
   group?: Group;
 }
 
+export interface Invoice {
+  id: string;
+  created: number;
+  attempt_count: number;
+  customer: string;
+  hosted_invoice_url: string;
+  invoice_pdf: string;
+  paid: boolean;
+  status: string;
+}
+
 export interface Group {
   id?: number;
   name: string;
@@ -23,6 +34,7 @@ export interface Group {
 
 @Injectable()
 export class UserService {
+  public userChanged: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private http: HttpService) { }
 
@@ -63,5 +75,29 @@ export class UserService {
       url: '/api/v1/user/me/card'
     };
     await this.http.request(options);
+  }
+
+  async getInvoices(): Promise<Invoice[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: '/api/v1/user/me/invoices'
+    };
+    const result = await this.http.request(options);
+    return result.data.data as Invoice[];
+  }
+
+  async payInvoice(id: string): Promise<Invoice> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: `/api/v1/user/me/invoices/${id}/pay`
+    };
+    const result = await this.http.request(options);
+    if (result && result.data && result.data) {
+      return result.data.data as Invoice;
+    } else {
+      return undefined;
+    }
   }
 }

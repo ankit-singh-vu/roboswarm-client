@@ -1,0 +1,41 @@
+<div class="card m-b-20 card-body">
+    <h4 class="card-title">Invoices</h4>
+    <div align="center" *ngIf="working">
+        <app-spinner [show]="working"></app-spinner>
+    </div>
+    <table *ngIf="!working" class="table table-striped m-0">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Paid?</th>
+                <th>Invoice</th>
+                <th>Pay Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="!working && invoices && invoices.length === 0">
+                <td colspan="4">
+                    <div class="alert alert-info">
+                        We don't have any invoices for you right now. Check back later.
+                    </div>
+                </td>
+            </tr>
+            <tr *ngFor="let invoice of invoices">
+                <td>{{ getFormattedDate(invoice.created) }}</td>
+                <td>
+                    <i *ngIf="invoice.paid" class="dripicons-checkmark"></i>
+                    <i *ngIf="!invoice.paid" class="dripicons-wrong"></i>
+                </td>
+                <td>
+                    <a class="btn btn-secondary btn-sm" href="{{ invoice.hosted_invoice_url }}" target="_blank">View</a>
+                </td>
+                <td>
+                    <btn
+                        *ngIf="invoice.status === 'uncollectable'"
+                        (click)="payInvoice(invoice.id)"
+                        class="btn btn-primary btn-sm">Pay Invoice</btn>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
