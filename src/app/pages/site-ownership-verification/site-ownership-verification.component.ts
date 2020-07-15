@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
 import { VerifyComplete } from '../../components/verify-site-ownership-button/verify-site-ownership-button.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-site-ownership-verification',
@@ -13,7 +14,8 @@ export class SiteOwnershipVerificationComponent implements OnInit {
   sites: SiteOwnership[] = [];
 
   constructor(private siteOwnershipService: SiteOwnershipService,
-              private sanitizer: DomSanitizer) { }
+              private sanitizer: DomSanitizer,
+              private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -21,10 +23,15 @@ export class SiteOwnershipVerificationComponent implements OnInit {
     this.loading = false;
   }
 
-  async deleteSite(id: number) {
-    await this.siteOwnershipService.delete(id);
-    const index: number = this.sites.findIndex(site => site.id === id);
-    this.sites.splice(index, 1);
+  async deleteSite(content: any, id: number) {
+    try {
+      const result = await this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result;
+      if (result === 'continue') {
+        await this.siteOwnershipService.delete(id);
+        const index: number = this.sites.findIndex(site => site.id === id);
+        this.sites.splice(index, 1);
+      }
+    } catch (err) { /* no-op */ }
   }
 
   onVerifyCompleted(evt: VerifyComplete) {

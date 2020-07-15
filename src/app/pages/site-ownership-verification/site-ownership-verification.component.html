@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="btn-group pull-right m-t-20">
-          <button [routerLink]="['/dashboard/site-ownership-verification/add']" type="button" class="btn btn-primary waves-effect waves-light">Verify Site</button>
+          <button [routerLink]="['/dashboard/site-ownership-verification/add']" type="button" class="btn btn-primary waves-effect waves-light">Verify a Site</button>
         </div>
         <h4 class="page-title">
             Site Ownership Verification
@@ -20,7 +20,13 @@
     <div *ngIf="!loading" class="row">
         <div class="col-sm-3">
           <div class="card m-b-20 card-body">
-              <p>Before you can start a load test you must first verify that you own the site. This security measure helps prevent abuse. To verify your site, you'll need to add a TXT record to the domain.</p>
+              <p>Before you can start a load test you must first verify that you own the site. This security measure helps prevent abuse. To verify your site you'll need to do one of the following:</p>
+              <ul>
+                <li>Add a verification TXT record to the domain.</li>
+                <li>Add a meta tag to the HEAD block of your site.</li>
+                <li>Install the Kernl Site Verification WordPress plugin.</li>
+              </ul>
+              <p>More details and step by step instructions are available in our documentation.</p>
           </div>
         </div>
         <div class="col-sm-9">
@@ -41,12 +47,13 @@
                       </td>
                       <td>
                         <ul>
-                          <li>DNS TXT Record: load-test-verify-{{ site.uuid }}</li>
-                          <li>HTML Meta Tag: <span [innerHTML]="getMetaTag(site.uuid)"></span>
+                          <li><b>DNS TXT Record</b>: load-test-verify-{{ site.uuid }}</li>
+                          <li><b>HTML Meta Tag</b>: <span [innerHTML]="getMetaTag(site.uuid)"></span></li>
+                          <li><b>Kernl Site Verification Code</b>: {{ site.uuid }}</li>
                         </ul>
                       </td>
-                      <td>
-                        <button (click)="deleteSite(site.id)" class='btn btn-small btn-danger'>Delete</button>&nbsp;
+                      <td class="action-buttons">
+                        <button (click)="deleteSite(confirm, site.id)" class='btn btn-small btn-danger btn-delete'>Delete</button>&nbsp;
                         <app-verify-site-ownership-button
                           [siteOwnershipId]="site.id"
                           (verifyCompleted)="onVerifyCompleted($event)"></app-verify-site-ownership-button>
@@ -65,3 +72,18 @@
         </div>
     </div>
 </div>
+<ng-template #confirm let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Are you sure?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>You are about to delete your site verification. Once deleted you will no longer be able to run load tests against this site until you re-verify ownership.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('dismiss')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('continue')">Delete Site Verification</button>
+  </div>
+</ng-template>

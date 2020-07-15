@@ -1,3 +1,15 @@
 .container-fluid {
     margin-bottom: 20px;
 }
+
+.action-buttons {
+    text-align: center;
+}
+
+.action-buttons .btn-delete {
+    margin: 10px;
+}
+
+.action-buttons .btn {
+    min-width: 120px;
+}
