@@ -1,4 +1,15 @@
-.kernl-logo {
-    width: 100px;
-    margin-top: 19px;
+.logo-small.bird {
+    height: 45px;
+}
+
+.logo-small.text {
+    height: 35px;
+}
+
+.logo-large.bird {
+    height: 45px;
+}
+
+.logo-large.text {
+    height: 35px;
 }

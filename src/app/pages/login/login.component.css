@@ -1,3 +1,11 @@
 .app-login .alert-danger {
     margin-top: 15px;
 }
+
+.logo img {
+    width: 300px;
+}
+
+.m-t-40 {
+    margin-top: 20px !important;
+}
