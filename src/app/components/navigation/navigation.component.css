@@ -3,7 +3,8 @@
 }
 
 .logo-small.text {
-    height: 35px;
+    height: 28px;
+    margin-left: 11px;
 }
 
 .logo-large.bird {
@@ -11,5 +12,6 @@
 }
 
 .logo-large.text {
-    height: 35px;
+    height: 28px;
+    margin-left: 11px;
 }
