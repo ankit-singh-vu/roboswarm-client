@@ -34,11 +34,9 @@ export class BillingComponent implements OnInit {
     this.planToSelect = planName;
     this.error = undefined;
     const result: RequestResult = await this.userService.selectPlan(planName);
-    console.log({ result });
-    if (!result.statusCode) {
-      const res: any = result.err.response;
-      if (res.status === 500 || res.status === 400) {
-        this.error = res.data;
+    if (result.statusCode) {
+      if (result.statusCode === 500 || result.statusCode === 400) {
+        this.error = result.data;
       }
     } else {
       this.user = await this.userService.getCurrentUser();
