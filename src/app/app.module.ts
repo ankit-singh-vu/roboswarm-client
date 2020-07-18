@@ -44,6 +44,7 @@ import { WordpressRouteComponent } from './components/wordpress-route/wordpress-
 import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swarm-detail-status.component';
 import { PaymentStatusBannerComponent } from './components/payment-status-banner/payment-status-banner.component';
 import { InvoiceManagementComponent } from './components/invoice-management/invoice-management.component';
+import { StartWizardComponent } from './components/start-wizard/start-wizard.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { InvoiceManagementComponent } from './components/invoice-management/invo
     WordpressRouteComponent,
     SwarmDetailStatusComponent,
     PaymentStatusBannerComponent,
-    InvoiceManagementComponent
+    InvoiceManagementComponent,
+    StartWizardComponent
   ],
   imports: [
     BrowserModule,

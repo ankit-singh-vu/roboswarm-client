@@ -21,11 +21,10 @@
         <div class="col-xl-6">
             <div class="card m-b-20 text-xs-center">
                 <div class="card-header">
-                    Welcome to RoboSwarm!
+                    Welcome to Roboswarm!
                 </div>
                 <div class="card-body">
-                    <p class="card-text">We're so happy that you've decided to use RoboSwarm! To get started, click the "Create Load Test" button in the upper-right corner. From there follow the on-screen directions to start load testing!</p>
-                    <p>If you have any questions or comments, don't hesitate to send a message to <a href="mailto:jack@kernl.us">jack@kernl.us</a></p>
+                    <app-start-wizard (completed)="onStartWizardCompleted($event)"></app-start-wizard>
                 </div>
             </div>
         </div>

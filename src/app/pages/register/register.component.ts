@@ -53,6 +53,7 @@ export class RegisterComponent implements OnInit {
           url: '/api/v1/public/user'
         });
         if (response.statusCode !== 201) {
+          console.log({ response });
           this.error = response.data;
         } else {
           this.metrics.track('REGISTER_SUCCESS');

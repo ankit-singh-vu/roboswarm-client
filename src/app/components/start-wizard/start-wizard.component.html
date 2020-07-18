@@ -1,0 +1,58 @@
+<p>You can get started with creating your first load test by filling in the "name" and "site url" fields below. For load tests 5 simulated users and under we don't require site ownership verification.</p>
+<form class="form-horizontal m-t-20" #createSwarmForm="ngForm" (ngSubmit)="onSubmit(createSwarmForm)">
+    <div class="form-group">
+        <label for="name">Load Test Name</label>
+        <input class="form-control"
+            type="text"
+            name="name"
+            id="name"
+            required
+            [(ngModel)]="model.name"
+            [disabled]="submitted">
+        <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find later. Ex: "My First Load Test"</small>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="site_url">Site URL</label>
+                <input class="form-control"
+                    type="text"
+                    name="site_url"
+                    id="site_url"
+                    required
+                    [(ngModel)]="model.site_url"
+                    [disabled]="submitted">
+                <small class="form-text text-muted">The site that we will load test. This should be the root path of your site. We use your sitemap.xml to generate a template, so make sure you have one. Ex: "https://blog.kernl.us" or "https://roboswarm.dev"</small>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="simulated_users">Simulated Users</label>
+                <input class="form-control"
+                    type="number"
+                    max="5"
+                    min="1"
+                    name="simulated_users"
+                    id="simulated_users"
+                    required
+                    [(ngModel)]="model.simulated_users"
+                    disabled>
+                <small class="form-text text-muted">The number of simulated users we will have running against your site. On the free plan, you are limited to 5 simulated users.</small>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!submitted" class="form-group text-center m-t-40 mb-0">
+        <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
+                type="submit"
+                [disabled]="submitted || !allFieldsCompleted()">
+            Start Load Test
+        </button>
+        <p></p>
+        <div *ngIf='error !== ""' class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    </div>
+    <div *ngIf="submitted" class="form-group text-center m-t-40 mb-0">
+        <app-spinner [show]="submitted"></app-spinner>
+    </div>
+</form>

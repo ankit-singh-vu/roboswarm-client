@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
 
@@ -82,8 +82,9 @@ export class HttpService {
       };
     } catch (err) {
       return {
+        data: err.error,
         err,
-        statusCode: null
+        statusCode: err.status
       };
     }
   }

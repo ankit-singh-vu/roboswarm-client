@@ -19,6 +19,11 @@ export class DashboardComponent implements OnInit {
   async ngOnInit() {
     this.metrics.track('DASHBOARD_VIEW');
     this.loading = true;
+    await this.getSwarms();
+    this.loading = false;
+  }
+
+  async getSwarms() {
     const swarms: Swarm[] = await this.swarmService.getAll();
     this.swarms = swarms.map(swarm => {
       return {
@@ -35,11 +40,15 @@ export class DashboardComponent implements OnInit {
         swarm_ui_type: swarm.swarm_ui_type
       };
     });
-    this.loading = false;
   }
 
   onSwarmDeleted(swarmId: number) {
     this.swarms = this.swarms.filter(swarm => swarm.id !== swarmId);
   }
 
+  async onStartWizardCompleted(success: boolean) {
+    this.loading = true;
+    await this.getSwarms();
+    this.loading = false;
+  }
 }
