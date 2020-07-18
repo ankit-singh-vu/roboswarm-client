@@ -79,7 +79,7 @@ export class StartWizardComponent {
       // 4) Start the load test.
       const swarmResult = await this._swarmService.createSwarm({
         name: this.model.name,
-        duration: 10,
+        duration: 20,
         simulated_users: this.model.simulated_users,
         file_path: '',
         site_id: site.id,
@@ -91,7 +91,11 @@ export class StartWizardComponent {
         generate_test_from_template: true
       });
       if (swarmResult.statusCode !== 201) {
-        this.error = 'There was an error creating your load test. Please try again.';
+        if (swarmResult.data) {
+          this.error = swarmResult.data;
+        } else {
+          this.error = 'There was an error creating your load test. Please try again.';
+        }
         this.submitted = false;
         await this._templateService.delete(template.id);
         await this._siteOwnershipService.delete(site.id);

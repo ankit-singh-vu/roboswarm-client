@@ -152,6 +152,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     this.swarm.status = Status.destroyed;
     clearInterval(this.timer);
     await this.fetchFinalMetrics();
+    this.formatData();
   }
 
   formatData() {

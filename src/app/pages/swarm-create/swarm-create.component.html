@@ -27,9 +27,10 @@
                     <div class="form-group">
                       <label for="site_id">Site To Test</label>
                       <div *ngIf="!sites || sites.length === 0" class="alert alert-danger">
-                        You have no verified sites to test. To verify a site, click the "Verify Site Ownership" menu item at the top of the page and follow the instructions.
+                        You have no sites to test. To add one, click "Verify Site Ownership" in the menu above.
                       </div>
                       <ng-select
+                          *ngIf="sites && sites.length > 0"
                           [items]="sites"
                           [multiple]="false"
                           [closeOnSelect]="true"
@@ -51,6 +52,7 @@
                         You have no templates created. Click the "Templates" menu to get started.
                       </div>
                       <ng-select
+                          *ngIf="templates && templates.length > 0"
                           [items]="templates"
                           [multiple]="false"
                           [closeOnSelect]="true"
@@ -101,7 +103,7 @@
                       [items]="regions"
                       [multiple]="true"
                       [closeOnSelect]="false"
-                      [searchable]="false"
+                      [searchable]="true"
                       [disabled]='submitted'
                       name="swarm_region"
                       bindValue="value"

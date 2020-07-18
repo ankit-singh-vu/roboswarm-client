@@ -64,13 +64,8 @@ export class SwarmCreateComponent implements OnInit {
 
   async ngOnInit() {
     this.metrics.track('SWARM_CREATE_VIEW');
-    this.sites = await this.getVerifiedSites();
+    this.sites = await await this.siteOwnershipService.getAll();
     this.templates = await this.templateService.getAll();
-  }
-
-  async getVerifiedSites(): Promise<SiteOwnership[]> {
-    const allSites: SiteOwnership[] = await this.siteOwnershipService.getAll();
-    return allSites.filter(site => site.verified);
   }
 
   async onSubmit(form) {
