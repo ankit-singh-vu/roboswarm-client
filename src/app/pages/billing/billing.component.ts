@@ -35,11 +35,11 @@ export class BillingComponent implements OnInit {
     this.error = undefined;
     const result: RequestResult = await this.userService.selectPlan(planName);
     if (result.statusCode) {
-      if (result.statusCode === 500 || result.statusCode === 400) {
+      if (result.statusCode >= 300) {
         this.error = result.data;
+      } else  {
+        this.user = await this.userService.getCurrentUser();
       }
-    } else {
-      this.user = await this.userService.getCurrentUser();
     }
     this.disableButtons = false;
     this.metrics.track('BILLING_SELECT_PLAN', { user: this.user , plan: planName });
