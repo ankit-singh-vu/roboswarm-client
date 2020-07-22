@@ -100,4 +100,24 @@ export class UserService {
       return undefined;
     }
   }
+
+  async resetPassword(email: string): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: false,
+      requestType: 'POST',
+      url: '/api/v1/public/user/password-reset',
+      data: { email }
+    };
+    await this.http.request(options);
+  }
+
+  async changePassword(nonce: string, password: string): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: false,
+      requestType: 'POST',
+      url: `/api/v1/public/user/password-reset/${nonce}`,
+      data: { password }
+    };
+    await this.http.request(options);
+  }
 }

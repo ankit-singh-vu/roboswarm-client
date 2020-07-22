@@ -14,6 +14,8 @@ import { TemplatesComponent} from './pages/templates/templates.component';
 import { TemplatesAddEditComponent } from './pages/templates-add-edit/templates-add-edit.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 const routes: Routes = [
 
@@ -22,6 +24,10 @@ const routes: Routes = [
         { path: 'register', component: RegisterComponent },
         { path: 'login', component: LoginComponent },
         { path: 'logout', component: LogoutComponent },
+        { path: 'password-reset', children: [
+            { path: '', component: PasswordResetComponent },
+            { path: ':id', component: ChangePasswordComponent }
+        ]}
     ]},
 
     // Authenticated routes

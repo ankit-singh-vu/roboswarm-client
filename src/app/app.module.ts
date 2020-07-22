@@ -45,6 +45,8 @@ import { SwarmDetailStatusComponent } from './components/swarm-detail-status/swa
 import { PaymentStatusBannerComponent } from './components/payment-status-banner/payment-status-banner.component';
 import { InvoiceManagementComponent } from './components/invoice-management/invoice-management.component';
 import { StartWizardComponent } from './components/start-wizard/start-wizard.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 @NgModule({
@@ -75,7 +77,9 @@ import { StartWizardComponent } from './components/start-wizard/start-wizard.com
     SwarmDetailStatusComponent,
     PaymentStatusBannerComponent,
     InvoiceManagementComponent,
-    StartWizardComponent
+    StartWizardComponent,
+    PasswordResetComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
