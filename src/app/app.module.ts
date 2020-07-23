@@ -47,6 +47,7 @@ import { InvoiceManagementComponent } from './components/invoice-management/invo
 import { StartWizardComponent } from './components/start-wizard/start-wizard.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { RemainingResourcesComponent } from './components/remaining-resources/remaining-resources.component';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
     InvoiceManagementComponent,
     StartWizardComponent,
     PasswordResetComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    RemainingResourcesComponent
   ],
   imports: [
     BrowserModule,

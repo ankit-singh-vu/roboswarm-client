@@ -32,6 +32,16 @@ export interface Group {
   name: string;
 }
 
+export interface ResourceAvailability {
+  resetsOnDate: Date;
+  delinquent: boolean;
+  loadTests: number;
+  machineSeconds: number;
+  maxDurationMinutes: number;
+  maxLoadTests: number;
+  maxMachineSeconds: number;
+}
+
 @Injectable()
 export class UserService {
   public userChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -119,5 +129,15 @@ export class UserService {
       data: { password }
     };
     await this.http.request(options);
+  }
+
+  async getResources(): Promise<ResourceAvailability> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: '/api/v1/user/me/resources'
+    };
+    const response = await this.http.request(options);
+    return response.data as ResourceAvailability;
   }
 }
