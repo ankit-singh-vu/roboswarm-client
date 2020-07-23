@@ -1,9 +1,12 @@
-<p>You have used <b>{{ resources.loadTests }}</b> of your <b>{{ resources.maxLoadTests }}</b> available load tests. Your usage resets on <b>{{ resources.resetsOnDate|date:'shortDate' }}</b>.</p>
-<p>
-    <ngb-progressbar
-        type="info"
-        textType="white"
-        height="25px"
-        [value]="loadTestPercentageUsed"
-        [showValue]="showValue"></ngb-progressbar>
-</p>
+<app-spinner [show]="working"></app-spinner>
+<div *ngIf="!working">
+    <p>You have used <b>{{ resources.loadTests }}</b> of your <b>{{ resources.maxLoadTests }}</b> available load tests. Your usage resets on <b>{{ resources.resetsOnDate|date:'shortDate' }}</b>.</p>
+    <p>
+        <ngb-progressbar
+            type="info"
+            textType="white"
+            height="25px"
+            [value]="loadTestPercentageUsed"
+            [showValue]="showValue"></ngb-progressbar>
+    </p>
+</div>

@@ -10,6 +10,7 @@ export class RemainingResourcesComponent implements OnInit {
   resources: ResourceAvailability;
   loadTestPercentageUsed = 0;
   showValue = false;
+  working = true;
 
   constructor(private userService: UserService) { }
 
@@ -18,6 +19,7 @@ export class RemainingResourcesComponent implements OnInit {
     const loadTestPercentage = this.resources.loadTests / this.resources.maxLoadTests;
     this.loadTestPercentageUsed = Math.ceil(loadTestPercentage * 100);
     this.showValue = this.loadTestPercentageUsed > 25;
+    this.working = false;
   }
 
 }
