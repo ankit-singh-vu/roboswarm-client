@@ -48,6 +48,7 @@ import { StartWizardComponent } from './components/start-wizard/start-wizard.com
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { RemainingResourcesComponent } from './components/remaining-resources/remaining-resources.component';
+import { SwarmGradeComponent } from './components/swarm-grade/swarm-grade.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { RemainingResourcesComponent } from './components/remaining-resources/re
     StartWizardComponent,
     PasswordResetComponent,
     ChangePasswordComponent,
-    RemainingResourcesComponent
+    RemainingResourcesComponent,
+    SwarmGradeComponent
   ],
   imports: [
     BrowserModule,

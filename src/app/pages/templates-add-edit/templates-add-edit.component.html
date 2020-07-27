@@ -72,6 +72,9 @@
                 *ngFor="let wpRoute of wordpressRouteTypes"
                 [fields]="wpRoute"
                 (clicked)="onWpRouteAdd($event)"></app-wordpress-route>
+              <div class="alert alert-info missing-scenario">
+                <p>Have an idea for a WordPress load testing scenario? Let us know! Email jack@kernl.us and we'll implement it for you.</p>
+              </div>
             </div>
             <div class="form-group text-center mb-0">
                 <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
