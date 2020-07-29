@@ -1,1 +1,5 @@
-<p>swarm-grade works!</p>
+<div *ngIf="hasData()" class="circle">
+    <div class="circle-content">
+        {{ getScore() }}
+    </div>
+</div>

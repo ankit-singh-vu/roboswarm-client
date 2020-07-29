@@ -1,0 +1,11 @@
+.circle {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(119, 208, 147);
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

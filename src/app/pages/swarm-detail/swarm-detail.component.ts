@@ -12,6 +12,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MetricsService } from '../../services/metrics.service';
+import { SwarmGradeData } from '../../components/swarm-grade/swarm-grade.component';
 
 @Component({
   selector: 'app-swarm-detail',
@@ -35,6 +36,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   loading: boolean;
   editName: false;
   activeTabId: number;
+  swarmGradeData: SwarmGradeData = null;
 
   // Request Chart
   showXAxis = true;
@@ -222,6 +224,25 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         { name: '99%', value: this.distributionData[0].percentiles['99%'] },
         { name: '100%', value: this.distributionData[0].percentiles['100%'] }
       ];
+    }
+
+    // Set the swarm grade if we've got enough data for it.
+    const p50: number = (
+      this.distributionData && this.distributionData.length > 0
+    ) ? this.distributionData[0].percentiles['50%'] : null;
+    const p99: number = (
+      this.distributionData && this.distributionData.length > 0
+    ) ? this.distributionData[0].percentiles['99%'] : null;
+    if (orderedData && orderedData.length > 0) {
+      const latest: Request = orderedData.pop();
+      this.swarmGradeData = {
+        p50,
+        p99,
+        totalRequests: latest.requests,
+        totalErrors: latest.failures,
+        avgResponseTime: latest.average_response_time,
+        medResponseTime: latest.median_response_time
+      };
     }
   }
 

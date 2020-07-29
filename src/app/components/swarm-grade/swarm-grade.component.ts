@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
-interface SwarmGradeData {
+export interface SwarmGradeData {
   p50: number;
   p99: number;
   totalRequests: number;
@@ -14,10 +14,14 @@ interface SwarmGradeData {
   templateUrl: './swarm-grade.component.html',
   styleUrls: ['./swarm-grade.component.css']
 })
-export class SwarmGradeComponent {
+export class SwarmGradeComponent implements OnChanges {
   @Input() data: SwarmGradeData;
 
   constructor() { }
+
+  ngOnChanges() {
+    console.log(this.data);
+  }
 
   getScore(): string {
     if (this.hasData()) {
@@ -62,15 +66,15 @@ export class SwarmGradeComponent {
     }
   }
 
-  private hasData(): boolean {
+  hasData(): boolean {
     return !!(
       this.data &&
-      this.data.avgResponseTime &&
-      this.data.medResponseTime &&
-      this.data.p50 &&
-      this.data.p99 &&
-      this.data.totalErrors &&
-      this.data.totalRequests
+      this.data.avgResponseTime !== null &&
+      this.data.medResponseTime !== null &&
+      this.data.p50 !== null &&
+      this.data.p99 !== null &&
+      this.data.totalErrors !== null &&
+      this.data.totalRequests !== null
     );
   }
 
@@ -78,11 +82,11 @@ export class SwarmGradeComponent {
     const time: number = (this.data && this.data.p50) ? this.data.p50 : null;
     if (time < 200) {
       return 2;
-    } else if (time < 300) {
-      return 1.5;
     } else if (time < 400) {
+      return 1.5;
+    } else if (time < 800) {
       return 1;
-    } else if (time < 500) {
+    } else if (time < 1000) {
       return 0.5;
     } else {
       return 0;
@@ -91,13 +95,13 @@ export class SwarmGradeComponent {
 
   private getP99Score(): number {
     const time: number = (this.data && this.data.p99) ? this.data.p99 : null;
-    if (time < 200) {
+    if (time < 300) {
       return 2;
-    } else if (time < 300) {
+    } else if (time < 600) {
       return 1.5;
-    } else if (time < 400) {
+    } else if (time < 1200) {
       return 1;
-    } else if (time < 500) {
+    } else if (time < 2400) {
       return 0.5;
     } else {
       return 0;
@@ -130,11 +134,11 @@ export class SwarmGradeComponent {
     if (avgResponseTime) {
       if (avgResponseTime < 300) {
         return 2;
-      } else if (avgResponseTime < 400) {
-        return 1.5;
       } else if (avgResponseTime < 500) {
+        return 1.5;
+      } else if (avgResponseTime < 1000) {
         return 1;
-      } else if (avgResponseTime < 600) {
+      } else if (avgResponseTime < 1500) {
         return 0.5;
       } else {
         return 0;
@@ -149,11 +153,11 @@ export class SwarmGradeComponent {
     if (medResponseTime) {
       if (medResponseTime < 200) {
         return 2;
-      } else if (medResponseTime < 300) {
-        return 1.5;
       } else if (medResponseTime < 400) {
+        return 1.5;
+      } else if (medResponseTime < 800) {
         return 1;
-      } else if (medResponseTime < 500) {
+      } else if (medResponseTime < 1200) {
         return 0.5;
       } else {
         return 0;
