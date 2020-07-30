@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateService, TemplateSimple } from '../../services/template.service';
 import * as moment from 'moment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-templates',
@@ -11,17 +12,23 @@ export class TemplatesComponent implements OnInit {
   loading = true;
   templates: TemplateSimple[] = [];
 
-  constructor(private templateService: TemplateService) { }
+  constructor(private templateService: TemplateService,
+              private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.templates = await this.templateService.getAll();
     this.loading = false;
   }
 
-  async deleteTemplate(id: number) {
-    await this.templateService.delete(id);
-    const index = this.templates.findIndex(t => t.id === id);
-    this.templates.splice(index, 1);
+  async deleteTemplate(content: any, id: number) {
+    try {
+      const result = await this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result;
+      if (result === 'continue') {
+        await this.templateService.delete(id);
+        const index = this.templates.findIndex(t => t.id === id);
+        this.templates.splice(index, 1);
+      }
+    } catch (err) { /* no-op */ }
   }
 
   getFormattedDate(d: Date): string {

@@ -10,3 +10,7 @@
 .missing-scenario {
     margin-top: 10px;
 }
+
+.fixed {
+    position: fixed;
+}

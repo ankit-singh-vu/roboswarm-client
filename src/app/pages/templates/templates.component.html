@@ -46,7 +46,7 @@
                       <td>{{ getFormattedDate(template.created_at) }} </td>
                       <td class="action-buttons">
                         <button [routerLink]="['/dashboard/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
-                        <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
+                        <button (click)="deleteTemplate(confirm, template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
                       </td>
                     </tr>
                 </tbody>
@@ -55,3 +55,18 @@
         </div>
     </div>
 </div>
+<ng-template #confirm let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Are you sure?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>You are about to delete your load test template. Once deleted you will no longer be able to run load tests against this template.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('dismiss')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('continue')">Delete Template</button>
+  </div>
+</ng-template>
