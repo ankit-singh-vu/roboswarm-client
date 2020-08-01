@@ -3,6 +3,8 @@ import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownersh
 import { VerifyComplete } from '../../components/verify-site-ownership-button/verify-site-ownership-button.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MetricsService } from 'app/services/metrics.service';
+import { User, UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-site-ownership-verification',
@@ -14,12 +16,14 @@ export class SiteOwnershipVerificationComponent implements OnInit {
   sites: SiteOwnership[] = [];
 
   constructor(private siteOwnershipService: SiteOwnershipService,
+              private metricsService: MetricsService,
               private sanitizer: DomSanitizer,
               private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.loading = true;
     this.sites = await this.siteOwnershipService.getAll();
+    this.metricsService.track('SITE_OWNERSHIP_VERIFICATION_VIEW');
     this.loading = false;
   }
 
@@ -30,6 +34,7 @@ export class SiteOwnershipVerificationComponent implements OnInit {
         await this.siteOwnershipService.delete(id);
         const index: number = this.sites.findIndex(site => site.id === id);
         this.sites.splice(index, 1);
+        this.metricsService.track('SITE_OWNERSHIP_VERIFICATION_DELETE');
       }
     } catch (err) { /* no-op */ }
   }

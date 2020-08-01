@@ -3,6 +3,7 @@ import { HttpService, HttpRequestOptions } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { MetricsService } from '../../services/metrics.service';
+import { UserService } from 'app/services/user.service';
 
 interface RegisterForm {
   email: string;
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
   constructor(_http: HttpService,
               private router: Router,
               private metrics: MetricsService,
+              private userService: UserService,
               _token: TokenService) {
     this.http = _http;
     this.token = _token;
@@ -56,8 +58,10 @@ export class RegisterComponent implements OnInit {
           console.log({ response });
           this.error = response.data;
         } else {
-          this.metrics.track('REGISTER_SUCCESS');
           this.token.saveToken(response.data.token);
+          const user = await this.userService.getCurrentUser();
+          this.metrics.identifyUser(user.email);
+          this.metrics.track('REGISTER_SUCCESS');
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {

@@ -3,6 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { MetricsService } from '../../services/metrics.service';
+import { UserService } from 'app/services/user.service';
 
 interface LoginForm {
   email: string;
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private http: HttpService,
               private token: TokenService,
+              private userService: UserService,
               private router: Router,
               private metrics: MetricsService) {
   }
@@ -48,8 +50,10 @@ export class LoginComponent implements OnInit {
           this.metrics.track('LOGIN_FAILURE');
           this.error = 'Invalid email or password. Please try again.';
         } else {
-          this.metrics.track('LOGIN_SUCCESS');
           this.token.saveToken(response.data);
+          const user = await this.userService.getCurrentUser();
+          this.metrics.identifyUser(user.email);
+          this.metrics.track('LOGIN_SUCCESS');
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {

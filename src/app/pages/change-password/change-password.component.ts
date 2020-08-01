@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'app/services/user.service';
+import { MetricsService } from 'app/services/metrics.service';
 
 interface ChangePasswordForm {
   passwordA: string;
@@ -24,10 +25,12 @@ export class ChangePasswordComponent implements OnInit {
   error = '';
 
   constructor(private route: ActivatedRoute,
-              private userService: UserService) { }
+              private userService: UserService,
+              private metrics: MetricsService) { }
 
   ngOnInit(): void {
     this.nonce = this.route.snapshot.params.id;
+    this.metrics.track('CHANGE_PASSWORD_VIEW');
   }
 
   allFieldsCompleted(): boolean {
@@ -50,6 +53,7 @@ export class ChangePasswordComponent implements OnInit {
     if (form.valid && this.fieldsValid()) {
       this.submitted = true;
       await this.userService.changePassword(this.nonce, this.model.passwordA);
+      this.metrics.track('CHANGE_PASSWORD_SUBMIT');
       this.submitted = false;
       this.passwordChanged = true;
     } else {

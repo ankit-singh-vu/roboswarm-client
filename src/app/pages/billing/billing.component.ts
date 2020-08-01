@@ -23,8 +23,7 @@ export class BillingComponent implements OnInit {
 
   async ngOnInit() {
     this.loading = true;
-    this.user = await this.userService.getCurrentUser();
-    this.metrics.track('BILLING_VIEW', { user: this.user });
+    this.metrics.track('BILLING_VIEW');
     this.loading = false;
   }
 
@@ -42,7 +41,7 @@ export class BillingComponent implements OnInit {
       }
     }
     this.disableButtons = false;
-    this.metrics.track('BILLING_SELECT_PLAN', { user: this.user , plan: planName });
+    this.metrics.track('BILLING_SELECT_PLAN', { plan: planName });
   }
 
   async addOrUpdateCard() {
@@ -61,10 +60,9 @@ export class BillingComponent implements OnInit {
       billingAddress: true,
       token: async (token) => {
         await this.userService.updateCard(token.id, token.card.id);
-        this.user = await this.userService.getCurrentUser();
         this.disableButtons = false;
         this.error = undefined;
-        this.metrics.track('BILLING_ADD_CARD', { user: this.user });
+        this.metrics.track('BILLING_ADD_CARD');
       },
       closed: async () => {
         this.disableButtons = false;
@@ -78,7 +76,7 @@ export class BillingComponent implements OnInit {
     await this.userService.deleteCard();
     this.disableButtons = false;
     this.loading = true;
-    this.user = await this.userService.getCurrentUser();
+    this.metrics.track('BILLING_DELETE_CARD');
     this.loading = false;
   }
 

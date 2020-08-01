@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'app/services/user.service';
+import { MetricsService } from 'app/services/metrics.service';
 
 interface PasswordResetForm {
   email: string;
@@ -11,7 +12,7 @@ interface PasswordResetForm {
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.css']
 })
-export class PasswordResetComponent {
+export class PasswordResetComponent implements OnInit {
   model: PasswordResetForm = {
     email: null
   };
@@ -19,7 +20,12 @@ export class PasswordResetComponent {
   error = '';
   resetRequested = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private metricService: MetricsService) {}
+
+  ngOnInit() {
+    this.metricService.track('PASSWORD_RESET_VIEW');
+  }
 
   allFieldsCompleted(): boolean {
     return this.model.email && this.model.email.trim() !== '';
@@ -30,6 +36,7 @@ export class PasswordResetComponent {
     if (form.valid) {
       this.submitted = true;
       await this.userService.resetPassword(this.model.email);
+      this.metricService.track('PASSWORD_RESET_SUBMIT');
       this.resetRequested = true;
       this.submitted = false;
     } else {

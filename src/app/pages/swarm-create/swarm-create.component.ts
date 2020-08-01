@@ -106,10 +106,10 @@ export class SwarmCreateComponent implements OnInit {
 
         const result: RequestResult = await this.swarmService.createSwarm(swarmData);
         if (result.statusCode === 201) {
-          this.metrics.track('SWARM_CREATE_SUCCESS', swarmData);
+          this.metrics.track('SWARM_CREATE_SUCCESS', { swarmData });
           this.router.navigate(['/dashboard']);
         } else {
-          this.metrics.track('SWARM_CREATE_FAILURE', swarmData);
+          this.metrics.track('SWARM_CREATE_FAILURE', { swarmData });
           this.error = result.data;
         }
       } catch (err) {

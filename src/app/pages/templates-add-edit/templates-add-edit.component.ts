@@ -7,6 +7,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
+import { MetricsService } from 'app/services/metrics.service';
 
 interface AddEditTemplate extends TemplateComplex {
   sitemapUrl: string;
@@ -65,6 +66,7 @@ export class TemplatesAddEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private templateService: TemplateService,
+              private metricsService: MetricsService,
               private router: Router) { }
 
   async ngOnInit() {
@@ -81,6 +83,9 @@ export class TemplatesAddEditComponent implements OnInit {
       this.onModelChange('site_url', this.model.sitemapUrl);
       this.onModelChange('username', this.model.username);
       this.onModelChange('password', this.model.password);
+      this.metricsService.track('TEMPLATES_EDIT', { id: this.id });
+    } else {
+      this.metricsService.track('TEMPLATES_ADD');
     }
     this.working = false;
   }
@@ -99,8 +104,10 @@ export class TemplatesAddEditComponent implements OnInit {
       routes: this.complexRoutes
     };
     if (!this.id) {
+      this.metricsService.track('TEMPLATES_ADD_SAVE');
       await this.templateService.create(data);
     } else {
+      this.metricsService.track('TEMPLATES_EDIT_SAVE');
       await this.templateService.update(this.id, data);
     }
     this.saving = false;
@@ -155,6 +162,9 @@ export class TemplatesAddEditComponent implements OnInit {
         });
         break;
     }
+    this.metricsService.track('TEMPLATES_ADD_EDIT_ROUTE_ADD', {
+      routeType: this.getWordPressRouteTypeName(routeType)
+    });
     this.working = false;
   }
 

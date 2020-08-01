@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TemplateService, TemplateSimple } from '../../services/template.service';
 import * as moment from 'moment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MetricsService } from 'app/services/metrics.service';
 
 @Component({
   selector: 'app-templates',
@@ -13,10 +14,12 @@ export class TemplatesComponent implements OnInit {
   templates: TemplateSimple[] = [];
 
   constructor(private templateService: TemplateService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private metricsService: MetricsService) { }
 
   async ngOnInit() {
     this.templates = await this.templateService.getAll();
+    this.metricsService.track('TEMPLATES_VIEW');
     this.loading = false;
   }
 
@@ -27,6 +30,7 @@ export class TemplatesComponent implements OnInit {
         await this.templateService.delete(id);
         const index = this.templates.findIndex(t => t.id === id);
         this.templates.splice(index, 1);
+        this.metricsService.track('TEMPLATES_DELETE');
       }
     } catch (err) { /* no-op */ }
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SwarmTile } from '../../components/swarm-tile/swarm-tile.component';
 import { SwarmService, Swarm } from '../../services/swarm.service';
 import { MetricsService } from '../../services/metrics.service';
+import { UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,9 +18,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.metrics.track('DASHBOARD_VIEW');
     this.loading = true;
     await this.getSwarms();
+    this.metrics.track('DASHBOARD_VIEW');
     this.loading = false;
   }
 
