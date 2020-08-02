@@ -133,7 +133,10 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     if (data.distribution && data.distribution.length > 0) {
       const distributionReversed = data.distribution.reverse();
       distributionReversed.forEach(item => {
-        this.distributionData.unshift(item);
+        const exists = this.distributionData.find(dd => dd.id === item.id);
+        if (!exists) {
+          this.distributionData.unshift(item);
+        }
       });
       this.previousDistributionIdMarker = this.distributionData[0].id;
     }
@@ -141,7 +144,10 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     if (data.requests && data.requests.length > 0) {
       const requestReversed = data.requests.reverse();
       requestReversed.forEach(item => {
-        this.requestData.unshift(item);
+        const exists = this.requestData.find(rd => rd.id === item.id);
+        if (!exists) {
+          this.requestData.unshift(item);
+        }
       });
       this.previousRequestIdMarker = this.requestData[0].id;
     }
