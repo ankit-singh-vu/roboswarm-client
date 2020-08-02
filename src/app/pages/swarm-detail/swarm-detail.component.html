@@ -38,9 +38,11 @@
                 </p>
                 <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
-            <div align="center" *ngIf="swarm.ready_at">
+            <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
                 <app-swarm-grade
                     [data]="swarmGradeData"></app-swarm-grade>
+                <br />
+                <p><i>Learn more about how grades are calculated here.</i></p>
             </div>
         </div>
         <div class="col-sm-9">
