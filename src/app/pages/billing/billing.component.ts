@@ -23,6 +23,7 @@ export class BillingComponent implements OnInit {
 
   async ngOnInit() {
     this.loading = true;
+    this.user = await this.userService.getCurrentUser();
     this.metrics.track('BILLING_VIEW');
     this.loading = false;
   }
