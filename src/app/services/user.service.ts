@@ -14,6 +14,7 @@ export interface User {
   is_delinquent: boolean;
   created_at?: Date;
   group?: Group;
+  is_kernl_user?: boolean;
 }
 
 export interface Invoice {
