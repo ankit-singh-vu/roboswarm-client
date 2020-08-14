@@ -63,7 +63,7 @@
                         (ngModelChange)="onModelChange('password', $event)"
                         [(ngModel)]="model.password"
                         [disabled]="submitted">
-                  <small class="form-text text-muted">(optional) The WordPress user's password if an authenticated scenario is chosen.</small>
+                  <small class="form-text text-muted">(optional) The WordPress user's password if an authenticated scenario is chosen. Passwords are encrypted using AES-256-CBC.</small>
                 </div>
               </div>
             </div>
