@@ -41,8 +41,9 @@
             <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
                 <app-swarm-grade
                     [data]="swarmGradeData"></app-swarm-grade>
-                <br />
-                <p><i>Learn more about how grades are calculated here.</i></p>
+                <div class="clear"></div>
+                <p></p>
+                <button (click)="openGradeDocs(docs)" class="btn btn-sm btn-secondary">Learn More</button>
             </div>
         </div>
         <div class="col-sm-9">
@@ -319,3 +320,30 @@
         </div>
     </div>
 </div>
+<ng-template #docs let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">How is your WordPress load test grade calculated?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>The grade your load test receives takes into account 5 different pieces of data:</p>
+    <ul>
+        <li>Average response time</li>
+        <li>Median response time</li>
+        <li>Error Percentage</li>
+        <li>P50 Response Time</li>
+        <li>P99 Response Time</li>
+    </ul>
+    <p>To achieve an 'A' in each category your need: </p>
+    <ul>
+        <li>Average response time: Less than 300ms</li>
+        <li>Median response time: Less than 200ms</li>
+        <li>Error Percentage: 0%</li>
+        <li>P50 Response Time: Less than 200ms</li>
+        <li>P99 Response Time: Less than 300ms</li>
+    </ul>
+    The grades from each category are added up and averaged. It's worth noting that getting an A+ is difficult. If you start at a C and work your way to a B, your customers will already see a significant improvement in performance.
+  </div>
+</ng-template>

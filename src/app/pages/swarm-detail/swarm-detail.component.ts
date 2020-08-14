@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MetricsService } from '../../services/metrics.service';
 import { SwarmGradeData } from '../../components/swarm-grade/swarm-grade.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-swarm-detail',
@@ -63,7 +64,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   constructor(private swarmService: SwarmService,
               private route: ActivatedRoute,
               private router: Router,
-              private metrics: MetricsService) { }
+              private metrics: MetricsService,
+              private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -284,5 +286,15 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   onSoftDelete() {
     this.router.navigate(['/dashboard']);
+  }
+
+  async openGradeDocs(content: any) {
+    try {
+      this.metrics.track('SWARM_DETAIL_OPEN_GRADE_DOCS');
+      await this.modalService.open(content, {
+        ariaLabelledBy: 'modal-basic-title',
+        size: 'lg'
+      });
+    } catch (err) { /* no-op */ }
   }
 }

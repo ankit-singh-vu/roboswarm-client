@@ -26,7 +26,7 @@
                 <li>Add a meta tag to the HEAD block of your site.</li>
                 <li>Install the Kernl Site Verification WordPress plugin.</li>
               </ul>
-              <p>More details and step by step instructions are available in our documentation.</p>
+              <button (click)="openDocumentation(docs)" class="btn btn-primary">Documentation</button>
           </div>
         </div>
         <div class="col-sm-9">
@@ -85,5 +85,33 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modal.close('dismiss')">Cancel</button>
     <button type="button" class="btn btn-danger" (click)="modal.close('continue')">Delete Site Verification</button>
+  </div>
+</ng-template>
+
+<ng-template #docs let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Site Ownership Verification Documentation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('dismiss')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>RoboSwarm has several different methods for verifying your site ownership. You only need to do <b>one</b> type of verification.</p>
+    <h3>DNS TXT Record Verification</h3>
+    <p>
+      If you have access to your site's DNS records, adding a TXT record might be the easiest option. To do that, go to your DNS control panel, find your domain, and add a text record with the value listed in the site ownership table.
+    </p>
+    <p>DNS records can take time to propagate. If verification doesn't work right away, try again in 20 minutes. If it still doesn't work, you might need to wait longer. DNS records can take up to 48 hours to propagate across the globe.</p>
+    <h3>HTML Meta Tag Verification</h3>
+    <p>
+      Another method of site verification is add an HTML Meta tag to your site with your verification code.
+    </p>
+    <pre>&lt;meta name=&quot;kernl-verify&quot; content=&quot;your-verification-code-goes-here&quot;&gt;</pre>
+    <p>Add this in the &lt;header&gt; of your site and then click the "verify" button. If you have caching enabled you will need to flush the cache before RoboSwarm can see the change.</p>
+    <h3>Kernl Site Verification WordPress Plugin Verification</h3>
+    <p>
+      The final method of verification available to you is to use the Kernl Site Verification plugin. If your wondering "why Kernl?", it's because RoboSwarm is developed by the same team. To get started, head to the Kernl docs <a target="_blank" href="https://docs.kernl.us/#/pages/load-testing/verify-site-ownership?id=site-verification-plugin">https://docs.kernl.us/#/pages/load-testing/verify-site-ownership?id=site-verification-plugin</a> to learn how to install the plugin. Once you've done that, copy your verification code and add it to the settings page.
+    </p>
+    <p>As with the meta tag method above, please make sure to clear all of your WordPress caches before attempting to verify the site again.</p>
   </div>
 </ng-template>

@@ -39,6 +39,16 @@ export class SiteOwnershipVerificationComponent implements OnInit {
     } catch (err) { /* no-op */ }
   }
 
+  async openDocumentation(content: any) {
+    try {
+      this.metricsService.track('SITE_OWNERSHIP_OPEN_DOCUMENTATION');
+      await this.modalService.open(content, {
+        ariaLabelledBy: 'modal-basic-title',
+        size: 'lg'
+      });
+    } catch (err) { /* no-op */ }
+  }
+
   onVerifyCompleted(evt: VerifyComplete) {
     const index: number = this.sites.findIndex(site => site.id === evt.id);
     this.sites[index].verified = evt.verified;
