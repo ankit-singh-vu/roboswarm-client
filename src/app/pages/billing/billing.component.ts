@@ -38,7 +38,8 @@ export class BillingComponent implements OnInit {
       if (result.statusCode >= 300) {
         this.error = result.data;
       } else  {
-        this.user = await this.userService.getCurrentUser();
+        const force = true;
+        this.user = await this.userService.getCurrentUser(force);
       }
     }
     this.disableButtons = false;

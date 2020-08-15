@@ -51,12 +51,14 @@ export class LoginComponent implements OnInit {
           this.error = 'Invalid email or password. Please try again.';
         } else {
           this.token.saveToken(response.data);
-          const user = await this.userService.getCurrentUser();
+          const force = true;
+          const user = await this.userService.getCurrentUser(force);
           this.metrics.identifyUser(user.email);
           this.metrics.track('LOGIN_SUCCESS');
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {
+        console.log(err);
         this.metrics.track('LOGIN_FAILURE');
         this.error = 'Invalid email or password. Please try again.';
       }

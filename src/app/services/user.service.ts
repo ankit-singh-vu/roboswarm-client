@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
+import * as moment from 'moment';
 
 export interface User {
   id?: number;
@@ -46,17 +47,32 @@ export interface ResourceAvailability {
 @Injectable()
 export class UserService {
   public userChanged: EventEmitter<string> = new EventEmitter<string>();
+  private currentUser: User;
+  private lastUpdate: moment.Moment;
 
   constructor(private http: HttpService) { }
 
-  async getCurrentUser(): Promise<User> {
-    const options: HttpRequestOptions = {
-      authenticated: true,
-      requestType: 'GET',
-      url: '/api/v1/user/me'
-    };
-    const result = await this.http.request(options);
-    return result.data as User;
+  async getCurrentUser(force: boolean = false): Promise<User> {
+    let refreshRequired: boolean;
+    if (!this.lastUpdate) {
+      refreshRequired = true;
+    } else {
+      refreshRequired = this.lastUpdate.isBefore(
+        moment().subtract(10, 'minutes')
+      );
+    }
+    if (force || refreshRequired || !this.currentUser) {
+      const options: HttpRequestOptions = {
+        authenticated: true,
+        requestType: 'GET',
+        url: '/api/v1/user/me'
+      };
+      const result = await this.http.request(options);
+      if (result.statusCode !== 200) { return null; } // guard against unauthenticated.
+      this.currentUser = result.data as User;
+      this.lastUpdate = moment();
+    }
+    return this.currentUser;
   }
 
   async selectPlan(planName: string): Promise<RequestResult> {

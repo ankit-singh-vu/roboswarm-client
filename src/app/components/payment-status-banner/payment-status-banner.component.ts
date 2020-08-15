@@ -14,13 +14,15 @@ export class PaymentStatusBannerComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) { }
 
   async ngOnInit() {
-    const u: User = await this.userService.getCurrentUser();
+    const force = true;
+    const u: User = await this.userService.getCurrentUser(force);
     this.showBanner = u.is_delinquent;
     this.userChangeSubscription = this.userService.userChanged.subscribe(this.handleUserChange);
   }
 
   handleUserChange = async () => {
-    const u: User = await this.userService.getCurrentUser();
+    const force = true;
+    const u: User = await this.userService.getCurrentUser(force);
     this.showBanner = u.is_delinquent;
   }
 

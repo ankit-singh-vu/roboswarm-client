@@ -59,7 +59,8 @@ export class RegisterComponent implements OnInit {
           this.error = response.data;
         } else {
           this.token.saveToken(response.data.token);
-          const user = await this.userService.getCurrentUser();
+          const force = true;
+          const user = await this.userService.getCurrentUser(force);
           this.metrics.identifyUser(user.email);
           this.metrics.track('REGISTER_SUCCESS');
           this.router.navigate(['/dashboard']);
