@@ -70,7 +70,7 @@ export class SiteOwnershipVerificationComponent implements OnInit {
       });
     }
 
-    return this.sanitizer.bypassSecurityTrustHtml(safeRepl(`<meta name="load-test-verify" content="${uuid}">`));
+    return this.sanitizer.bypassSecurityTrustHtml(safeRepl(`<meta name="kernl-verify" content="${uuid}">`));
   }
 
 }
