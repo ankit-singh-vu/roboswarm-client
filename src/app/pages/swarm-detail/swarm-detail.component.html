@@ -36,15 +36,18 @@
                 <p *ngIf="swarm.ready_at">
                     <b>Started At: </b> {{ swarm.ready_at | date:"short" }}
                 </p>
+                <p *ngIf="swarm.ready_at && !swarm.destroyed_at">
+                    <b>Time Remaining: </b> {{ timeRemaining }}
+                </p>
                 <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
-            <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
+            <!-- <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
                 <app-swarm-grade
                     [data]="swarmGradeData"></app-swarm-grade>
                 <div class="clear"></div>
                 <p></p>
                 <button (click)="openGradeDocs(docs)" class="btn btn-sm btn-secondary">Learn More</button>
-            </div>
+            </div> -->
         </div>
         <div class="col-sm-9">
             <div class="card m-b-20 card-body"
@@ -52,15 +55,15 @@
                 <h4 class="card-title">Requests / Failures per Second</h4>
                 <div style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
-                    [results]="formattedResultData"
-                    [scheme]="requestColorScheme"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"></ngx-charts-line-chart>
+                        [results]="formattedResultData"
+                        [scheme]="requestColorScheme"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="xAxisLabel"
+                        [yAxisLabel]="yAxisLabel"
+                        [autoScale]="true"></ngx-charts-line-chart>
                 </div>
             </div>
             <div class="card m-b-20 card-body"
@@ -139,6 +142,7 @@
                                 <thead>
                                     <tr>
                                         <th>Time</th>
+                                        <th>Users</th>
                                         <th>Requests</th>
                                         <th>Failures</th>
                                         <th>Med. Time</th>
@@ -165,6 +169,7 @@
                                     </tr>
                                     <tr *ngFor="let row of requestData">
                                         <td>{{ row.created_at | date:"medium" }}</td>
+                                        <td>{{ row.user_count }}</td>
                                         <td>{{ row.requests }}</td>
                                         <td>{{ row.failures }}</td>
                                         <td>{{ row.median_response_time }}</td>

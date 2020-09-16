@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
   TemplateService,
   WordPressRouteType,
   WordPressRoute,
-  TemplateComplex } from '../../services/template.service';
+  TemplateComplex,
+  TemplateRoute} from '../../services/template.service';
 import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
 import { MetricsService } from 'app/services/metrics.service';
@@ -67,7 +69,8 @@ export class TemplatesAddEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private templateService: TemplateService,
               private metricsService: MetricsService,
-              private router: Router) { }
+              private router: Router,
+              private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.working = true;
@@ -150,22 +153,32 @@ export class TemplatesAddEditComponent implements OnInit {
         });
         break;
       case WordPressRouteType.AUTHENTICATED_FRONTEND_NAVIGATE:
-        this.complexRoutes.push({
-          routeType,
-          routes: await this.templateService.getSitemap(this.model.sitemapUrl)
-        });
+        await this.addSitemapDerivedRoutes(routeType);
         break;
       case WordPressRouteType.UNAUTHENTICATED_FRONTEND_NAVIGATE:
-        this.complexRoutes.push({
-          routeType,
-          routes: await this.templateService.getSitemap(this.model.sitemapUrl)
-        });
+        await this.addSitemapDerivedRoutes(routeType);
         break;
     }
     this.metricsService.track('TEMPLATES_ADD_EDIT_ROUTE_ADD', {
       routeType: this.getWordPressRouteTypeName(routeType)
     });
     this.working = false;
+  }
+
+  private async addSitemapDerivedRoutes(routeType: WordPressRouteType): Promise<void> {
+    const routes: TemplateRoute[] = await this.templateService.getSitemap(this.model.sitemapUrl);
+    if (!routes || routes.length === 0) {
+      this.sitemapRequiredModal();
+    } else {
+      this.complexRoutes.push({ routeType, routes });
+    }
+  }
+
+  private sitemapRequiredModal() {
+    const content = `
+      In order for RoboSwarm to generate a load test for your site, you need to have a sitemap.xml file. We were unable to find one on your site, so please add one and try again. If you aren't sure how to do that, there are numerous plugins available via the WordPress plugin directory that will generate one for you.
+    `;
+    this.modalService.open(content);
   }
 
   private hasModelRoutes(): boolean {

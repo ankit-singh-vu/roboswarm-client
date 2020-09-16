@@ -70,6 +70,7 @@ export interface Request {
   id?: number;
   swarm_id: number;
   created_at: Date;
+  user_count?: number;
   requests: number;
   failures: number;
   median_response_time: number;

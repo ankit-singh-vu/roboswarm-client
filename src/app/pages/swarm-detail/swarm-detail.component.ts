@@ -22,7 +22,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class SwarmDetailComponent implements OnInit, OnDestroy {
   id: number;
-  timer: any; // Interval.
+  timer: NodeJS.Timeout;
   distributionData: Distribution[] = [];
   distributionDataFinal: DistributionFinal[] = [];
   requestData: Request[] = [];
@@ -38,6 +38,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   editName: false;
   activeTabId: number;
   swarmGradeData: SwarmGradeData = null;
+  timeRemaining: string;
+  timeRemainingTimer: NodeJS.Timeout;
 
   // Request Chart
   showXAxis = true;
@@ -96,11 +98,30 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
     this.formatData();
 
+    if (this.swarm.status !== 'destroyed') {
+      this.updateTimeRemaining();
+      this.timeRemainingTimer = setInterval(() => {
+        this.updateTimeRemaining();
+      }, 1000);
+    }
+
     this.loading = false;
   }
 
   ngOnDestroy() {
     clearInterval(this.timer);
+    clearInterval(this.timeRemainingTimer);
+  }
+
+  updateTimeRemaining() {
+    const startTime: moment.Moment = moment(this.swarm.ready_at);
+    const endTime: moment.Moment = startTime.add(this.swarm.duration, 'minutes');
+    const now: moment.Moment = moment();
+    const duration: moment.Duration = moment.duration(endTime.diff(now));
+    const hours = `${duration.get('hours')}`.padStart(2, '0');
+    const minutes = `${duration.get('minutes')}`.padStart(2, '0');
+    const seconds = `${duration.get('seconds')}`.padStart(2, '0');
+    this.timeRemaining = `${hours}:${minutes}:${seconds}`;
   }
 
   onRepeatCompleted = (evt: any) => {
@@ -267,17 +288,17 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCurrentUsers(): number {
-    const start: moment.Moment = this.getDataStart();
-    if (start) {
-      const now: moment.Moment = moment();
-      const duration: moment.Duration = moment.duration(now.diff(start));
-      const seconds: number = duration.asSeconds();
-      const currentUsers = Math.floor(seconds * this.swarm.spawn_rate);
-      return currentUsers <= this.swarm.simulated_users ? currentUsers : this.swarm.simulated_users;
+  getLatestRow(): Request {
+    if (this.requestData && Array.isArray(this.requestData) && this.requestData.length > 0) {
+        return this.requestData[0];
     } else {
-      return 0;
+      return null;
     }
+  }
+
+  getCurrentUsers(): number {
+    const latestRow: Request = this.getLatestRow();
+    return latestRow ? latestRow.user_count : 0;
   }
 
   getFormattedRegions(regions: string): string {

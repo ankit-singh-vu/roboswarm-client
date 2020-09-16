@@ -93,7 +93,7 @@ import { SwarmGradeComponent } from './components/swarm-grade/swarm-grade.compon
     NgxChartsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgbModule,
+    NgbModule
   ],
   providers: [
     HttpService,
