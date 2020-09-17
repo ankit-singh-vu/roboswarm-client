@@ -54,16 +54,7 @@
                 *ngIf="!loading && requestData && requestData.length > 0">
                 <h4 class="card-title">Requests / Failures per Second</h4>
                 <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                        [results]="formattedResultData"
-                        [scheme]="requestColorScheme"
-                        [xAxis]="showXAxis"
-                        [yAxis]="showYAxis"
-                        [showXAxisLabel]="showXAxisLabel"
-                        [showYAxisLabel]="showYAxisLabel"
-                        [xAxisLabel]="xAxisLabel"
-                        [yAxisLabel]="yAxisLabel"
-                        [autoScale]="true"></ngx-charts-line-chart>
+                    <app-request-combo-chart [requests]="requestData"></app-request-combo-chart>
                 </div>
             </div>
             <div class="card m-b-20 card-body"
