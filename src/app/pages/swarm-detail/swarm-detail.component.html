@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-sm-3">
             <div *ngIf="swarm" class="card m-b-20 card-body meta">
-                <p *ngIf="!swarm.destroyed_at"><b>Current Users: </b>{{ getCurrentUsers() }}</p>
+                <p *ngIf="!swarm.destroyed_at && userCount"><b>Current Users: </b>{{ userCount }}</p>
                 <p><b>Total Users: </b> {{ swarm.simulated_users }}</p>
                 <p><b>Ramp Up: </b> {{ swarm.spawn_rate }} user(s) per second</p>
                 <p><b>Site: </b> {{ swarm.host_url }}</p>

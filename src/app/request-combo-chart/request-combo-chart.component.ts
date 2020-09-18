@@ -1,7 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Chart } from 'chart.js';
 import { Request } from '../services/swarm.service';
-import { formatDate } from '@angular/common';
 
 interface FormattedDataAndLabels {
   requests: any[];
@@ -46,11 +45,11 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
     datasets.push({
       type: 'bar',
       label: 'Total users',
-      backgroundColor: color('#008000').alpha(0.5).rgbString(), // green
+      backgroundColor: color('#008000').alpha(0.2).rgbString(), // green
       data: formattedData.userCount
     });
     options = {
-      type: 'line', // WIP -> This might need to be 'bar'
+      type: 'line',
       data: {
         labels: formattedData.labels,
         datasets
@@ -80,7 +79,7 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
     };
 
     // Performance tweaks for large data sets.
-    if (this.requests && this.requests.length > 1000) {
+    if (this.requests && this.requests.length > 250) {
       options.elements = {
         line: {
           tension: 0, // disables bezier curves
@@ -98,20 +97,10 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
     this.ctx = document.getElementById('requestComboChart');
     this.requestComboChart = new Chart(this.ctx, options);
     this.initialized = true;
-    //
-    // WIP -> Chart not initializing correctly.
-    //     Might be usage error.
-    //     Might be data wrong.
-    //     Check options object for data.
-    //     Maybe try with just lines first?
-    //
-    console.log({ options });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log({ changes });
-    if (this.initialized && this.requestComboChart) {
-      console.log(this.requests);
+    if (this.initialized) {
       const data: FormattedDataAndLabels = this.getFormattedDataAndLabels();
       // Also need to memoize a hash for this data so we don't re-render
       // if things don't change.
@@ -119,7 +108,6 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
       this.requestComboChart.data.datasets[0].data = data.requests;
       this.requestComboChart.data.datasets[1].data = data.failures;
       this.requestComboChart.data.datasets[2].data = data.userCount;
-      console.log({ data });
       this.requestComboChart.update();
     }
   }
@@ -133,7 +121,12 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
     };
 
     if (this.requests && this.requests.length > 0) {
-      this.requests.reverse().forEach(row => {
+      this.requests.sort((a: Request, b: Request) => {
+        if (a.id < b.id) { return -1; }
+        if (a.id > b.id) { return 1; }
+        return 0;
+      });
+      this.requests.forEach(row => {
         formattedData.labels.push(new Date(row.created_at));
         formattedData.requests.push(row.requests_per_second);
         formattedData.failures.push(row.failures_per_second);
