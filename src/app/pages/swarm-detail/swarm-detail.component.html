@@ -70,15 +70,7 @@
                 *ngIf="!loading && requestData && requestData.length > 0">
                 <h4 class="card-title">Average / Median Response Time</h4>
                 <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                    [results]="formattedResponseTimeData"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="responseTimeYAxisLabel"
-                    [autoScale]="true"></ngx-charts-line-chart>
+                    <app-response-time-combo-chart [requests]="requestData"></app-response-time-combo-chart>
                 </div>
             </div>
         </div>
@@ -158,7 +150,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr *ngFor="let row of requestData">
+                                    <tr *ngFor="let row of requestData.reverse()">
                                         <td>{{ row.created_at | date:"medium" }}</td>
                                         <td>{{ row.user_count }}</td>
                                         <td>{{ row.requests }}</td>

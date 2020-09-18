@@ -49,7 +49,8 @@ import { PasswordResetComponent } from './pages/password-reset/password-reset.co
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { RemainingResourcesComponent } from './components/remaining-resources/remaining-resources.component';
 import { SwarmGradeComponent } from './components/swarm-grade/swarm-grade.component';
-import { RequestComboChartComponent } from './request-combo-chart/request-combo-chart.component';
+import { RequestComboChartComponent } from './components/request-combo-chart/request-combo-chart.component';
+import { ResponseTimeComboChartComponent } from './components/response-time-combo-chart/response-time-combo-chart.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { RequestComboChartComponent } from './request-combo-chart/request-combo-
     ChangePasswordComponent,
     RemainingResourcesComponent,
     SwarmGradeComponent,
-    RequestComboChartComponent
+    RequestComboChartComponent,
+    ResponseTimeComboChartComponent
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,20 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Chart } from 'chart.js';
-import { Request } from '../services/swarm.service';
+import { Request } from '../../services/swarm.service';
 
 interface FormattedDataAndLabels {
-  requests: any[];
-  failures: any[];
+  avg_response_time: any[];
+  med_response_time: any[];
   userCount: any[];
   labels: any[];
 }
 
 @Component({
-  selector: 'app-request-combo-chart',
-  templateUrl: './request-combo-chart.component.html',
-  styleUrls: ['./request-combo-chart.component.css']
+  selector: 'app-response-time-combo-chart',
+  templateUrl: './response-time-combo-chart.component.html',
+  styleUrls: ['./response-time-combo-chart.component.css']
 })
-export class RequestComboChartComponent implements OnInit, OnChanges {
+export class ResponseTimeComboChartComponent implements OnInit, OnChanges {
   @Input() requests: Request[];
 
   private ctx: any;
@@ -30,21 +30,21 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
     const formattedData: FormattedDataAndLabels = this.getFormattedDataAndLabels();
     datasets.push({
       type: 'line',
-      label: 'Requests per second',
-      data: formattedData.requests,
+      label: 'Avg Response Time (ms)',
+      data: formattedData.avg_response_time,
       pointRadius: 2,
       backgroundColor: color('#588de2').alpha(0.5).rgbString(), // blue
     });
     datasets.push({
       type: 'line',
-      label: 'Failures per second',
-      data: formattedData.failures,
+      label: 'Med. Response Time (ms)',
+      data: formattedData.med_response_time,
       pointRadius: 2,
       backgroundColor: color('#ff2626').alpha(0.5).rgbString(), // red
     });
     datasets.push({
       type: 'bar',
-      label: 'Total users',
+      label: 'Total User Count',
       backgroundColor: color('#008000').alpha(0.2).rgbString(), // green
       data: formattedData.userCount
     });
@@ -94,7 +94,7 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
       options.responsiveAnimationDuration = 0;
     }
 
-    this.ctx = document.getElementById('requestComboChart');
+    this.ctx = document.getElementById('responseTimeComboChart');
     this.requestComboChart = new Chart(this.ctx, options);
     this.initialized = true;
   }
@@ -102,11 +102,11 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.initialized) {
       const data: FormattedDataAndLabels = this.getFormattedDataAndLabels();
-      // Also need to memoize a hash for this data so we don't re-render
+      // Todo: need to memoize a hash for this data so we don't re-render
       // if things don't change.
       this.requestComboChart.data.labels = data.labels;
-      this.requestComboChart.data.datasets[0].data = data.requests;
-      this.requestComboChart.data.datasets[1].data = data.failures;
+      this.requestComboChart.data.datasets[0].data = data.avg_response_time;
+      this.requestComboChart.data.datasets[1].data = data.med_response_time;
       this.requestComboChart.data.datasets[2].data = data.userCount;
       this.requestComboChart.update();
     }
@@ -115,8 +115,8 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
   private getFormattedDataAndLabels(): FormattedDataAndLabels {
     const formattedData: FormattedDataAndLabels = {
       labels: [],
-      requests: [],
-      failures: [],
+      avg_response_time: [],
+      med_response_time: [],
       userCount: []
     };
 
@@ -128,8 +128,8 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
       });
       this.requests.forEach(row => {
         formattedData.labels.push(new Date(row.created_at));
-        formattedData.requests.push(row.requests_per_second);
-        formattedData.failures.push(row.failures_per_second);
+        formattedData.avg_response_time.push(row.average_response_time);
+        formattedData.med_response_time.push(row.median_response_time);
         if (row.user_count && typeof row.user_count === 'number') {
           formattedData.userCount.push(row.user_count);
         }
