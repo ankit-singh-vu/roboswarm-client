@@ -40,6 +40,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   swarmGradeData: SwarmGradeData = null;
   timeRemaining: string;
   timeRemainingTimer: NodeJS.Timeout;
+  userCount: number = null;
 
   // Request Chart
   showXAxis = true;
@@ -174,6 +175,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       });
       this.previousRequestIdMarker = this.requestData[0].id;
     }
+    this.requestData = this.requestData.slice();
 
     this.formatData();
   }
@@ -189,6 +191,10 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   formatData() {
     // Take the distribution data and the request data and put into format.
     const orderedData = this.requestData.slice().reverse();
+    if (orderedData && orderedData.length > 0) {
+      const count: number = orderedData[orderedData.length - 1].user_count;
+      if (count) { this.userCount = count; }
+    }
     this.formattedResultData = [
       {
         name: 'Requests / second',
@@ -286,19 +292,6 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
-  }
-
-  getLatestRow(): Request {
-    if (this.requestData && Array.isArray(this.requestData) && this.requestData.length > 0) {
-        return this.requestData[0];
-    } else {
-      return null;
-    }
-  }
-
-  getCurrentUsers(): number {
-    const latestRow: Request = this.getLatestRow();
-    return latestRow ? latestRow.user_count : 0;
   }
 
   getFormattedRegions(regions: string): string {
