@@ -33,6 +33,16 @@ export interface TemplateSimple {
   created_at: Date;
 }
 
+export interface WooCommerceTemplate {
+  id?: number;
+  created_at?: Date;
+  group_id: Number;
+  user_id: Number;
+  name: string;
+  file_path: string;
+  description: string;
+}
+
 export enum WordPressRouteType {
   AUTHENTICATED_FRONTEND_NAVIGATE,
   AUTHENTICATED_ADMIN_NAVIGATE,
@@ -64,6 +74,16 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as TemplateSimple[];
+  }
+
+  async getAllWooCommerce(): Promise<WooCommerceTemplate[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: '/api/v1/template/woo-commerce'
+    };
+    const result = await this.http.request(options);
+    return result.data as WooCommerceTemplate[];
   }
 
   async create(data: TemplateComplex): Promise<TemplateComplex> {

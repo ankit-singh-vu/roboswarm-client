@@ -18,6 +18,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-commerce-template.component';
 
 const routes: Routes = [
 
@@ -70,6 +71,19 @@ const routes: Routes = [
                     },
                     { path: 'add', component: TemplatesAddEditComponent },
                     { path: '', component: TemplatesComponent }
+                ]
+            },
+            {
+                path: 'woocommerce-template',
+                children: [
+                    // {
+                    //     path: 'edit',
+                    //     children: [
+                    //         { path: ':id', component: TemplatesAddEditComponent }
+                    //     ]
+                    // },
+                    // { path: 'request', component: WooCommerceTemplateRequestComponent },
+                    { path: '', component: WooCommerceTemplateComponent }
                 ]
             },
             { path: 'plans-and-billing', component: BillingComponent },
