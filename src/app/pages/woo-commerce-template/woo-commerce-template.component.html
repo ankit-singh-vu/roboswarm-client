@@ -1,0 +1,47 @@
+<div class="wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-20">
+          <button type="button" class="btn btn-primary waves-effect waves-light">Request WooCommerce Template</button>
+        </div>
+        <h4 class="page-title">
+            WooCommerce Load Test Templates
+        </h4>
+      </div>
+    </div>
+    <div *ngIf="loading" class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-2">
+        <app-spinner [show]="loading"></app-spinner>
+      </div>
+      <div class="col-sm-5"></div>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div *ngIf="templates.length === 0" class="col-sm-3">
+          <div class="card m-b-20 card-body">
+              <p>Every RoboSwarm Enterprise plan includes 1 <b>free</b> custom WooCommerce load test template. Use "Request WooCommerce Template" to get started. We'll reach out and ask for more details. If you have multiple WooCommerce sites to test, feel free to request multiple templates.</p>
+          </div>
+        </div>
+        <div *ngIf="templates.length === 0" class="col-sm-9">
+            <div class="alert alert-info">
+                You don't have any WooCommerce load test templates yet! Click the "Request WooCommerce Template" button to request one.
+            </div>
+        </div>
+        <div *ngIf="templates && templates.length > 0" class="col-sm-12">
+            <div class="row">
+                <div *ngFor="let template of templates" class="col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ template.name }}</h5>
+                            <p class="card-text">{{ template.description }}</p>
+                            <blockquote class="blockquote mb-0">
+                                <footer class="blockquote-footer">Created on {{ template.created_at | date:"medium" }}</footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
