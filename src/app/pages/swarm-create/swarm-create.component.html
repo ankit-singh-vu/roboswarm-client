@@ -47,7 +47,7 @@
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="template_id">Template</label>
+                      <label for="template">Template</label>
                       <div *ngIf="!templates || templates.length === 0" class="alert alert-danger">
                         You have no templates created. Click the "Templates" menu to get started.
                       </div>
@@ -58,11 +58,10 @@
                           [closeOnSelect]="true"
                           [searchable]="false"
                           [disabled]='submitted'
-                          name="template_id"
-                          bindValue="id"
+                          name="template"
                           bindLabel="name"
                           placeholder="Select Template"
-                          [(ngModel)]="model.template_id">
+                          [(ngModel)]="model.template">
                       </ng-select>
                       <small class="form-text text-muted">The load test template we will run against the site selected above.</small>
                     </div>

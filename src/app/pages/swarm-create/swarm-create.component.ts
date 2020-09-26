@@ -15,7 +15,7 @@ interface CreateSwarmForm {
   duration_minutes: number;
   swarm_region: string[];
   site_id: number;
-  template_id: number;
+  template: TemplateSimple;
   spawn_rate: number;
   swarm_ui_type?: string;
   generate_test_from_template?: boolean;
@@ -36,7 +36,7 @@ export class SwarmCreateComponent implements OnInit {
     swarm_region: ['nyc3'],
     spawn_rate: 1,
     site_id: null,
-    template_id: null,
+    template: null,
     swarm_ui_type: 'headless',
     generate_test_from_template: true
   };
@@ -109,8 +109,8 @@ export class SwarmCreateComponent implements OnInit {
           file_path: '',
           spawn_rate: this.model.spawn_rate,
           site_id: this.model.site_id,
-          template_id: this.model.template_id,
-          is_woo_commerce_template: this.templates.find(t => t.id === this.model.template_id).is_woo_commerce,
+          template_id: this.model.template.id,
+          is_woo_commerce_template: this.model.template.is_woo_commerce,
           region: this.model.swarm_region.join(','),
           duration: this.model.duration_minutes,
           swarm_ui_type: this.test_type,
