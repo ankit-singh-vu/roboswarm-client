@@ -88,7 +88,8 @@ export class StartWizardComponent {
         machines: [{ region: 'nyc3' }],
         region: 'nyc3',
         swarm_ui_type: 'headless',
-        generate_test_from_template: true
+        generate_test_from_template: true,
+        is_woo_commerce_template: false
       });
       if (swarmResult.statusCode !== 201) {
         if (swarmResult.data) {

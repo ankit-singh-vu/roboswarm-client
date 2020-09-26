@@ -5,6 +5,7 @@ import { RequestResult } from '../../services/http.service';
 import { MetricsService } from '../../services/metrics.service';
 import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
 import { TemplateService, TemplateSimple } from '../../services/template.service';
+import * as moment from 'moment';
 
 interface CreateSwarmForm {
   name: string;
@@ -65,7 +66,18 @@ export class SwarmCreateComponent implements OnInit {
   async ngOnInit() {
     this.metrics.track('SWARM_CREATE_VIEW');
     this.sites = await await this.siteOwnershipService.getAll();
-    this.templates = await this.templateService.getAll();
+    const templates = await this.templateService.getAll();
+    const wooTemplates = await this.templateService.getAllWooCommerce();
+    wooTemplates.forEach(wt => {
+      const createdAt: moment.Moment = moment(wt.created_at);
+      templates.push({
+        id: wt.id,
+        name: `[WooCommerce] ${wt.name} - ${createdAt.format('MM/DD/YYYY')}`,
+        created_at: wt.created_at,
+        is_woo_commerce: true
+      });
+    });
+    this.templates = templates;
   }
 
   async onSubmit(form) {
@@ -98,6 +110,7 @@ export class SwarmCreateComponent implements OnInit {
           spawn_rate: this.model.spawn_rate,
           site_id: this.model.site_id,
           template_id: this.model.template_id,
+          is_woo_commerce_template: this.templates.find(t => t.id === this.model.template_id).is_woo_commerce,
           region: this.model.swarm_region.join(','),
           duration: this.model.duration_minutes,
           swarm_ui_type: this.test_type,

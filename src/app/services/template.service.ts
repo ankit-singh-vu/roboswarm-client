@@ -31,6 +31,7 @@ export interface TemplateSimple {
   id: number;
   name: string;
   created_at: Date;
+  is_woo_commerce?: boolean;
 }
 
 export interface WooCommerceTemplate {
