@@ -26,6 +26,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   distributionData: Distribution[] = [];
   distributionDataFinal: DistributionFinal[] = [];
   requestData: Request[] = [];
+  requestDataView: Request[] = [];
   requestDataFinal: RequestFinal[] = [];
   swarm: Swarm;
   previousDistributionIdMarker = 0;
@@ -75,8 +76,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     this.id = parseInt(this.route.snapshot.params.id, 10);
     this.swarm = await this.swarmService.getById(this.id);
     const initialData: LoadTestMetrics = await this.swarmService.getMetrics(this.id);
-    this.distributionData = initialData.distribution.reverse();
-    this.requestData = initialData.requests.reverse();
+    this.distributionData = [...initialData.distribution].reverse();
+    this.requestData = [...initialData.requests];
     this.metrics.track('SWARM_DETAIL_VIEW', { id: this.id });
 
     if (this.distributionData && this.distributionData.length > 0) {
@@ -155,7 +156,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     }
 
     if (data.distribution && data.distribution.length > 0) {
-      const distributionReversed = data.distribution.reverse();
+      const distributionReversed = [...data.distribution].reverse();
       distributionReversed.forEach(item => {
         const exists = this.distributionData.find(dd => dd.id === item.id);
         if (!exists) {
@@ -166,7 +167,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     }
 
     if (data.requests && data.requests.length > 0) {
-      const requestReversed = data.requests.reverse();
+      const requestReversed = [...data.requests].reverse();
       requestReversed.forEach(item => {
         const exists = this.requestData.find(rd => rd.id === item.id);
         if (!exists) {
@@ -190,15 +191,16 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
   formatData() {
     // Take the distribution data and the request data and put into format.
-    const orderedData = this.requestData.slice().reverse();
-    if (orderedData && orderedData.length > 0) {
-      const count: number = orderedData[orderedData.length - 1].user_count;
+    this.requestDataView = [...this.requestData].reverse();
+    if (this.requestDataView && this.requestDataView.length > 0) {
+      const count: number = this.requestDataView[this.requestDataView.length - 1].user_count;
       if (count) { this.userCount = count; }
     }
+
     this.formattedResultData = [
       {
         name: 'Requests / second',
-        series: orderedData.map(r => {
+        series: this.requestDataView.map(r => {
           return {
             value: r.requests_per_second,
             name: new Date(r.created_at)
@@ -207,7 +209,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Failures / second',
-        series: orderedData.map(r => {
+        series: this.requestDataView.map(r => {
           return {
             value: r.failures_per_second,
             name: new Date(r.created_at)
@@ -219,7 +221,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     this.formattedResponseTimeData = [
       {
         name: 'Response Time (Average)',
-        series: orderedData.map(r => {
+        series: this.requestDataView.map(r => {
           return {
             value: r.average_response_time,
             name: new Date(r.created_at)
@@ -228,7 +230,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       },
       {
         name: 'Response Time (Median)',
-        series: orderedData.map(r => {
+        series: this.requestDataView.map(r => {
           return {
             value: r.median_response_time,
             name: new Date(r.created_at)
@@ -239,7 +241,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
     this.formattedFailureData = [{
       name: 'Failures',
-      series: orderedData.map(r => {
+      series: this.requestDataView.map(r => {
         return {
           value: r.failures,
           name: new Date(r.created_at)
@@ -268,8 +270,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     const p99: number = (
       this.distributionData && this.distributionData.length > 0
     ) ? this.distributionData[0].percentiles['99%'] : null;
-    if (orderedData && orderedData.length > 0) {
-      const latest: Request = orderedData.pop();
+    if (this.requestDataView && this.requestDataView.length > 0) {
+      const latest: Request = this.requestDataView.pop();
       this.swarmGradeData = {
         p50,
         p99,
