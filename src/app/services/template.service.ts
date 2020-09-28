@@ -87,6 +87,15 @@ export class TemplateService {
     return result.data as WooCommerceTemplate[];
   }
 
+  async requestWooCommerceTemplate(): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: '/api/v1/template/woo-commerce'
+    };
+    await this.http.request(options);
+  }
+
   async create(data: TemplateComplex): Promise<TemplateComplex> {
     const options: HttpRequestOptions = {
       authenticated: true,

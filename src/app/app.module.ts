@@ -52,6 +52,7 @@ import { SwarmGradeComponent } from './components/swarm-grade/swarm-grade.compon
 import { RequestComboChartComponent } from './components/request-combo-chart/request-combo-chart.component';
 import { ResponseTimeComboChartComponent } from './components/response-time-combo-chart/response-time-combo-chart.component';
 import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-commerce-template.component';
+import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-template-request/woo-commerce-template-request.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-
     SwarmGradeComponent,
     RequestComboChartComponent,
     ResponseTimeComboChartComponent,
-    WooCommerceTemplateComponent
+    WooCommerceTemplateComponent,
+    WooCommerceTemplateRequestComponent
   ],
   imports: [
     BrowserModule,

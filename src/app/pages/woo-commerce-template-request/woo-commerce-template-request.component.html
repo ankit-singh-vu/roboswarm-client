@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4 class="page-title">
+            Request WooCommerce Load Test Template
+        </h4>
+      </div>
+    </div>
+    <div *ngIf="loading" class="row">
+      <div class="col-sm-5"></div>
+      <div class="col-sm-2">
+        <app-spinner [show]="loading"></app-spinner>
+      </div>
+      <div class="col-sm-5"></div>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="alert alert-info">
+                Your request for a WooCommerce Load Test Template has been received. We will be reaching out to you soon at the email associated with this account.
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
