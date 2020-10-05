@@ -53,6 +53,7 @@ import { RequestComboChartComponent } from './components/request-combo-chart/req
 import { ResponseTimeComboChartComponent } from './components/response-time-combo-chart/response-time-combo-chart.component';
 import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-commerce-template.component';
 import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-template-request/woo-commerce-template-request.component';
+import { EditTemplateRoutesModalComponent } from './components/edit-template-routes-modal/edit-template-routes-modal.component';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-templa
     RequestComboChartComponent,
     ResponseTimeComboChartComponent,
     WooCommerceTemplateComponent,
-    WooCommerceTemplateRequestComponent
+    WooCommerceTemplateRequestComponent,
+    EditTemplateRoutesModalComponent
   ],
   imports: [
     BrowserModule,

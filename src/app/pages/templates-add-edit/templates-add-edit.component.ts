@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   TemplateService,
   WordPressRouteType,
@@ -9,7 +9,8 @@ import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
-import { MetricsService } from 'app/services/metrics.service';
+import { MetricsService } from '../../services/metrics.service';
+import { EditTemplateRoutesModalComponent } from '../../components/edit-template-routes-modal/edit-template-routes-modal.component';
 
 interface AddEditTemplate extends TemplateComplex {
   sitemapUrl: string;
@@ -214,5 +215,13 @@ export class TemplatesAddEditComponent implements OnInit {
         this.wordpressRouteTypes[i].hasPassword = hasValue;
       }
     }
+  }
+
+  editRoutes(route: WordPressRoute, index: number) {
+    console.log(route);
+    const instance = this.modalService.open(EditTemplateRoutesModalComponent);
+    instance.componentInstance.routes = route;
+    // WIP -> Catch the closing of the modal. Take the result and update the
+    // complex route object.
   }
 }

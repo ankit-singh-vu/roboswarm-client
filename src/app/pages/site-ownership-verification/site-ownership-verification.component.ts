@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
 import { VerifyComplete } from '../../components/verify-site-ownership-button/verify-site-ownership-button.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { MetricsService } from 'app/services/metrics.service';
-import { User, UserService } from 'app/services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MetricsService } from '../../services/metrics.service';
 
 @Component({
   selector: 'app-site-ownership-verification',
@@ -60,7 +59,7 @@ export class SiteOwnershipVerificationComponent implements OnInit {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#39;',
+      '\'': '&#39;',
       '/': '&#x2F;'
     };
 

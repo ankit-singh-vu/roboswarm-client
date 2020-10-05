@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint --exclude=**/*.spec.ts",
     "e2e": "ng e2e",
     "deploy": "npm run build && node src/deploy/deploy.js"
   },

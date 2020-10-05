@@ -96,7 +96,7 @@
             </div>
             <div *ngIf="!working && hasRoutes()" class="card m-b-20 card-body fixed">
               <p>These are the load test scenarios that we will run the load test against.</p>
-              <table class="table">
+              <table class="table route-type-list">
                 <thead>
                   <tr>
                     <th>Scenario Type</th>
@@ -108,7 +108,10 @@
                   <tr *ngFor="let route of complexRoutes">
                     <td>{{ getWordPressRouteTypeName(route.routeType) }}</td>
                     <td>{{ route.routes.length }}</td>
-                    <td><button (click)="deleteComplexRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button></td>
+                    <td>
+                      <button (click)="editRoutes(route, i)" type="button" class="btn btn-primary btn-sm waves-effect waves-light">Edit</button>
+                      <button (click)="deleteComplexRouteAtIndex(i)" type="button" class="btn btn-danger btn-sm waves-effect waves-light">Remove</button>
+                    </td>
                   </tr>
                   <tr *ngIf="!complexRoutes || complexRoutes.length === 0">
                     <td colspan="3">
