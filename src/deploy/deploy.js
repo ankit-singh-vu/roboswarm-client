@@ -3,9 +3,10 @@ const fs = require('fs');
 
 (async () => {
     console.log("Starting client deploy....");
-    let sourcePath = '/Users/jack/repos/roboswarm-client/dist';
+    let sourcePath = '/Users/jackslingerland/repos/roboswarm-client/dist';
     if (!fs.existsSync(sourcePath)) {
-        sourcePath = '/home/jack/repos/roboswarm-client/dist';
+        process.exit(1);
+        return;
     }
     console.log("Using source path: ", sourcePath);
     const destinationPath = `/var/www/roboswarm-static/static`;
