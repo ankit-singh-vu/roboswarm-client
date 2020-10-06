@@ -105,7 +105,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let route of complexRoutes">
+                  <tr *ngFor="let route of complexRoutes; index as i;">
                     <td>{{ getWordPressRouteTypeName(route.routeType) }}</td>
                     <td>{{ route.routes.length }}</td>
                     <td>

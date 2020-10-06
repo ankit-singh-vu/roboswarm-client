@@ -6,7 +6,7 @@ import {
   TemplateComplex,
   TemplateRoute} from '../../services/template.service';
 import { NgForm } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WordPressRouteFields } from '../../components/wordpress-route/wordpress-route.component';
 import { MetricsService } from '../../services/metrics.service';
@@ -217,11 +217,21 @@ export class TemplatesAddEditComponent implements OnInit {
     }
   }
 
-  editRoutes(route: WordPressRoute, index: number) {
-    console.log(route);
-    const instance = this.modalService.open(EditTemplateRoutesModalComponent);
-    instance.componentInstance.routes = route;
-    // WIP -> Catch the closing of the modal. Take the result and update the
-    // complex route object.
+  async editRoutes(route: WordPressRoute, index: number) {
+    const copy: WordPressRoute = Object.assign({}, route);
+    copy.routes = route.routes.map((r, id) => {
+      return { ...r, id };
+    });
+    const config: NgbModalOptions = { size: 'lg' };
+    const instance = this.modalService.open(EditTemplateRoutesModalComponent, config);
+    instance.componentInstance.routes = copy;
+    try {
+      const result: WordPressRoute = await instance.result;
+      result.routes = result.routes.map(r => {
+        delete r.id;
+        return r;
+      });
+      this.complexRoutes[index] = result;
+    } catch (err) { console.error(err); }
   }
 }

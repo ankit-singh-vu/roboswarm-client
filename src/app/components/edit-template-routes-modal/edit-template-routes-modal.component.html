@@ -1,12 +1,50 @@
 <div class="modal-header">
-    <h4 class="modal-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close">
+    <h4 class="modal-title">Edit Template Routes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Hello</p>
+    <table class="table table-striped">
+        <thead>
+            <th>Path</th>
+            <th></th>
+        </thead>
+        <tbody class="form-group">
+            <tr>
+                <td>
+                    <input
+                        placeholder="Add a route..."
+                        class="form-control"
+                        type="text"
+                        (keyup.enter)="add()"
+                        [(ngModel)]="newRoutePath" />
+                </td>
+                <td>
+                    <button
+                        (click)="add()"
+                        type="button"
+                        class="btn btn-primary btn-sm">Add</button>
+                </td>
+            </tr>
+            <tr *ngFor="let route of routes.routes">
+                <td>
+                    <input
+                        class="form-control"
+                        type="text"
+                        [(ngModel)]="route.path" />
+                </td>
+                <td>
+                    <button
+                        (click)="remove(route)"
+                        type="button"
+                        class="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark">Close</button>
+    <button type="button" class="btn btn-primary btn-outline-dark" (click)="save()">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="close()">Cancel</button>
   </div>
