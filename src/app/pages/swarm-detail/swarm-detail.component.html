@@ -41,13 +41,13 @@
                 </p>
                 <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
-            <!-- <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
+            <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
                 <app-swarm-grade
                     [data]="swarmGradeData"></app-swarm-grade>
                 <div class="clear"></div>
                 <p></p>
                 <button (click)="openGradeDocs(docs)" class="btn btn-sm btn-secondary">Learn More</button>
-            </div> -->
+            </div>
         </div>
         <div class="col-sm-9">
             <div class="card m-b-20 card-body"

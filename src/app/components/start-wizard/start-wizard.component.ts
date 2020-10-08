@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { SiteOwnershipService, SiteOwnership} from 'app/services/site-ownership.service';
-import { TemplateService, TemplateRoute, TemplateComplex, WordPressRouteType } from 'app/services/template.service';
-import { SwarmService } from 'app/services/swarm.service';
+import { SiteOwnershipService, SiteOwnership} from '../../services/site-ownership.service';
+import { TemplateService, TemplateRoute, TemplateComplex, WordPressRouteType } from '../../services/template.service';
+import { SwarmService, NewSwarm } from '../../services/swarm.service';
 
 interface StartWizardForm {
   name: string;
@@ -77,7 +77,7 @@ export class StartWizardComponent {
       }
 
       // 4) Start the load test.
-      const swarmResult = await this._swarmService.createSwarm({
+      const swarmData: NewSwarm = {
         name: this.model.name,
         duration: 20,
         simulated_users: this.model.simulated_users,
@@ -90,7 +90,8 @@ export class StartWizardComponent {
         swarm_ui_type: 'headless',
         generate_test_from_template: true,
         is_woo_commerce_template: false
-      });
+      };
+      const swarmResult = await this._swarmService.createSwarm(swarmData);
       if (swarmResult.statusCode !== 201) {
         if (swarmResult.data) {
           this.error = swarmResult.data;
