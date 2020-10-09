@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SiteOwnershipService, SiteOwnership } from '../../services/site-ownership.service';
 import { VerifyComplete } from '../../components/verify-site-ownership-button/verify-site-ownership-button.component';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MetricsService } from '../../services/metrics.service';
 
@@ -16,7 +15,6 @@ export class SiteOwnershipVerificationComponent implements OnInit {
 
   constructor(private siteOwnershipService: SiteOwnershipService,
               private metricsService: MetricsService,
-              private sanitizer: DomSanitizer,
               private modalService: NgbModal) { }
 
   async ngOnInit() {
@@ -38,38 +36,8 @@ export class SiteOwnershipVerificationComponent implements OnInit {
     } catch (err) { /* no-op */ }
   }
 
-  async openDocumentation(content: any) {
-    try {
-      this.metricsService.track('SITE_OWNERSHIP_OPEN_DOCUMENTATION');
-      await this.modalService.open(content, {
-        ariaLabelledBy: 'modal-basic-title',
-        size: 'lg'
-      });
-    } catch (err) { /* no-op */ }
-  }
-
   onVerifyCompleted(evt: VerifyComplete) {
     const index: number = this.sites.findIndex(site => site.id === evt.id);
     this.sites[index].verified = evt.verified;
   }
-
-  getMetaTag(uuid: string): SafeHtml {
-    const entityMap = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      '\'': '&#39;',
-      '/': '&#x2F;'
-    };
-
-    function safeRepl(str): string {
-      return String(str).replace(/[&<>"'\/]/g, function (s) {
-        return entityMap[s];
-      });
-    }
-
-    return this.sanitizer.bypassSecurityTrustHtml(safeRepl(`<meta name="kernl-verify" content="${uuid}">`));
-  }
-
 }
