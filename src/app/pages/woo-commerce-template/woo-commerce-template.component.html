@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="btn-group pull-right m-t-20">
-          <button [routerLink]="['/dashboard/woocommerce-template/request']" type="button" class="btn btn-primary waves-effect waves-light">Request WooCommerce Template</button>
+          <button [routerLink]="['/dashboard/woocommerce-template/add']" type="button" class="btn btn-primary waves-effect waves-light">Create WooCommerce Template</button>
         </div>
         <h4 class="page-title">
             WooCommerce Load Test Templates
@@ -38,6 +38,13 @@
                             <blockquote class="blockquote mb-0">
                                 <footer class="blockquote-footer">Created on {{ template.created_at | date:"medium" }}</footer>
                             </blockquote>
+                            <div class="row">
+                              <div class="col-sm-3"></div>
+                              <div class="col-sm-3"></div>
+                              <div class="col-sm-3"></div>
+                              <button [routerLink]="['/dashboard/woocommerce-template/edit', template.id]" class="btn btn-primary btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
+                              <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
+                            </div>
                         </div>
                     </div>
                 </div>

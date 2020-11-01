@@ -17,4 +17,9 @@ export class WooCommerceTemplateComponent implements OnInit {
     this.loading = false;
   }
 
+  async deleteTemplate(id: number) {
+    await this.templateService.deleteWooTemplate(id);
+    this.templates = await this.templateService.getAllWooCommerce();
+  }
+
 }

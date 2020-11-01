@@ -1,0 +1,133 @@
+<div class="wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h4 *ngIf="id" class="page-title">
+                Edit WooCommerce Load Test Template
+          </h4>
+          <h4 *ngIf="!id" class="page-title">
+              Add WooCommerce Load Test Template
+          </h4>
+        </div>
+      </div>
+      <div *ngIf="working" align="center">
+        <app-spinner [show]="working"></app-spinner>
+      </div>
+      <div *ngIf="!working" class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <div class="card m-b-20 card-body">
+                <p class="card-text">
+                    To create your WooCommerce load test template, we need a few pieces of information.
+                </p>
+                <form class="form-horizontal m-t-20" #createTemplateForm="ngForm" (ngSubmit)="onSubmit(createTemplateForm)">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input class="form-control"
+                                      type="text"
+                                      name="name"
+                                      id="name"
+                                      required
+                                      [(ngModel)]="model.name"
+                                      [disabled]="submitted">
+                                <small class="form-text text-muted">The name of this template. Example: "RoboSwarm Store Staging"</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control"
+                                      name="description"
+                                      id="description"
+                                      [(ngModel)]="model.description"
+                                      [disabled]="submitted"></textarea>
+                                <small class="form-text text-muted">(Optional) A longer description of this template.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shop_url">Shop URL</label>
+                        <input class="form-control"
+                              type="text"
+                              name="shop_url"
+                              id="shop_url"
+                              required
+                              [(ngModel)]="model.shop_url"
+                              [disabled]="submitted">
+                        <small class="form-text text-muted">The URL path to a list of products. This is often the home page of your store, but could be /shop or something similar. Example: /shop (NOT: https://example.com/shop)</small>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cart_url">Cart URL</label>
+                                <input class="form-control"
+                                      type="text"
+                                      name="cart_url"
+                                      id="cart_url"
+                                      required
+                                      [(ngModel)]="model.cart_url"
+                                      [disabled]="submitted">
+                                <small class="form-text text-muted">The URL path to your shopping cart page. Example: /my/cart (NOT: https://example.com/my/cart)</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="checkout_url">Checkout URL</label>
+                                <input class="form-control"
+                                      type="text"
+                                      name="checkout_url"
+                                      id="checkout_url"
+                                      required
+                                      [(ngModel)]="model.checkout_url"
+                                      [disabled]="submitted">
+                                <small class="form-text text-muted">The URL path to your checkout page. Example: /checkout (NOT: https://example.com/checkout)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="product_a_url">Product A URL</label>
+                                <input class="form-control"
+                                    type="text"
+                                    name="product_a_url"
+                                    id="product_a_url"
+                                    required
+                                    [(ngModel)]="model.product_a_url"
+                                    [disabled]="submitted">
+                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product)</small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="product_b_url">Product B URL</label>
+                                <input class="form-control"
+                                    type="text"
+                                    name="product_b_url"
+                                    id="product_b_url"
+                                    required
+                                    [(ngModel)]="model.product_b_url"
+                                    [disabled]="submitted">
+                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center m-t-40 mb-0">
+                        <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
+                                type="submit"
+                                [disabled]="submitted || !allFieldsCompleted() || !isValid()">
+                            Save WooCommerceTemplate
+                        </button>
+                        <p></p>
+                        <div *ngIf='hasError()' class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+          </div>
+          <div class="col-sm-2"></div>
+      </div>
+  </div>

@@ -40,8 +40,23 @@ export interface WooCommerceTemplate {
   group_id: Number;
   user_id: Number;
   name: string;
-  file_path: string;
   description: string;
+  shop_url: string;
+  cart_url: string;
+  checkout_url: string;
+  product_a_url: string;
+  product_b_url: string;
+}
+
+export interface AddUpdateWooCommerceTemplate {
+  id?: number;
+  name: string;
+  description?: string;
+  shop_url: string;
+  cart_url: string;
+  checkout_url: string;
+  product_a_url: string;
+  product_b_url: string;
 }
 
 export enum WordPressRouteType {
@@ -105,6 +120,47 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as TemplateComplex;
+  }
+
+  async createWooTemplate(data: AddUpdateWooCommerceTemplate): Promise<WooCommerceTemplate> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: '/api/v1/template/woo-commerce',
+      data
+    };
+    const result = await this.http.request(options);
+    return result.data as WooCommerceTemplate;
+  }
+
+  async updateWooTemplate(id: number, data: AddUpdateWooCommerceTemplate): Promise<WooCommerceTemplate> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'PUT',
+      url: `/api/v1/template/woo-commerce/${id}`,
+      data
+    };
+    const result = await this.http.request(options);
+    return result.data as WooCommerceTemplate;
+  }
+
+  async getWooTemplate(id: number): Promise<WooCommerceTemplate> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/template/woo-commerce/${id}`
+    };
+    const result = await this.http.request(options);
+    return result.data as WooCommerceTemplate;
+  }
+
+  async deleteWooTemplate(id: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/template/woo-commerce/${id}`
+    };
+    await this.http.request(options);
   }
 
   async delete(id: number): Promise<void> {
