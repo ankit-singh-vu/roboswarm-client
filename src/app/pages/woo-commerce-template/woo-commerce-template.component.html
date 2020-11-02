@@ -18,33 +18,34 @@
       <div class="col-sm-5"></div>
     </div>
     <div *ngIf="!loading" class="row">
-        <div *ngIf="templates.length === 0" class="col-sm-3">
-          <div class="card m-b-20 card-body">
-              <p>Every RoboSwarm Agency plan includes 1 <b>free</b> custom WooCommerce load test template (Enterprise plans get 3 included). Use "Request WooCommerce Template" to get started. We'll reach out and ask for more details. If you have multiple WooCommerce sites to test, feel free to request multiple templates.</p>
-          </div>
-        </div>
-        <div *ngIf="templates.length === 0" class="col-sm-9">
-            <div class="alert alert-info">
-                You don't have any WooCommerce load test templates yet! Click the "Request WooCommerce Template" button to request one.
+        <div *ngIf="templates.length === 0" class="col-sm-2"></div>
+        <div *ngIf="templates.length === 0" class="col-sm-8">
+            <div class="alert alert-info no-templates">
+                You don't have any WooCommerce load test templates yet! Click the "Create WooCommerce Template" button to get started.
             </div>
         </div>
+        <div *ngIf="templates.length === 0" class="col-sm-2"></div>
         <div *ngIf="templates && templates.length > 0" class="col-sm-12">
             <div class="row">
                 <div *ngFor="let template of templates" class="col-xl-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ template.name }}</h5>
-                            <p class="card-text">{{ template.description }}</p>
+                            <p class="card-text">
+                              {{ template.description }}
+                            </p>
+                            <ul>
+                              <li><strong>Shop URL: </strong>{{ template.shop_url }}</li>
+                              <li><strong>Cart URL: </strong>{{ template.cart_url }}</li>
+                              <li><strong>Checkout URL: </strong>{{ template.checkout_url }}</li>
+                              <li><strong>Product A URL: </strong>{{ template.product_a_url }}</li>
+                              <li><strong>Product B URL: </strong>{{ template.product_b_url }}</li>
+                            </ul>
                             <blockquote class="blockquote mb-0">
                                 <footer class="blockquote-footer">Created on {{ template.created_at | date:"medium" }}</footer>
                             </blockquote>
-                            <div class="row">
-                              <div class="col-sm-3"></div>
-                              <div class="col-sm-3"></div>
-                              <div class="col-sm-3"></div>
-                              <button [routerLink]="['/dashboard/woocommerce-template/edit', template.id]" class="btn btn-primary btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
-                              <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
-                            </div>
+                            <button [routerLink]="['/dashboard/woocommerce-template/edit', template.id]" class="btn btn-primary btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
+                            <button (click)="deleteTemplate(template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
                         </div>
                     </div>
                 </div>
