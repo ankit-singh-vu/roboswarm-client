@@ -20,3 +20,9 @@
 .container-fluid {
     margin-bottom: 20px;
 }
+
+.error-table-content {
+    max-height:400px;
+    width: 100%;
+    overflow-y: scroll;
+}

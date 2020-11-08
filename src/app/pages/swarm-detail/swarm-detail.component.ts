@@ -7,6 +7,7 @@ import {
   Swarm,
   Status,
   DistributionFinal,
+  LoadTestError,
   RequestFinal,
   LoadTestMetricsFinal} from '../../services/swarm.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,6 +29,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   requestData: Request[] = [];
   requestDataView: Request[] = [];
   requestDataFinal: RequestFinal[] = [];
+  loadTestErrors: LoadTestError[] = [];
   swarm: Swarm;
   previousDistributionIdMarker = 0;
   previousRequestIdMarker = 0;
@@ -140,6 +142,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         route: rdf.route.replace('"', '').replace('"', '')
       };
     });
+    this.loadTestErrors = result.errors;
   }
 
   fetchUpdatedMetrics = async () => {
@@ -178,7 +181,13 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     }
     this.requestData = this.requestData.slice();
 
+    this.loadTestErrors = data.errors;
+
     this.formatData();
+  }
+
+  hasErrors() {
+    return this.loadTestErrors && this.loadTestErrors.length > 0;
   }
 
   async onDeleteCompleted() {

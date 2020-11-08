@@ -95,6 +95,7 @@ export interface Distribution {
 export interface LoadTestMetrics {
   requests: Request[];
   distribution: Distribution[];
+  errors: LoadTestError[];
 }
 
 export interface RequestFinal extends Request {
@@ -110,6 +111,16 @@ export interface DistributionFinal extends Distribution {
 export interface LoadTestMetricsFinal {
   requests: RequestFinal[];
   distribution: DistributionFinal[];
+  errors: LoadTestError[];
+}
+
+export interface LoadTestError {
+  swarm_id: number;
+  method: string;
+  path: string;
+  message: string;
+  error_count: number;
+  created_at?: Date;
 }
 
 @Injectable()

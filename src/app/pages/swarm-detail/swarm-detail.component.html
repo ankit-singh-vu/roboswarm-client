@@ -92,6 +92,36 @@
             </div>
         </div>
     </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-sm-12">
+            <div class="card m-b-20 card-body">
+                <h4 class="card-title">Errors</h4>
+                <div class="error-table-content">
+                    <div *ngIf="!hasErrors()" class="alert alert-info">
+                        No errors reported.
+                    </div>
+                    <table *ngIf="hasErrors()" class="table table-striped m-0">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>URL</th>
+                                <th>Count</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let err of loadTestErrors">
+                                <td>{{ err.method }}</td>
+                                <td>{{ err.path }}</td>
+                                <td>{{ err.error_count }}</td>
+                                <td>{{ err.message }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <div class="card m-b-20 card-body"
@@ -110,8 +140,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
-        </div>
+        <div class="col-sm-6"></div>
     </div>
     <div class="row">
         <div class="col-sm-12">
