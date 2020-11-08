@@ -130,7 +130,7 @@ export class RequestComboChartComponent implements OnInit, OnChanges {
         formattedData.labels.push(new Date(row.created_at));
         formattedData.requests.push(row.requests_per_second);
         formattedData.failures.push(row.failures_per_second);
-        if (row.user_count && typeof row.user_count === 'number') {
+        if (typeof row.user_count === 'number') {
           formattedData.userCount.push(row.user_count);
         }
       });
