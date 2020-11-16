@@ -130,7 +130,7 @@ export class ResponseTimeComboChartComponent implements OnInit, OnChanges {
         formattedData.labels.push(new Date(row.created_at));
         formattedData.avg_response_time.push(row.average_response_time);
         formattedData.med_response_time.push(row.median_response_time);
-        if (row.user_count && typeof row.user_count === 'number') {
+        if (typeof row.user_count === 'number') {
           formattedData.userCount.push(row.user_count);
         }
       });

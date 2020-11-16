@@ -9,7 +9,9 @@ import {
   DistributionFinal,
   LoadTestError,
   RequestFinal,
-  LoadTestMetricsFinal} from '../../services/swarm.service';
+  LoadTestMetricsFinal,
+  LoadTestRouteSpecificData } from '../../services/swarm.service';
+import { TemplateService, WooCommerceTemplate } from '../../services/template.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MetricsService } from '../../services/metrics.service';
@@ -60,6 +62,15 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     ]
   };
 
+  // Woo specific
+  isWooTemplate = false;
+  wooTemplateId: number = null;
+  wooTemplate: WooCommerceTemplate = null;
+  wooData: LoadTestRouteSpecificData[] = [];
+  wooPreviousIdMarker = 0;
+  wooFormattedData = [];
+  wooFormattedDistributionData = [];
+
   // Response Time Chart
   responseTimeYAxisLabel = 'Response Time (ms)';
 
@@ -71,6 +82,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private metrics: MetricsService,
+              private templateService: TemplateService,
               private modalService: NgbModal) { }
 
   async ngOnInit() {
@@ -88,6 +100,17 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
     if (this.requestData && this.requestData.length > 0) {
       this.previousRequestIdMarker = this.requestData[0].id;
+    }
+
+    // Woo Template specific info.
+    if (this.swarm.is_woo_template) {
+      this.wooTemplateId = parseInt(this.swarm.template_id, 10);
+      this.wooTemplate = await this.templateService.getWooTemplate(this.wooTemplateId);
+      const tmpWooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout');
+      this.wooData = [...tmpWooData].reverse();
+      if (this.wooData && this.wooData.length > 0) {
+        this.wooPreviousIdMarker = this.wooData[0].id;
+      }
     }
 
     if (this.swarm.status === 'ready') {
@@ -142,7 +165,17 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         route: rdf.route.replace('"', '').replace('"', '')
       };
     });
+    if (this.swarm.is_woo_template) {
+      this.wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout');
+    }
     this.loadTestErrors = result.errors;
+  }
+
+  canShowWooCharts(): boolean {
+    return !this.loading &&
+      this.swarm.is_woo_template &&
+      this.wooData &&
+      this.wooData.length > 0;
   }
 
   fetchUpdatedMetrics = async () => {
@@ -180,8 +213,22 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       this.previousRequestIdMarker = this.requestData[0].id;
     }
     this.requestData = this.requestData.slice();
-
     this.loadTestErrors = data.errors;
+
+    // Fetch woo if required.
+    if (this.swarm.is_woo_template) {
+      const wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout', this.wooPreviousIdMarker);
+      if (wooData && wooData.length > 0) {
+        const wooDataReversed = [...wooData].reverse();
+        wooDataReversed.forEach(item => {
+          const exists = this.wooData.find(wd => wd.id === item.id);
+          if (!exists) {
+            this.wooData.unshift(item);
+          }
+        });
+        this.wooPreviousIdMarker = this.wooData[0].id;
+      }
+    }
 
     this.formatData();
   }
@@ -257,6 +304,40 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         };
       })
     }];
+
+    if (this.swarm.is_woo_template) {
+      this.wooFormattedData = [
+        {
+          name: 'Failures per Second',
+          series: this.wooData.map(wd => {
+            return {
+              value: wd.failures_per_second,
+              name: new Date(wd.created_at)
+            }
+          })
+        },
+        {
+          name: 'Checkouts per Second',
+          series: this.wooData.map(wd => {
+            return {
+              value: wd.requests_per_second,
+              name: new Date(wd.created_at)
+            };
+          })
+        }
+      ];
+      this.wooFormattedDistributionData = [
+        { name: '50%', value: this.wooData[0]['50_percent'] },
+        { name: '66%', value: this.wooData[0]['66_percent'] },
+        { name: '75%', value: this.wooData[0]['75_percent'] },
+        { name: '80%', value: this.wooData[0]['80_percent'] },
+        { name: '90%', value: this.wooData[0]['90_percent'] },
+        { name: '95%', value: this.wooData[0]['95_percent'] },
+        { name: '98%', value: this.wooData[0]['98_percent'] },
+        { name: '99%', value: this.wooData[0]['99_percent'] },
+        { name: '100%', value: this.wooData[0]['100_percent'] }
+      ];
+    }
 
     if (this.distributionData.length > 0 && this.distributionData[0].percentiles['50%'] !== 'N/A') {
       this.formattedDistributionData = [

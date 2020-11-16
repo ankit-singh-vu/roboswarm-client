@@ -41,13 +41,13 @@
                 </p>
                 <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
-            <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
+            <!-- <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
                 <app-swarm-grade
                     [data]="swarmGradeData"></app-swarm-grade>
                 <div class="clear"></div>
                 <p></p>
                 <button (click)="openGradeDocs(docs)" class="btn btn-sm btn-secondary">Learn More</button>
-            </div>
+            </div> -->
         </div>
         <div class="col-sm-9">
             <div class="card m-b-20 card-body"
@@ -92,6 +92,61 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card m-b-20 card-body"
+                *ngIf="!loading && requestData && requestData.length > 0">
+                <h4 class="card-title">Total Failed Requests</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                    [results]="formattedFailureData"
+                    [xAxis]="showXAxis"
+                    [yAxis]="showYAxis"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card m-b-20 card-body" *ngIf="canShowWooCharts()">
+                <h4 class="card-title">WooCommerce: Checkout throughput</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-line-chart
+                        [results]="wooFormattedData"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="xAxisLabel"
+                        [yAxisLabel]="yAxisLabel"
+                        [autoScale]="true"></ngx-charts-line-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card m-b-20 card-body" *ngIf="canShowWooCharts()">
+                <h4 class="card-title">WooCommerce: Checkout Response Time Distribution</h4>
+                <div style="height:400px; width: 100%;">
+                    <ngx-charts-bar-vertical
+                        [results]="wooFormattedDistributionData"
+                        [xAxis]="showXAxis"
+                        [yAxis]="showYAxis"
+                        [showXAxisLabel]="showXAxisLabel"
+                        [showYAxisLabel]="showYAxisLabel"
+                        [xAxisLabel]="distributionXAxisLabel"
+                        [yAxisLabel]="distributionYAxisLabel">
+                    </ngx-charts-bar-vertical>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div>
     <div *ngIf="!loading" class="row">
         <div class="col-sm-12">
             <div class="card m-b-20 card-body">
@@ -121,26 +176,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card m-b-20 card-body"
-                *ngIf="!loading && requestData && requestData.length > 0">
-                <h4 class="card-title">Total Failed Requests</h4>
-                <div style="height:400px; width: 100%;">
-                    <ngx-charts-line-chart
-                    [results]="formattedFailureData"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxisLabel]="xAxisLabel"
-                    [yAxisLabel]="yAxisLabel"
-                    [autoScale]="true"></ngx-charts-line-chart>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6"></div>
     </div>
     <div class="row">
         <div class="col-sm-12">

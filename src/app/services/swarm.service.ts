@@ -49,6 +49,8 @@ export interface Swarm {
   swarm_ui_type: string;
   master_ip?: string;
   size?: number;
+  template_id?: string;
+  is_woo_template?: boolean;
 }
 
 export interface NewSwarm {
@@ -90,6 +92,33 @@ export interface Distribution {
   requests: number;
   percentiles: string;
   percentilesObject?: Object;
+}
+
+export interface LoadTestRouteSpecificData {
+  id: number;
+  created_at?: Date;
+  swarm_id: number;
+  method: string;
+  route: string;
+  requests: number;
+  failures: number;
+  median_response_time: number;
+  average_response_time: number;
+  min_response_time: number;
+  max_response_time: number;
+  avg_content_size: number;
+  requests_per_second: number;
+  failures_per_second: number;
+  user_count: number;
+  "50_percent": number;
+  "66_percent": number;
+  "75_percent": number;
+  "80_percent": number;
+  "90_percent": number;
+  "95_percent": number;
+  "98_percent": number;
+  "99_percent": number;
+  "100_percent": number;
 }
 
 export interface LoadTestMetrics {
@@ -180,6 +209,20 @@ export class SwarmService {
     };
     const results = await this.http.request(options);
     return results.data as LoadTestMetrics;
+  }
+
+  async getRouteSpecificMetrics(swarmId: number, route: string, lastRowId?: number): Promise<LoadTestRouteSpecificData[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      url: `/api/v1/swarm/${swarmId}/metrics/route-specific`,
+      data: {
+        route,
+        lastRowId,
+      }
+    };
+    const results = await this.http.request(options);
+    return results.data as LoadTestRouteSpecificData[];
   }
 
   async getMetricsFinal(swarmId: number): Promise<LoadTestMetricsFinal> {
