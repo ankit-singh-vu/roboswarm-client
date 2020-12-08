@@ -88,7 +88,7 @@ export class SwarmCreateComponent implements OnInit {
 
       try {
         const MACHINE_CPUS = 2;
-        let totalMachines = Math.ceil(this.model.simulated_users / (1200 * MACHINE_CPUS));
+        let totalMachines = Math.ceil(this.model.simulated_users / (300 * MACHINE_CPUS));
         if (this.model.swarm_region.length > totalMachines) {
           totalMachines = this.model.swarm_region.length;
         }
