@@ -226,7 +226,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
             this.wooData.unshift(item);
           }
         });
-        this.wooPreviousIdMarker = this.wooData[0].id;
+        this.wooPreviousIdMarker = this.wooData && this.wooData.length > 0 ? this.wooData[0].id : 0;
       }
     }
 
@@ -305,7 +305,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       })
     }];
 
-    if (this.swarm.is_woo_template) {
+    if (this.swarm.is_woo_template && this.wooData && this.wooData.length > 0) {
       this.wooFormattedData = [
         {
           name: 'Failures per Second',
