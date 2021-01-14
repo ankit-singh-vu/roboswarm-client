@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VerifySiteOwnershipButtonComponent } from './verify-site-ownership-button.component';
 
@@ -6,7 +6,7 @@ describe('VerifySiteOwnershipButtonComponent', () => {
   let component: VerifySiteOwnershipButtonComponent;
   let fixture: ComponentFixture<VerifySiteOwnershipButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VerifySiteOwnershipButtonComponent ]
     })

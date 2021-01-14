@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SwarmDetailStatusComponent } from './swarm-detail-status.component';
 
@@ -6,7 +6,7 @@ describe('SwarmDetailStatusComponent', () => {
   let component: SwarmDetailStatusComponent;
   let fixture: ComponentFixture<SwarmDetailStatusComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SwarmDetailStatusComponent ]
     })

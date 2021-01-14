@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SwarmGradeComponent } from './swarm-grade.component';
 
@@ -6,7 +6,7 @@ describe('SwarmGradeComponent', () => {
   let component: SwarmGradeComponent;
   let fixture: ComponentFixture<SwarmGradeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SwarmGradeComponent ]
     })
