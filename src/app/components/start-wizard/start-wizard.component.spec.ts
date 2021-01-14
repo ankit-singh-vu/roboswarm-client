@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StartWizardComponent } from './start-wizard.component';
 
@@ -6,7 +6,7 @@ describe('StartWizardComponent', () => {
   let component: StartWizardComponent;
   let fixture: ComponentFixture<StartWizardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StartWizardComponent ]
     })

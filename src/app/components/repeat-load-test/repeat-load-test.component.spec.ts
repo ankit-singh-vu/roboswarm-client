@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RepeatLoadTestComponent } from './repeat-load-test.component';
 
@@ -6,7 +6,7 @@ describe('RepeatLoadTestComponent', () => {
   let component: RepeatLoadTestComponent;
   let fixture: ComponentFixture<RepeatLoadTestComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RepeatLoadTestComponent ]
     })

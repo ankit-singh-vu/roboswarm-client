@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WordpressRouteComponent } from './wordpress-route.component';
 
@@ -6,7 +6,7 @@ describe('WordpressRouteComponent', () => {
   let component: WordpressRouteComponent;
   let fixture: ComponentFixture<WordpressRouteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WordpressRouteComponent ]
     })
