@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, ResourceAvailability } from 'app/services/user.service';
+import { UserService, ResourceAvailability } from '../../services/user.service';
 
 @Component({
   selector: 'app-remaining-resources',

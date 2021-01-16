@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
 
@@ -22,6 +22,7 @@ export interface HttpRequestOptions {
 export interface RequestResult {
   err?: any;
   data?: any;
+  headers?: HttpHeaders;
   statusCode: number;
 }
 
@@ -75,8 +76,9 @@ export class HttpService {
           req = this._http.delete(url, options as any);
           break;
       }
-      const result = await req.toPromise();
+      const result: HttpResponse<any> = await req.toPromise();
       return {
+        headers: result.headers,
         data: result.body,
         statusCode: result.status
       };

@@ -36,5 +36,13 @@
           (deleted)="onSwarmDeleted($event)"
           class="col-xl-4"></app-swarm-tile>
       </div>
+      <div *ngIf="swarms && swarms.length > 0" class="row">
+          <div class="col d-flex justify-content-center">
+            <ngb-pagination
+              [collectionSize]="totalSize"
+              [(page)]="page"
+              (pageChange)="onPageChange($event)"></ngb-pagination>
+          </div>
+      </div>
     </div>
 </div>

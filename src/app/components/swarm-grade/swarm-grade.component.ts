@@ -19,9 +19,7 @@ export class SwarmGradeComponent implements OnChanges {
 
   constructor() { }
 
-  ngOnChanges() {
-    console.log(this.data);
-  }
+  ngOnChanges() { }
 
   getScore(): string {
     if (this.hasData()) {

@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         }
       } catch (err) {
-        console.log(err);
         this.metrics.track('LOGIN_FAILURE');
         this.error = 'Invalid email or password. Please try again.';
       }

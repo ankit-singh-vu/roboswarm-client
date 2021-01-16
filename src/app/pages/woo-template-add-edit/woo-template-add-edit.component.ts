@@ -43,7 +43,6 @@ export class WooTemplateAddEditComponent implements OnInit {
   async onSubmit(createTemplateForm: NgForm) {
     this.error = '';
     if (createTemplateForm.valid && createTemplateForm.submitted) {
-      console.log('sending to server...');
       this.submitted = true;
       if (this.id) {
         await this.templateService.updateWooTemplate(this.id, this.model);

@@ -152,6 +152,11 @@ export interface LoadTestError {
   created_at?: Date;
 }
 
+export interface GetPageResult {
+  swarms: Swarm[];
+  totalSize: number;
+}
+
 @Injectable()
 export class SwarmService {
 
@@ -187,14 +192,17 @@ export class SwarmService {
     await this.http.request(options);
   }
 
-  async getAll(): Promise<Swarm[]> {
+  async getPage(page: number = 1): Promise<GetPageResult> {
     const options: HttpRequestOptions = {
       authenticated: true,
       requestType: 'GET',
-      url: '/api/v1/swarm'
+      url: `/api/v1/swarm?page=${page}`
     };
     const results = await this.http.request(options);
-    return results.data as Swarm[];
+    return {
+      swarms: results.data as Swarm[],
+      totalSize: Number(results.headers.get('X-TOTAL-SWARMS'))
+    };
   }
 
   async getMetrics(swarmId: number, lastDistributionId?: number, lastRequestId?: number): Promise<LoadTestMetrics> {

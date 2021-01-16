@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SwarmTile } from '../../components/swarm-tile/swarm-tile.component';
 import { SwarmService, Swarm } from '../../services/swarm.service';
 import { MetricsService } from '../../services/metrics.service';
-import { UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,20 +12,32 @@ export class DashboardComponent implements OnInit {
   swarms: Array<SwarmTile> = [];
   loading: boolean;
 
+  // Pagination variables
+  page = 1;
+  totalSize = 1;
+  pageSize = 12;
+
   constructor(private swarmService: SwarmService,
               private metrics: MetricsService) {
   }
 
+  async onPageChange(newPage: number) {
+    this.page = newPage;
+    const { swarms } = await this.swarmService.getPage(this.page);
+    this.swarms = this.formatSwarmData(swarms);
+  }
+
   async ngOnInit() {
     this.loading = true;
-    await this.getSwarms();
+    const { swarms, totalSize } = await this.swarmService.getPage(this.page);
+    this.swarms = this.formatSwarmData(swarms);
+    this.totalSize = totalSize;
     this.metrics.track('DASHBOARD_VIEW');
     this.loading = false;
   }
 
-  async getSwarms() {
-    const swarms: Swarm[] = await this.swarmService.getAll();
-    this.swarms = swarms.map(swarm => {
+  formatSwarmData(swarms: Swarm[]): SwarmTile[] {
+    return swarms.map(swarm => {
       return {
         id: swarm.id,
         createdAt: swarm.created_at,
@@ -49,7 +60,9 @@ export class DashboardComponent implements OnInit {
 
   async onStartWizardCompleted(success: boolean) {
     this.loading = true;
-    await this.getSwarms();
+    const { swarms, totalSize } = await this.swarmService.getPage(this.page);
+    this.swarms = this.formatSwarmData(swarms);
+    this.totalSize = totalSize;
     this.loading = false;
   }
 }
