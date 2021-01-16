@@ -3,7 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
 import { MetricsService } from '../../services/metrics.service';
-import { UserService } from 'app/services/user.service';
+import { UserService } from '../../services/user.service';
 
 interface LoginForm {
   email: string;
