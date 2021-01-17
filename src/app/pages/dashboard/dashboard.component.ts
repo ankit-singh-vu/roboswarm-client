@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
 
   // Pagination variables
   page = 1;
-  totalSize = null;
+  totalSize = 1;
   pageSize = 12;
 
   constructor(private swarmService: SwarmService,
