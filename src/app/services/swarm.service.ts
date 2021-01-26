@@ -267,7 +267,7 @@ export class SwarmService {
       .split(',')
       .map(region => {
         switch (region) {
-          case 'sfo2':
+          case 'sfo3':
             return 'San Francisco';
           case 'ams3':
             return 'Amsterdam';

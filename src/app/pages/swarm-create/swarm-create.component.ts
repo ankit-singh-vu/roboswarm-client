@@ -46,7 +46,7 @@ export class SwarmCreateComponent implements OnInit {
     { value: 'fra1', name: 'Frankfurt' },
     { value: 'lon1', name: 'London' },
     { value: 'nyc3', name: 'New York City' },
-    { value: 'sfo2', name: 'San Francisco' },
+    { value: 'sfo3', name: 'San Francisco' },
     { value: 'sgp1', name: 'Singapore' },
     { value: 'tor1', name: 'Toronto' },
   ];
