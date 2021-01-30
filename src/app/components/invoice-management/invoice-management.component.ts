@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, Invoice } from 'app/services/user.service';
+import { UserService, Invoice } from '../../services/user.service';
 import * as moment from 'moment';
 
 
