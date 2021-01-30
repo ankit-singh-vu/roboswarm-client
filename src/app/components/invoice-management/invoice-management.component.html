@@ -30,10 +30,10 @@
                     <a class="btn btn-secondary btn-sm" href="{{ invoice.hosted_invoice_url }}" target="_blank">View</a>
                 </td>
                 <td>
-                    <btn
+                    <button
                         *ngIf="invoice.status === 'uncollectable'"
                         (click)="payInvoice(invoice.id)"
-                        class="btn btn-primary btn-sm">Pay Invoice</btn>
+                        class="btn btn-primary btn-sm">Pay Invoice</button>
                 </td>
             </tr>
         </tbody>
