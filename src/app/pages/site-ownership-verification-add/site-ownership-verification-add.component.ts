@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
 import { Router } from '@angular/router';
-import { MetricsService } from 'app/services/metrics.service';
+import { MetricsService } from '../../services/metrics.service';
 
 interface SiteOwnershipUrl {
   url: string;

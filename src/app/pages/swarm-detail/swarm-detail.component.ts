@@ -403,4 +403,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       });
     } catch (err) { /* no-op */ }
   }
+
+  isDestroyed(swarm: Swarm): boolean {
+    return swarm && swarm.status !== Status.destroyed;
+  }
 }

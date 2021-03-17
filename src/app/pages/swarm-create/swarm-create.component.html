@@ -9,7 +9,9 @@
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
           <div class="card m-b-20 card-body">
-              <p class="card-text">Fill out the information below to create your load test. Once the form as been submitted RoboSwarm will generate your swarm and start your load test.</p>
+              <p class="card-text">
+                Fill out the information below to create your load test. Once the form as been submitted RoboSwarm will generate your swarm and start your load test. If your site is protected by Cloudflare you need to take additional configuration steps. <a href="https://docs.kernl.us/#/pages/load-testing/cloudflare">Read more here</a>
+              </p>
               <form class="form-horizontal m-t-20" #createSwarmForm="ngForm" (ngSubmit)="onSubmit(createSwarmForm)">
                 <div class="form-group">
                   <label for="name">Load Test Name</label>

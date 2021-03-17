@@ -6,16 +6,16 @@
             {{ swarm.name }}
             <app-delete-load-test
                 class="delete-test-button pull-right"
-                *ngIf="swarm && swarm.status !== destroyed"
+                *ngIf="isDestroyed(swarm)"
                 [swarmStatus]="swarm.status"
                 [swarmId]="swarm.id"
-                (complete)="onSoftDelete($event)"></app-delete-load-test>
+                (complete)="onSoftDelete()"></app-delete-load-test>
             <app-stop-load-test-button
                 class="pull-right"
-                *ngIf="swarm && swarm.status !== destroyed"
+                *ngIf="isDestroyed(swarm)"
                 [swarmStatus]="swarm.status"
                 [swarmId]="swarm.id"
-                (deleteCompleted)="onDeleteCompleted($event)"></app-stop-load-test-button>
+                (deleteCompleted)="onDeleteCompleted()"></app-stop-load-test-button>
             <app-repeat-load-test
                 class="pull-right"
                 [swarmStatus]="swarm.status"

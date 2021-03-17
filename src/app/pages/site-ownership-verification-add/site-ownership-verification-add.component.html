@@ -21,7 +21,7 @@
       <div class="col-sm-6">
           <div class="card m-b-20 card-body">
               <p class="card-text">Before you can run a load test you first need to verify that you are the owner of the site you are trying to test against. Enter the URL of the site you will be testing below and click "Next" for directions on how to proceed.</p>
-              <form class="form-horizontal m-t-20" #verifySiteForm="ngForm" (ngSubmit)="onSubmit(verifySiteForm)">
+              <form class="form-horizontal m-t-20" #verifySiteForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                   <label for="url">Base URL</label>
                   <input class="form-control"
