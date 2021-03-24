@@ -1,15 +1,17 @@
 {
   "name": "roboswarm-client",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "unlicensed",
+  "engines": {
+    "node": "12.18.4"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --hmr",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint --exclude=**/*.spec.ts",
-    "e2e": "ng e2e",
-    "deploy": "npm run build && node src/deploy/deploy.js"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
