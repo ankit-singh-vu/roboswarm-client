@@ -63,17 +63,18 @@ export class StartWizardComponent {
       }
 
       // 3) Create the site ownership entry.
-      const site: SiteOwnership = await this._siteOwnershipService.create({ base_url: this.model.site_url });
+      let site: SiteOwnership = await this._siteOwnershipService.create({ base_url: this.model.site_url });
       if (!site || !site.id) {
         const siteError = site as any;
         if (siteError && siteError.detail && siteError.detail.includes('already exists')) {
-          this.error = 'The site you are trying to load test has already been verified by someone else. Please choose a different site.';
+          const ownedSites: SiteOwnership[] = await this._siteOwnershipService.getAll();
+          site = ownedSites.find(s => s.base_url === this.model.site_url);
         } else {
           this.error = 'There was an error creating your site ownership entry. Please try again. If the error persists, reach out to jack@kernl.us.';
+          this.submitted = false;
+          await this._templateService.delete(template.id);
+          return;
         }
-        this.submitted = false;
-        await this._templateService.delete(template.id);
-        return;
       }
 
       // 4) Start the load test.
