@@ -19,8 +19,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-commerce-template.component';
-import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-template-request/woo-commerce-template-request.component';
 import { WooTemplateAddEditComponent } from './pages/woo-template-add-edit/woo-template-add-edit.component';
+import { TemplateFlowComponent } from './pages/template-flow/template-flow.component';
 
 const routes: Routes = [
 
@@ -71,7 +71,7 @@ const routes: Routes = [
                             { path: ':id', component: TemplatesAddEditComponent }
                         ]
                     },
-                    { path: 'add', component: TemplatesAddEditComponent },
+                    { path: 'add', component: TemplateFlowComponent },
                     { path: '', component: TemplatesComponent }
                 ]
             },

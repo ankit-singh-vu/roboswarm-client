@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-body">
+        <div class="method route">
+            <form>
+                <div class="form-row">
+                    <div class="col">
+                        <ng-select
+                            [items]="methods"
+                            [multiple]="false"
+                            [closeOnSelect]="true"
+                            [searchable]="false"
+                            name="method"
+                            bindValue="value"
+                            bindLabel="name"
+                            [(ngModel)]="method"
+                            (ngModelChange)="onDataChange()">
+                        </ng-select>
+                    </div>
+                    <div class="col">
+                        <input
+                            type="text"
+                            name="path"
+                            class="form-control"
+                            placeholder="/some/path"
+                            [(ngModel)]="path"
+                            (ngModelChange)="onDataChange()">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modifier-tabs">
+            Tabs for headers, query params, body, etc
+        </div>
+    </div>
+</div>

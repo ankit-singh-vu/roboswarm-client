@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions} from './http.service';
 
+export interface TemplateAuth {
+  username: string;
+  password: string;
+}
+
 export interface TemplateRoute {
   id?: number;
   created_at?: Date;
@@ -63,6 +68,29 @@ export enum WordPressRouteType {
   AUTHENTICATED_FRONTEND_NAVIGATE,
   AUTHENTICATED_ADMIN_NAVIGATE,
   UNAUTHENTICATED_FRONTEND_NAVIGATE
+}
+
+export enum RouteMethod {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
+};
+
+export interface AdvancedTemplateRoute {
+  id: string;
+  method: RouteMethod;
+  path: string;
+  headers?: {
+    key: string;
+    value: string;
+  }[];
+  queryParams?: {
+    key: string;
+    value: string;
+  }[];
+  body?: any;
 }
 
 @Injectable({
@@ -205,5 +233,16 @@ export class TemplateService {
       default:
         return '';
     }
+  }
+
+  async uploadAuthFile(data: FormData): Promise<TemplateAuth[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      data,
+      requestType: 'POST',
+      url: '/api/v1/template/auth-file-upload'
+    };
+    const result = await this.http.request(options);
+    return result.data as TemplateAuth[];
   }
 }

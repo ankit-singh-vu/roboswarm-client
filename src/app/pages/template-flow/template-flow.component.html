@@ -1,0 +1,127 @@
+<div class="wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h4 class="page-title" *ngIf="step === 1">Step 1: Select a Load Test Template Type</h4>
+          <h4 class="page-title" *ngIf="step === 2 && isAuthenticated()">
+              Step 2: Upload User Credentials
+          </h4>
+          <h4 class="page-title" *ngIf="step === 2 && !isAuthenticated()">
+            Step 2: Build the Load Test Template
+          </h4>
+          <h4 class="page-title" *ngIf="step === 3">
+            Step 3: Build the Load Test Template
+          </h4>
+        </div>
+      </div>
+      <div class="row step-1" *ngIf="step === 1">
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WordPress: Unauthenticated</h5>
+                    <p class="card-text">
+                        Anonymous users will browse your WordPress site in the sequence of your choosing.
+                    </p>
+                    <a (click)="selectTestType('unauthenticated')" class="btn btn-primary btn-sm card-link">Select</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WordPress: Authenticated</h5>
+                    <p class="card-text">
+                        Authenticated users will browse your WordPress site in the sequence of your choosing.
+                    </p>
+                    <a (click)="selectTestType('authenticated')" class="btn btn-primary btn-sm card-link">Select</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WordPress: Admin</h5>
+                    <p class="card-text">
+                        Authenticated users will navigate through your WordPress Admin page.
+                    </p>
+                    <a (click)="selectTestType('admin')" class="btn btn-primary btn-sm card-link">Select</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">WooCommerce</h5>
+                    <p class="card-text">
+                        Anonymous users will add two products to a shopping cart and then checkout.
+                    </p>
+                    <a (click)="selectTestType('woocommerce')" class="btn btn-primary btn-sm card-link">Select</a>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="row step-2" *ngIf="step === 2 && isAuthenticated()">
+          <!-- Upload user credentials-->
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6 card">
+              <div class="card-body">
+                <p class="card-text">
+                    To continue you need to upload a .csv file with your username/password combinations. The format
+                    should be: username,password with each username on a new line.
+                </p>
+                <h6>Example</h6>
+                <pre>
+jack@kernl.us,mypassword
+jane@roboswarm.dev,anotherPassword
+wow@muchdoge.co,password</pre>
+                <p class="card-text">RoboSwarm will validate your CSV formatting before continuing the template setup process.</p>
+                <form *ngIf="!userCount" class="form-horizontal m-t-20" #createTemplateForm="ngForm" autocomplete="off">
+                    <div class="custom-file">
+                        <input (change)="onFileSelected($event)" type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                    <div class="center-button">
+                        <app-spinner [show]="fileUploading"></app-spinner>
+                    </div>
+                    <div *ngIf="fileError !== null" class="alert alert-danger">{{ fileError }}</div>
+                </form>
+                <div *ngIf="userCount && userCount > 0" class="alert alert-info">
+                    CSV with <b>{{ userCount }}</b> user accounts uploaded successfully.
+                </div>
+                <div class="center-button">
+                    <a *ngIf="userCount && userCount > 0" (click)="proceedToTemplateCreation()" class="btn btn-primary btn-sm card-link">Next: Build Template</a>
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-3"></div>
+      </div>
+      <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
+        <div class="col-sm-4">
+            This side is the list of routes <br />
+            Also contains buttons at the top for adding:
+            <ul>
+                <li>New Route</li>
+                <li>Import from SiteMap</li>
+                <li>New WooCommerce Product</li>
+                <li>maybe others?</li>
+            </ul>
+        </div>
+        <div class="col-sm-8">
+            <!-- Route editor takes a route. When things change, data is updated in the array of routes. -->
+            <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
+            This side is the route editor. Include:
+            <ul>
+                <li>Method (only GET to start, but expand with POST/PUT/PATCH/DELETE)</li>
+                <li>Path (/some/path)</li>
+                <li>Headers</li>
+                <li>Query Params</li>
+                <li>Request Body</li>
+            </ul>
+            Top row is method (dropdown) and path.<br />
+            New row is tabs to add/edit/remove headers/queryparam/requestbody
+            Each tab can be own component with input/outputs if we want.
+            Also need to figure out a global (per test) config area for authentication stuff.
+        </div>
+      </div>
+    </div>
+</div>
