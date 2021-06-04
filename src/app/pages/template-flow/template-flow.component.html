@@ -97,7 +97,14 @@ wow@muchdoge.co,password</pre>
       </div>
       <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
         <div class="col-sm-4">
+            <!-- 
+                for route in advanced route
+                 - a super small card with POST /my/path
+                 - pills with Headers, Query Params on it
+                 - Drag handle on far left.
+            -->
             This side is the list of routes <br />
+            We should be able to drag/drop order of execution <br />
             Also contains buttons at the top for adding:
             <ul>
                 <li>New Route</li>
@@ -107,20 +114,9 @@ wow@muchdoge.co,password</pre>
             </ul>
         </div>
         <div class="col-sm-8">
-            <!-- Route editor takes a route. When things change, data is updated in the array of routes. -->
+            WIP -> If adding a Woo Product to the checkout flow, this is going to be limited to
+            only route path. Other fields will be disabled in that case.
             <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
-            This side is the route editor. Include:
-            <ul>
-                <li>Method (only GET to start, but expand with POST/PUT/PATCH/DELETE)</li>
-                <li>Path (/some/path)</li>
-                <li>Headers</li>
-                <li>Query Params</li>
-                <li>Request Body</li>
-            </ul>
-            Top row is method (dropdown) and path.<br />
-            New row is tabs to add/edit/remove headers/queryparam/requestbody
-            Each tab can be own component with input/outputs if we want.
-            Also need to figure out a global (per test) config area for authentication stuff.
         </div>
       </div>
     </div>

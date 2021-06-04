@@ -30,6 +30,79 @@
         </div>
         <div class="modifier-tabs">
             Tabs for headers, query params, body, etc
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>Headers</a>
+                  <ng-template ngbNavContent>
+                    <p>For each header you would like included in this request, create a new line. Headers should formatted in key:value format.</p>
+                    <h5>Example</h5>
+                    <pre>Content-type:application/json
+Accept-Encoding:gzip,deflate
+Cache-Control:no-cache</pre>
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <textarea
+                                    type="text"
+                                    name="headers"
+                                    class="form-control"
+                                    placeholder="Enter your additional headers here..."
+                                    [(ngModel)]="headers"
+                                    (ngModelChange)="onDataChange()"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>Query Parameters</a>
+                  <ng-template ngbNavContent>
+                    <p>For each query parameter you would like included in this request, create a new line. Query parameters should formatted in key:value format.</p>
+                    <h5>Example: ?page=2&q=some%20query&limit=2</h5>
+                    <pre>page:2
+q:some query
+limit:2</pre>
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <textarea
+                                    type="text"
+                                    name="queryParams"
+                                    class="form-control"
+                                    placeholder="Enter your query param values here..."
+                                    [(ngModel)]="queryParams"
+                                    (ngModelChange)="onDataChange()"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </ng-template>
+                </li>
+                <!-- <li [ngbNavItem]="3">
+                  <a ngbNavLink>Body</a>
+                  <ng-template ngbNavContent>
+                    <p>This is the body that will be sent with POST requests. We currently only support JSON bodies, but form-data will be supported in the future.</p>
+                    <h5>Example JSON Body</h5>
+                    <pre>{
+myKey: "my value",
+anotherKey: 123
+}</pre>
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <textarea
+                                    type="text"
+                                    name="requestBody"
+                                    class="form-control"
+                                    placeholder="Enter your JSON object here..."
+                                    [(ngModel)]="requestBody"
+                                    (ngModelChange)="onDataChange()"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </ng-template>
+                </li> -->
+              </ul>
+              <div [ngbNavOutlet]="nav"></div>
         </div>
     </div>
 </div>
