@@ -97,6 +97,28 @@ wow@muchdoge.co,password</pre>
       </div>
       <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
         <div class="col-sm-4">
+            <div class="add-route-actions">
+                <button (click)="addRoute('basic')" type="button" class="btn btn-primary">
+                    New Route
+                </button>
+                <button type="button" class="btn btn-primary">Import from WordPress</button>
+                <button type="button" class="btn btn-primary">Add WooCommerce Product</button>
+            </div>
+            <hr />
+            <div *ngFor="let route of routes" class="card route">
+                <div class="row">
+                    <div class="col-sm-2 center-text">
+                        <span *ngIf="route.method === 'GET'" class="badge badge-info">{{ route.method }}</span>
+                        <span *ngIf="route.method === 'POST'" class="badge badge-success">{{ route.method }}</span>
+                        <span *ngIf="route.method === 'PATCH'" class="badge badge-success">{{ route.method }}</span>
+                        <span *ngIf="route.method === 'PUT'" class="badge badge-success">{{ route.method }}</span>
+                        <span *ngIf="route.method === 'DELETE'" class="badge badge-danger">{{ route.method }}</span>
+                    </div>
+                    <div class="col-sm-10">
+                        {{ route.path }}
+                    </div>
+                </div>
+            </div>
             <!-- 
                 for route in advanced route
                  - a super small card with POST /my/path

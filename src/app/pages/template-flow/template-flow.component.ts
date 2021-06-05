@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdvancedTemplateRoute, TemplateAuth, TemplateService } from '../../services/template.service';
+import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateService } from '../../services/template.service';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-template-flow',
@@ -55,7 +56,19 @@ export class TemplateFlowComponent implements OnInit {
     this.fileUploading = false;
   }
 
-  onRouteChange(routeUpdate: AdvancedTemplateRoute) {
-    console.log('In TemplateFlowComponent', routeUpdate);
+  onRouteChange = (routeUpdate: AdvancedTemplateRoute) => {
+    const index = this.routes.findIndex(r => r.id === routeUpdate.id)
+    this.routes[index] = routeUpdate;
+  }
+
+  addRoute(routeType: string) {
+    this.routes.push({
+      id: v4(),
+      method: RouteMethod.GET,
+      path: '/',
+      headers: [],
+      queryParams: []
+    });
+    this.selectedRoute = this.routes[this.routes.length - 1];
   }
 }
