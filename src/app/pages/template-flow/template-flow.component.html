@@ -2,16 +2,19 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <h4 class="page-title" *ngIf="step === 1">Step 1: Select a Load Test Template Type</h4>
-          <h4 class="page-title" *ngIf="step === 2 && isAuthenticated()">
-              Step 2: Upload User Credentials
-          </h4>
-          <h4 class="page-title" *ngIf="step === 2 && !isAuthenticated()">
-            Step 2: Build the Load Test Template
-          </h4>
-          <h4 class="page-title" *ngIf="step === 3">
-            Step 3: Build the Load Test Template
-          </h4>
+            <div *ngIf="routes?.length > 0" class="btn-group pull-right m-t-20">
+                <button type="button" class="btn btn-primary waves-effect waves-light">Save Load Test Template</button>
+            </div>
+            <h4 class="page-title" *ngIf="step === 1">Step 1: Select a Load Test Template Type</h4>
+            <h4 class="page-title" *ngIf="step === 2 && isAuthenticated()">
+                Step 2: Upload User Credentials
+            </h4>
+            <h4 class="page-title" *ngIf="step === 2 && !isAuthenticated()">
+                Step 2: Build the Load Test Template
+            </h4>
+            <h4 class="page-title" *ngIf="step === 3">
+                Step 3: Build the Load Test Template
+            </h4>
         </div>
       </div>
       <div class="row step-1" *ngIf="step === 1">
@@ -98,15 +101,15 @@ wow@muchdoge.co,password</pre>
       <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
         <div class="col-sm-4">
             <div class="add-route-actions">
-                <button (click)="addRoute('basic')" type="button" class="btn btn-primary">
+                <button (click)="addRoute('basic')" type="button" class="btn btn-secondary">
                     New Route
                 </button>
-                <button type="button" class="btn btn-primary">Import from WordPress</button>
-                <button type="button" class="btn btn-primary">Add WooCommerce Product</button>
+                <button type="button" class="btn btn-secondary">Import from WordPress</button>
+                <!--<button type="button" class="btn btn-primary">Add WooCommerce Product</button>-->
             </div>
             <hr />
-            <div *ngFor="let route of routes" class="card route">
-                <div class="row">
+            <div *ngFor="let route of routes; let idx = index;" [ngClass]="route.id === selectedRoute.id ? 'active' : ''" class="card route">
+                <div (click)="selectRoute(idx)" class="row">
                     <div class="col-sm-2 center-text">
                         <span *ngIf="route.method === 'GET'" class="badge badge-info">{{ route.method }}</span>
                         <span *ngIf="route.method === 'POST'" class="badge badge-success">{{ route.method }}</span>
@@ -119,26 +122,16 @@ wow@muchdoge.co,password</pre>
                     </div>
                 </div>
             </div>
-            <!-- 
-                for route in advanced route
-                 - a super small card with POST /my/path
-                 - pills with Headers, Query Params on it
-                 - Drag handle on far left.
-            -->
-            This side is the list of routes <br />
-            We should be able to drag/drop order of execution <br />
-            Also contains buttons at the top for adding:
-            <ul>
-                <li>New Route</li>
-                <li>Import from SiteMap</li>
-                <li>New WooCommerce Product</li>
-                <li>maybe others?</li>
-            </ul>
         </div>
-        <div class="col-sm-8">
+        <div *ngIf="!selectedRoute" class="col-sm-8">
+            <div class="alert alert-info">
+                Click "Add Route" to get started.
+            </div>
+        </div>
+        <div *ngIf="selectedRoute" class="col-sm-8">
+            <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
             WIP -> If adding a Woo Product to the checkout flow, this is going to be limited to
             only route path. Other fields will be disabled in that case.
-            <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
         </div>
       </div>
     </div>

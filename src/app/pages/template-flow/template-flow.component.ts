@@ -71,4 +71,8 @@ export class TemplateFlowComponent implements OnInit {
     });
     this.selectedRoute = this.routes[this.routes.length - 1];
   }
+
+  selectRoute(index: number) {
+    this.selectedRoute = this.routes[index];
+  }
 }
