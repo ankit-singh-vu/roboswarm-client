@@ -32,8 +32,6 @@ export class RouteEditorComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.throttledOnChange = throttle(this.onChange, 500, { trailing: true });
-    // TODO when component init break apart the advancedTemplateROute into
-    // parts and set all the variables so form changes pick up.
     this.populateFields();
   }
 
@@ -45,10 +43,12 @@ export class RouteEditorComponent implements OnInit, OnChanges {
     if (this.route) {
       this.method = this.route.method;
       this.path = this.route.path;
-      const headers = this.route.headers.map(h => `${h.key}:${h.value}`);
-      this.headers = headers.join("\n");
-      const queryParams = this.route.queryParams.map(qp => `${qp.key}:${qp.value}`);
-      this.queryParams = queryParams.join("\n");
+      this.headers = this.route.headers
+        .map(h => `${h.key}:${h.value}`)
+        .join("\n");
+      this.queryParams = this.route.queryParams
+        .map(qp => `${qp.key}:${qp.value}`)
+        .join("\n");
     }
   }
 

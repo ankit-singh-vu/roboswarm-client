@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateService } from '../../services/template.service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateRoute, TemplateService } from '../../services/template.service';
 import { v4 } from 'uuid';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UrlResolver } from '@angular/compiler';
 
 @Component({
   selector: 'app-template-flow',
@@ -15,11 +17,14 @@ export class TemplateFlowComponent implements OnInit {
   testType: string;
   authUsers?: TemplateAuth[] = null;
   userCount: number = null;
+  sitemapPath: string = null;
+  sitemapImportWorking = false;
 
   routes: AdvancedTemplateRoute[] = [];
   selectedRoute?: AdvancedTemplateRoute;
 
-  constructor(private templateService: TemplateService) { }
+  constructor(private templateService: TemplateService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -74,5 +79,40 @@ export class TemplateFlowComponent implements OnInit {
 
   selectRoute(index: number) {
     this.selectedRoute = this.routes[index];
+  }
+
+  async importFromWordPress(modalContent: TemplateRef<any>) {
+    await this.modalService.open(modalContent);
+  }
+
+  importButtonDisabled() {
+    return this.sitemapPath?.length === 0 || this.sitemapImportWorking === true;
+  }
+
+  private getPath(url: string): string {
+    try {
+      const u: URL = new URL(url);
+      return url.replace(u.origin, "");
+    } catch (err) {
+      return url;
+    }
+  }
+
+  async startImport() {
+    this.sitemapImportWorking = true;
+    const sitemapRoutes: TemplateRoute[] = await this.templateService.getSitemap(this.sitemapPath);
+    const formattedRoutes: AdvancedTemplateRoute[] = sitemapRoutes.map(smr => {
+      return {
+          id: v4(),
+          method: RouteMethod.GET,
+          path: this.getPath(smr.path),
+          headers: [],
+          queryParams: []
+      };
+    });
+    this.routes = this.routes.concat(formattedRoutes);
+    this.sitemapImportWorking = false;
+    this.modalService.dismissAll();
+    this.selectRoute(0);
   }
 }

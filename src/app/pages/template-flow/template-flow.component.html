@@ -104,11 +104,11 @@ wow@muchdoge.co,password</pre>
                 <button (click)="addRoute('basic')" type="button" class="btn btn-secondary">
                     New Route
                 </button>
-                <button type="button" class="btn btn-secondary">Import from WordPress</button>
+                <button (click)="importFromWordPress(importFromWordPressModal)" type="button" class="btn btn-secondary">Import from WordPress</button>
                 <!--<button type="button" class="btn btn-primary">Add WooCommerce Product</button>-->
             </div>
-            <hr />
-            <div *ngFor="let route of routes; let idx = index;" [ngClass]="route.id === selectedRoute.id ? 'active' : ''" class="card route">
+            <hr *ngIf="routes?.length > 0"/>
+            <div *ngFor="let route of routes; let idx = index;" [ngClass]="route.id === selectedRoute?.id ? 'active' : ''" class="card route">
                 <div (click)="selectRoute(idx)" class="row">
                     <div class="col-sm-2 center-text">
                         <span *ngIf="route.method === 'GET'" class="badge badge-info">{{ route.method }}</span>
@@ -129,10 +129,43 @@ wow@muchdoge.co,password</pre>
             </div>
         </div>
         <div *ngIf="selectedRoute" class="col-sm-8">
-            <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
-            WIP -> If adding a Woo Product to the checkout flow, this is going to be limited to
-            only route path. Other fields will be disabled in that case.
+            <div class="sticky-wrapper">
+                <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
+            </div>
         </div>
       </div>
     </div>
 </div>
+<ng-template #importFromWordPressModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Import from WordPress</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cancel')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Enter the full URL to your sitemap.xml file. Example: https://roboswarm.dev/sitemap.xml
+      <br />
+      <app-spinner [show]="importButtonDisabled()"></app-spinner>
+      <form *ngIf="!importButtonDisabled()">
+        <div class="form-row">
+            <div class="col">
+                <input
+                    type="text"
+                    name="sitemapPath"
+                    class="form-control"
+                    placeholder="https://example.com/sitemap.xml"
+                    [(ngModel)]="sitemapPath"/>
+            </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        [disabled]="importButtonDisabled()"
+        type="button"
+        class="btn btn-primary"
+        (click)="startImport()">Start Import</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('cancel')">Cancel</button>
+    </div>
+  </ng-template>
