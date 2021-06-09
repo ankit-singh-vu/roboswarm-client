@@ -2,7 +2,6 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateRoute, TemplateService } from '../../services/template.service';
 import { v4 } from 'uuid';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UrlResolver } from '@angular/compiler';
 
 @Component({
   selector: 'app-template-flow',
@@ -20,7 +19,10 @@ export class TemplateFlowComponent implements OnInit {
   sitemapPath: string = null;
   sitemapImportWorking = false;
 
+  // WIP -> These have to be persisted.
+  name: string = null;
   routes: AdvancedTemplateRoute[] = [];
+
   selectedRoute?: AdvancedTemplateRoute;
 
   constructor(private templateService: TemplateService,
@@ -75,6 +77,16 @@ export class TemplateFlowComponent implements OnInit {
       queryParams: []
     });
     this.selectedRoute = this.routes[this.routes.length - 1];
+  }
+
+  deleteRoute(index: number) {
+    if (this.selectedRoute.id === this.routes[index].id) {
+      this.selectedRoute = null;
+      this.routes.splice(index, 1);
+      this.selectedRoute = this.routes[0];
+    } else {
+      this.routes.splice(index, 1);
+    }
   }
 
   selectRoute(index: number) {

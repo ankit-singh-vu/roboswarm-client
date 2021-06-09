@@ -101,35 +101,49 @@ wow@muchdoge.co,password</pre>
       <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
         <div class="col-sm-4">
             <div class="add-route-actions">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Template Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            placeholder="My template..."
+                            [(ngModel)]="name">
+                    </div>
+                </form>
                 <button (click)="addRoute('basic')" type="button" class="btn btn-secondary">
                     New Route
                 </button>
-                <button (click)="importFromWordPress(importFromWordPressModal)" type="button" class="btn btn-secondary">Import from WordPress</button>
+                <button (click)="importFromWordPress(importFromWordPressModal)" type="button" class="btn btn-secondary">
+                    Import from WordPress
+                </button>
                 <!--<button type="button" class="btn btn-primary">Add WooCommerce Product</button>-->
             </div>
             <hr *ngIf="routes?.length > 0"/>
             <div *ngFor="let route of routes; let idx = index;" [ngClass]="route.id === selectedRoute?.id ? 'active' : ''" class="card route">
-                <div (click)="selectRoute(idx)" class="row">
-                    <div class="col-sm-2 center-text">
+                <div class="row">
+                    <div (click)="selectRoute(idx)"class="col-sm-2 center-text">
                         <span *ngIf="route.method === 'GET'" class="badge badge-info">{{ route.method }}</span>
                         <span *ngIf="route.method === 'POST'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'PATCH'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'PUT'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'DELETE'" class="badge badge-danger">{{ route.method }}</span>
                     </div>
-                    <div class="col-sm-10">
+                    <div (click)="selectRoute(idx)" class="col-sm-9">
                         {{ route.path }}
+                    </div>
+                    <div (click)="deleteRoute(idx)" class="col-sm-1">
+                        &#10007;
                     </div>
                 </div>
             </div>
         </div>
-        <div *ngIf="!selectedRoute" class="col-sm-8">
-            <div class="alert alert-info">
+        <div class="col-sm-8">
+            <div *ngIf="!selectedRoute" class="alert alert-info">
                 Click "Add Route" to get started.
             </div>
-        </div>
-        <div *ngIf="selectedRoute" class="col-sm-8">
-            <div class="sticky-wrapper">
+            <div *ngIf="selectedRoute" class="sticky-wrapper">
                 <app-route-editor [route]="selectedRoute" [onChange]="onRouteChange"></app-route-editor>
             </div>
         </div>
