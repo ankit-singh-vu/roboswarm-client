@@ -18,8 +18,9 @@ export class TemplateFlowComponent implements OnInit {
   userCount: number = null;
   sitemapPath: string = null;
   sitemapImportWorking = false;
+  saving = false;
+  showSaveSuccess = false;
 
-  // WIP -> These have to be persisted.
   name: string = null;
   routes: AdvancedTemplateRoute[] = [];
 
@@ -126,5 +127,21 @@ export class TemplateFlowComponent implements OnInit {
     this.sitemapImportWorking = false;
     this.modalService.dismissAll();
     this.selectRoute(0);
+  }
+
+  async save() {
+    this.saving = true;
+    // martial all the required data.
+    // call service function.
+    // send over to backend and persist
+    // Afterwards, display a quick toast about persisted changes
+
+    // this.saving = false;
+
+    // Show save success and then clear after 5 seconds.
+    this.showSaveSuccess = true;
+    setTimeout(() => {
+      this.showSaveSuccess = false;
+    }, 5000);
   }
 }

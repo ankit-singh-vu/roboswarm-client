@@ -34,3 +34,8 @@
     position: sticky;
     top: 150px;
 }
+
+.alert.alert-success {
+    margin-bottom: 0px;
+    margin-right: 15px;
+}

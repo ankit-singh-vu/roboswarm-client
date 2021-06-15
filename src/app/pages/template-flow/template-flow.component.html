@@ -3,17 +3,18 @@
       <div class="row">
         <div class="col-sm-12">
             <div *ngIf="routes?.length > 0" class="btn-group pull-right m-t-20">
-                <button type="button" class="btn btn-primary waves-effect waves-light">Save Load Test Template</button>
+                <div *ngIf="showSaveSuccess" class="alert alert-success">
+                    Your template has been saved.
+                </div>
+                <button *ngIf="!saving" (click)="save()" type="button" class="btn btn-primary waves-effect waves-light">Save Load Test Template</button>
+                <app-spinner [show]="saving"></app-spinner>
             </div>
-            <h4 class="page-title" *ngIf="step === 1">Step 1: Select a Load Test Template Type</h4>
+            <h4 class="page-title" *ngIf="step === 1">Select a Load Test Template Type</h4>
             <h4 class="page-title" *ngIf="step === 2 && isAuthenticated()">
-                Step 2: Upload User Credentials
+                Upload User Credentials
             </h4>
-            <h4 class="page-title" *ngIf="step === 2 && !isAuthenticated()">
-                Step 2: Build the Load Test Template
-            </h4>
-            <h4 class="page-title" *ngIf="step === 3">
-                Step 3: Build the Load Test Template
+            <h4 class="page-title" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
+                Build the Load Test Template
             </h4>
         </div>
       </div>
@@ -130,10 +131,10 @@ wow@muchdoge.co,password</pre>
                         <span *ngIf="route.method === 'PUT'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'DELETE'" class="badge badge-danger">{{ route.method }}</span>
                     </div>
-                    <div (click)="selectRoute(idx)" class="col-sm-9">
+                    <div (click)="selectRoute(idx)" class="col-sm-8">
                         {{ route.path }}
                     </div>
-                    <div (click)="deleteRoute(idx)" class="col-sm-1">
+                    <div (click)="deleteRoute(idx)" class="col-sm-2 center-text">
                         &#10007;
                     </div>
                 </div>
