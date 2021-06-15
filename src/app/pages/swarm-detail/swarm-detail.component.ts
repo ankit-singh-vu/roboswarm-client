@@ -111,6 +111,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       this.wooData = [...tmpWooData].reverse();
       if (this.wooData && this.wooData.length > 0) {
         this.wooPreviousIdMarker = this.wooData[0].id;
+        this.wooSuccessfulCheckouts = true;
       }
     }
 
@@ -168,6 +169,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     });
     if (this.swarm.is_woo_template) {
       this.wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout');
+      this.wooSuccessfulCheckouts = true;
     }
     this.loadTestErrors = result.errors;
   }
