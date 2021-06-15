@@ -113,7 +113,7 @@
         <div class="col-sm-6">
             <div class="card m-b-20 card-body" *ngIf="canShowWooCharts()">
                 <h4 class="card-title">WooCommerce: Checkout throughput</h4>
-                <div style="height:400px; width: 100%;">
+                <div *ngIf="wooSuccessfulCheckouts" style="height:400px; width: 100%;">
                     <ngx-charts-line-chart
                         [results]="wooFormattedData"
                         [xAxis]="showXAxis"
@@ -124,6 +124,7 @@
                         [yAxisLabel]="yAxisLabel"
                         [autoScale]="true"></ngx-charts-line-chart>
                 </div>
+                <div *ngIf="!wooSuccessfulCheckouts" lass="alert alert-warning">You have not had any successful checkouts.</div>
             </div>
         </div>
     </div>
@@ -131,7 +132,7 @@
         <div class="col-sm-6">
             <div class="card m-b-20 card-body" *ngIf="canShowWooCharts()">
                 <h4 class="card-title">WooCommerce: Checkout Response Time Distribution</h4>
-                <div style="height:400px; width: 100%;">
+                <div *ngIf="wooSuccessfulCheckouts" style="height:400px; width: 100%;">
                     <ngx-charts-bar-vertical
                         [results]="wooFormattedDistributionData"
                         [xAxis]="showXAxis"
@@ -142,6 +143,7 @@
                         [yAxisLabel]="distributionYAxisLabel">
                     </ngx-charts-bar-vertical>
                 </div>
+                <div *ngIf="!wooSuccessfulCheckouts" lass="alert alert-warning">You have not had any successful checkouts.</div>
             </div>
         </div>
         <div class="col-sm-6">
