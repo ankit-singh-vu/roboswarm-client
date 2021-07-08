@@ -124,16 +124,23 @@ wow@muchdoge.co,password</pre>
                 <!--<button type="button" class="btn btn-primary">Add WooCommerce Product</button>-->
             </div>
             <hr *ngIf="routes?.length > 0"/>
-            <div *ngFor="let route of routes; let idx = index;" [ngClass]="route.id === selectedRoute?.id ? 'active' : ''" class="card route">
-                <div class="row">
-                    <div (click)="selectRoute(idx)"class="col-sm-2 center-text">
+            <div *ngFor="let route of routes; let idx = index;"
+                [ngClass]="route.id === selectedRoute?.id ? 'active' : ''"
+                class="card route">
+                <div class="row" cdkDrag>
+                    <div class="col-sm-1 center-text">
+                        <span (click)="moveUp(idx)">&#8593;</span> <!-- Up -->
+                        <br />
+                        <span (click)="moveDown(idx)">&#8595;</span> <!-- Down -->
+                    </div>
+                    <div (click)="selectRoute(idx)" class="col-sm-2 center-text">
                         <span *ngIf="route.method === 'GET'" class="badge badge-info">{{ route.method }}</span>
                         <span *ngIf="route.method === 'POST'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'PATCH'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'PUT'" class="badge badge-success">{{ route.method }}</span>
                         <span *ngIf="route.method === 'DELETE'" class="badge badge-danger">{{ route.method }}</span>
                     </div>
-                    <div (click)="selectRoute(idx)" class="col-sm-8">
+                    <div (click)="selectRoute(idx)" class="col-sm-7">
                         {{ route.path }}
                         <span *ngIf="userActionRequired(route)" class="badge badge-danger">
                             Action Required
