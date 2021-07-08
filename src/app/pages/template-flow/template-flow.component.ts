@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateRoute, TemplateService } from '../../services/template.service';
+import { AdvancedTemplateRoute, RouteMethod, RouteType, TemplateAuth, TemplateRoute, TemplateService } from '../../services/template.service';
 import { v4 } from 'uuid';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,6 +20,7 @@ export class TemplateFlowComponent implements OnInit {
   sitemapImportWorking = false;
   saving = false;
   showSaveSuccess = false;
+  authStep = false;
 
   name: string = null;
   routes: AdvancedTemplateRoute[] = [];
@@ -45,42 +46,44 @@ export class TemplateFlowComponent implements OnInit {
     this.step = 3;
   }
 
-  async onFileSelected(event) {
-    this.fileSelected = true;
-    this.fileUploading = true;
-    this.fileError = null;
-
-    const file:File = event.target.files[0];
-    if (file) {
-        const data = new FormData();
-        data.append("loadTestAuthData", file);
-        this.authUsers = await this.templateService.uploadAuthFile(data);
-        this.userCount = this.authUsers.length;
-    } else {
-      this.fileError = 'No file selected.';
-      this.fileSelected = false;
-    }
-
-    this.fileUploading = false;
-  }
-
   onRouteChange = (routeUpdate: AdvancedTemplateRoute) => {
     const index = this.routes.findIndex(r => r.id === routeUpdate.id)
     this.routes[index] = routeUpdate;
   }
 
-  addRoute(routeType: string) {
+  addRoute(type: string) {
+    const routeType: RouteType = type === "auth" ? RouteType.AUTH : RouteType.BASIC;
     this.routes.push({
       id: v4(),
       method: RouteMethod.GET,
       path: '/',
+      body: [],
+      bodyType: null,
       headers: [],
-      queryParams: []
+      queryParams: [],
+      routeType,
     });
     this.selectedRoute = this.routes[this.routes.length - 1];
+    if (routeType === RouteType.AUTH) {
+      this.authStep = true;
+      this.routes[this.routes.length - 1].users = [];
+      this.routes[this.routes.length - 1].path = "/wp-login.php";
+      this.routes[this.routes.length - 1].method = RouteMethod.POST;
+      this.routes[this.routes.length - 1].headers = [
+        { key: "Accept-Encoding", value: "gzip, deflate" },
+        { key: "Accept", value: "*/*" },
+        { key: "Accept-Language", value: "en-us" },
+        { key: "Content-Type", value: "application/x-www-form-urlencoded" },
+        { key: "User-Agent", value: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36" }
+      ]
+    }
   }
 
   deleteRoute(index: number) {
+    if (this.selectedRoute.routeType === RouteType.AUTH) {
+      this.authStep = false;
+    }
+
     if (this.selectedRoute.id === this.routes[index].id) {
       this.selectedRoute = null;
       this.routes.splice(index, 1);
@@ -120,7 +123,10 @@ export class TemplateFlowComponent implements OnInit {
           method: RouteMethod.GET,
           path: this.getPath(smr.path),
           headers: [],
-          queryParams: []
+          queryParams: [],
+          body: [],
+          bodyType: null,
+          routeType: RouteType.BASIC
       };
     });
     this.routes = this.routes.concat(formattedRoutes);
@@ -143,5 +149,9 @@ export class TemplateFlowComponent implements OnInit {
     setTimeout(() => {
       this.showSaveSuccess = false;
     }, 5000);
+  }
+
+  userActionRequired(route: AdvancedTemplateRoute): boolean {
+    return route.routeType === RouteType.AUTH && route.users?.length === 0;
   }
 }

@@ -1,3 +1,11 @@
 .modifier-tabs {
     margin-top: 10px;
 }
+
+.post-type {
+    margin-top: 5px;
+}
+
+.post-type label {
+    margin-left: 2px;
+}

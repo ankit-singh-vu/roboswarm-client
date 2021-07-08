@@ -78,6 +78,11 @@ export enum RouteMethod {
   DELETE = 'DELETE'
 };
 
+export enum RouteType {
+  BASIC = 'BASIC',
+  AUTH = 'AUTH'
+};
+
 export interface AdvancedTemplateRoute {
   id: string;
   method: RouteMethod;
@@ -86,11 +91,17 @@ export interface AdvancedTemplateRoute {
     key: string;
     value: string;
   }[];
+  routeType: RouteType;
   queryParams?: {
     key: string;
     value: string;
   }[];
-  body?: any;
+  bodyType?: string;
+  body?: {
+    key: string;
+    value: string;
+  }[];
+  users?: TemplateAuth[];
 }
 
 @Injectable({

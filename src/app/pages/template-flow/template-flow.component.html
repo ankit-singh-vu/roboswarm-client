@@ -64,8 +64,7 @@
             </div>
         </div>
       </div>
-      <div class="row step-2" *ngIf="step === 2 && isAuthenticated()">
-          <!-- Upload user credentials-->
+      <!-- <div class="row step-2" *ngIf="step === 2 && isAuthenticated()">
           <div class="col-sm-3"></div>
           <div class="col-sm-6 card">
               <div class="card-body">
@@ -98,7 +97,7 @@ wow@muchdoge.co,password</pre>
               </div>
           </div>
           <div class="col-sm-3"></div>
-      </div>
+      </div> -->
       <div class="row step-3" *ngIf="(step === 2 && !isAuthenticated()) || step === 3">
         <div class="col-sm-4">
             <div class="add-route-actions">
@@ -114,7 +113,10 @@ wow@muchdoge.co,password</pre>
                     </div>
                 </form>
                 <button (click)="addRoute('basic')" type="button" class="btn btn-secondary">
-                    New Route
+                    Add Route
+                </button>
+                <button *ngIf="!authStep" (click)="addRoute('auth')" type="button" class="btn btn-secondary">
+                    Add Authentication Step
                 </button>
                 <button (click)="importFromWordPress(importFromWordPressModal)" type="button" class="btn btn-secondary">
                     Import from WordPress
@@ -133,6 +135,9 @@ wow@muchdoge.co,password</pre>
                     </div>
                     <div (click)="selectRoute(idx)" class="col-sm-8">
                         {{ route.path }}
+                        <span *ngIf="userActionRequired(route)" class="badge badge-danger">
+                            Action Required
+                        </span>
                     </div>
                     <div (click)="deleteRoute(idx)" class="col-sm-2 center-text">
                         &#10007;

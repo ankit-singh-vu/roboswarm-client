@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import { AdvancedTemplateRoute, RouteMethod } from '../../services/template.service';
+import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateService } from '../../services/template.service';
 import { DebouncedFunc, throttle } from 'lodash';
 
 @Component({
@@ -19,7 +19,11 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   headers: string = '';
   queryParams: string = '';
   body: string = '';
-  requestBody: string = '';
+  bodyType: string = '';
+  bodyTypes = [
+    { value: 'application/x-www-form-urlencoded', name: 'Form Encoded (application/x-www-form-urlencoded)' },
+    { value: 'application/json', name: 'JSON Encoded (application/json)' }
+  ];
   methods = [
     { value: 'GET', name: 'GET' },
     { value: 'POST', name: 'POST' },
@@ -27,8 +31,13 @@ export class RouteEditorComponent implements OnInit, OnChanges {
     { value: 'PATCH', name: 'PATCH' },
     { value: 'DELETE', name: 'DELETE' }
   ]
+  fileSelected = false;
+  fileUploading = false;
+  fileError: string = null;
+  authUsers?: TemplateAuth[] = null;
+  userCount: number = null;
 
-  constructor() {}
+  constructor(private templateService: TemplateService) {}
 
   ngOnInit() {
     this.throttledOnChange = throttle(this.onChange, 500, { trailing: true });
@@ -39,16 +48,55 @@ export class RouteEditorComponent implements OnInit, OnChanges {
     this.populateFields();
   }
 
+  async onFileSelected(event) {
+    this.fileSelected = true;
+    this.fileUploading = true;
+    this.fileError = null;
+
+    const file:File = event.target.files[0];
+    if (file) {
+        const data = new FormData();
+        data.append("loadTestAuthData", file);
+        this.authUsers = await this.templateService.uploadAuthFile(data);
+        this.userCount = this.authUsers.length;
+    } else {
+      this.fileError = 'No file selected.';
+      this.fileSelected = false;
+    }
+
+    this.fileUploading = false;
+    this.onDataChange();
+  }
+
   private populateFields() {
     if (this.route) {
       this.method = this.route.method;
       this.path = this.route.path;
-      this.headers = this.route.headers
-        .map(h => `${h.key}:${h.value}`)
+      this.bodyType = this.route.bodyType;
+      this.authUsers = this.route.users;
+      if (this.route.headers?.length > 0) {
+        this.headers = this.route.headers
+          .map(h => `${h.key}:${h.value}`)
+          .join("\n");
+      } else {
+        this.headers = '';
+      }
+
+      if (this.route.queryParams?.length > 0) {
+        this.queryParams = this.route.queryParams
+          .map(qp => `${qp.key}:${qp.value}`)
+          .join("\n");
+      } else {
+        this.queryParams = '';
+      }
+
+      if (this.route.body?.length > 0) {
+        this.body = this.route.body
+        .map(b => `${b.key}:${b.value}`)
         .join("\n");
-      this.queryParams = this.route.queryParams
-        .map(qp => `${qp.key}:${qp.value}`)
-        .join("\n");
+      } else {
+        this.body = '';
+      }
     }
   }
 
@@ -67,6 +115,9 @@ export class RouteEditorComponent implements OnInit, OnChanges {
       ...this.route,
       path: this.path,
       method: this.method,
+      bodyType: this.bodyType,
+      users: this.authUsers,
+      body: this.getKeyValueFromString(this.body),
       headers: this.getKeyValueFromString(this.headers),
       queryParams: this.getKeyValueFromString(this.queryParams)
     });
