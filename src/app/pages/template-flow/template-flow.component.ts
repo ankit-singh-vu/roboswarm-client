@@ -1,5 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AdvancedTemplateRoute, RouteMethod, RouteType, TemplateAuth, TemplateRoute, TemplateService } from '../../services/template.service';
+import {
+  AdvancedTemplatePersisted,
+  AdvancedTemplateRoute,
+  RouteMethod,
+  RouteType,
+  TemplateAuth,
+  TemplateRoute,
+  TemplateService } from '../../services/template.service';
 import { v4 } from 'uuid';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -59,10 +66,6 @@ export class TemplateFlowComponent implements OnInit {
   selectTestType(testType: string) {
     this.testType = testType;
     this.step = 2;
-  }
-
-  proceedToTemplateCreation() {
-    this.step = 3;
   }
 
   onRouteChange = (routeUpdate: AdvancedTemplateRoute) => {
@@ -156,21 +159,29 @@ export class TemplateFlowComponent implements OnInit {
 
   async save() {
     this.saving = true;
-    // martial all the required data.
-    // call service function.
-    // send over to backend and persist
-    // Afterwards, display a quick toast about persisted changes
+    const dataToSave: AdvancedTemplatePersisted = {
+      testType: this.testType,
+      authUsers: this.authUsers,
+      name: this.name,
+      routes: this.routes
+    };
 
-    // this.saving = false;
+    // ::::TODO::::
+    // Create service function to send this to server.
+    // Server then persist this in a text blob.
+    //
+
+    this.saving = false;
 
     // Show save success and then clear after 5 seconds.
     this.showSaveSuccess = true;
     setTimeout(() => {
       this.showSaveSuccess = false;
-    }, 5000);
+    }, 3500);
   }
 
   userActionRequired(route: AdvancedTemplateRoute): boolean {
     return route.routeType === RouteType.AUTH && route.users?.length === 0;
   }
+
 }

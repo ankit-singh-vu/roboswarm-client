@@ -104,6 +104,13 @@ export interface AdvancedTemplateRoute {
   users?: TemplateAuth[];
 }
 
+export interface AdvancedTemplatePersisted {
+  testType: string;
+  authUsers?: TemplateAuth[];
+  name: string;
+  routes: AdvancedTemplateRoute[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
