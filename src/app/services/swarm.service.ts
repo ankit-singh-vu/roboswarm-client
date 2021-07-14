@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
-import { TokenService } from './token.service';
 
 export enum Status {
   destroyed = 'destroyed',
@@ -160,8 +159,7 @@ export interface GetPageResult {
 @Injectable()
 export class SwarmService {
 
-  constructor(private http: HttpService,
-              private token: TokenService) { }
+  constructor(private http: HttpService) { }
 
   async createSwarm(swarm: NewSwarm): Promise<RequestResult> {
     const options: HttpRequestOptions = {

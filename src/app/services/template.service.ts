@@ -105,10 +105,20 @@ export interface AdvancedTemplateRoute {
 }
 
 export interface AdvancedTemplatePersisted {
+  id?: number;
   testType: string;
   authUsers?: TemplateAuth[];
   name: string;
   routes: AdvancedTemplateRoute[];
+}
+
+interface TemplateBlob {
+  id?: number;
+  group_id: number;
+  user_id: number;
+  created_at: Date;
+  active: boolean;
+  template: string;
 }
 
 @Injectable({
@@ -262,5 +272,35 @@ export class TemplateService {
     };
     const result = await this.http.request(options);
     return result.data as TemplateAuth[];
+  }
+
+  async advancedRouteGetAll(): Promise<AdvancedTemplatePersisted[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: '/api/v1/template/blob'
+    };
+    const result = await this.http.request(options);
+    const data: TemplateBlob[] = result.data as TemplateBlob[];
+    const rows: AdvancedTemplatePersisted[] = data.map(d => {
+      const row = JSON.parse(d.template) as AdvancedTemplatePersisted;
+      return {
+        ...row,
+        id: d.id
+      };
+    })
+    return rows;
+  }
+
+  async advancedRouteCreate(template: AdvancedTemplatePersisted): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      data: {
+        template: JSON.stringify(template)
+      },
+      url: '/api/v1/template/blob'
+    };
+    const result = await this.http.request(options);
   }
 }
