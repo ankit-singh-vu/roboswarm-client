@@ -6,7 +6,7 @@
                 <div *ngIf="showSaveSuccess" class="alert alert-success">
                     Your template has been saved.
                 </div>
-                <button *ngIf="!saving" (click)="save()" type="button" class="btn btn-primary waves-effect waves-light">Save Load Test Template</button>
+                <button *ngIf="!saving" [disabled]="!hasName()" (click)="save()" type="button" class="btn btn-primary waves-effect waves-light">Save Load Test Template</button>
                 <app-spinner [show]="saving"></app-spinner>
             </div>
             <h4 class="page-title" *ngIf="step === 1">Select a Load Test Template Type</h4>
@@ -55,7 +55,9 @@
             <div class="add-route-actions">
                 <form>
                     <div class="form-group">
-                        <label for="name">Template Name</label>
+                        <label for="name">
+                            Template Name<span *ngIf="!hasName()"> (Required)</span>
+                        </label>
                         <input
                             type="text"
                             name="name"

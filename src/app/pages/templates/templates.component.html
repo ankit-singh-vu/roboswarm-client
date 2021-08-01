@@ -51,7 +51,7 @@
                       <td>{{ template.name }}</td>
                       <td>{{ getFormattedDate(template.created_at) }} </td>
                       <td class="action-buttons">
-                        <!--<button [routerLink]="['/dashboard/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>-->
+                        <button [routerLink]="['/dashboard/template/advanced', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
                         <button (click)="deleteBlobTemplate(confirm, template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
                       </td>
                     </tr>

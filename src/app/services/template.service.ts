@@ -304,6 +304,18 @@ export class TemplateService {
     await this.http.request(options);
   }
 
+  async advancedRouteUpdate(template: AdvancedTemplatePersisted): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'PUT',
+      data: {
+        template: JSON.stringify(template)
+      },
+      url: `/api/v1/template/blob/${template.id}`
+    };
+    await this.http.request(options);
+  }
+
   async advancedRouteDelete(templateId: number): Promise<void> {
     const options: HttpRequestOptions = {
       authenticated: true,
@@ -311,5 +323,21 @@ export class TemplateService {
       url: `/api/v1/template/blob/${templateId}`
     };
     await this.http.request(options);
+  }
+
+  async advancedRouteGetById(templateId: number): Promise<AdvancedTemplatePersisted> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/template/blob/${templateId}`
+    };
+    const result = await this.http.request(options);
+    const blob: TemplateBlob = result.data as TemplateBlob;
+    const parsedData = JSON.parse(blob.template);
+    const row: AdvancedTemplatePersisted = {
+      id: templateId,
+      ...parsedData
+    };
+    return row;
   }
 }

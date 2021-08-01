@@ -74,6 +74,11 @@ export class RouteEditorComponent implements OnInit, OnChanges {
       this.path = this.route.path;
       this.bodyType = this.route.bodyType;
       this.authUsers = this.route.users;
+
+      if (this.authUsers?.length > 0) {
+        this.userCount = this.authUsers.length;
+      }
+
       if (this.route.headers?.length > 0) {
         this.headers = this.route.headers
           .map(h => `${h.key}:${h.value}`)

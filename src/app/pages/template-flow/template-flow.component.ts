@@ -7,6 +7,7 @@ import {
   TemplateAuth,
   TemplateRoute,
   TemplateService } from '../../services/template.service';
+import { ActivatedRoute } from '@angular/router';
 import { v4 } from 'uuid';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -28,6 +29,7 @@ export class TemplateFlowComponent implements OnInit {
   saving = false;
   showSaveSuccess = false;
   authStep = false;
+  id: number = null;
 
   name: string = null;
   routes: AdvancedTemplateRoute[] = [];
@@ -35,9 +37,22 @@ export class TemplateFlowComponent implements OnInit {
   selectedRoute?: AdvancedTemplateRoute;
 
   constructor(private templateService: TemplateService,
+              private route: ActivatedRoute,
               private modalService: NgbModal) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const tmpId: string = this.route.snapshot.params?.id;
+    if (tmpId) {
+      this.id = parseInt(tmpId, 10);
+      const routeData: AdvancedTemplatePersisted = await this.templateService.advancedRouteGetById(this.id);
+      this.testType = routeData.testType;
+      this.step = 2;
+      this.name = routeData.name;
+      this.routes = routeData.routes;
+      if (this.routes?.length > 0) {
+        this.selectRoute(0);
+      }
+    }
   }
 
   moveUp(index: number) {
@@ -166,7 +181,14 @@ export class TemplateFlowComponent implements OnInit {
       routes: this.routes
     };
 
-    await this.templateService.advancedRouteCreate(dataToSave);
+    if (this.id) {
+      await this.templateService.advancedRouteUpdate({
+        id: this.id,
+        ...dataToSave
+      });
+    } else {
+      await this.templateService.advancedRouteCreate(dataToSave);
+    }
 
     this.saving = false;
 
@@ -179,6 +201,12 @@ export class TemplateFlowComponent implements OnInit {
 
   userActionRequired(route: AdvancedTemplateRoute): boolean {
     return route.routeType === RouteType.AUTH && route.users?.length === 0;
+  }
+
+  hasName(): boolean {
+    return this.name &&
+      this.name.length > 0 &&
+      this.name.replace(/\s+/g, "") !== "";
   }
 
 }
