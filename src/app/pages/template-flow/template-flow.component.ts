@@ -166,10 +166,7 @@ export class TemplateFlowComponent implements OnInit {
       routes: this.routes
     };
 
-    // ::::TODO::::
-    // Create service function to send this to server.
-    // Server then persist this in a text blob.
-    //
+    await this.templateService.advancedRouteCreate(dataToSave);
 
     this.saving = false;
 

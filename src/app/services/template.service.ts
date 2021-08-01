@@ -301,6 +301,15 @@ export class TemplateService {
       },
       url: '/api/v1/template/blob'
     };
-    const result = await this.http.request(options);
+    await this.http.request(options);
+  }
+
+  async advancedRouteDelete(templateId: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/template/blob/${templateId}`
+    };
+    await this.http.request(options);
   }
 }
