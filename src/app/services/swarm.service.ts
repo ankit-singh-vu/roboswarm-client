@@ -66,6 +66,7 @@ export interface NewSwarm {
   swarm_ui_type: string;
   generate_test_from_template?: boolean;
   is_woo_commerce_template: boolean;
+  is_advanced_route_template?: boolean;
 }
 
 export interface Request {

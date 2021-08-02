@@ -5,7 +5,6 @@ import { RequestResult } from '../../services/http.service';
 import { MetricsService } from '../../services/metrics.service';
 import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
 import { TemplateService, TemplateSimple } from '../../services/template.service';
-import * as moment from 'moment';
 
 interface CreateSwarmForm {
   name: string;
@@ -68,11 +67,19 @@ export class SwarmCreateComponent implements OnInit {
     this.sites = await await this.siteOwnershipService.getAll();
     const templates = await this.templateService.getAll();
     const wooTemplates = await this.templateService.getAllWooCommerce();
+    const advancedRouteTemplates = await this.templateService.advancedRouteGetAll();
+    advancedRouteTemplates.forEach(art => {
+      templates.push({
+        id: art.id,
+        name: art.name,
+        created_at: null,
+        is_advanced_route_template: true
+      });
+    })
     wooTemplates.forEach(wt => {
-      const createdAt: moment.Moment = moment(wt.created_at);
       templates.push({
         id: wt.id,
-        name: `[WooCommerce] ${wt.name} - ${createdAt.format('MM/DD/YYYY')}`,
+        name: `[WooCommerce] ${wt.name}`,
         created_at: wt.created_at,
         is_woo_commerce: true
       });
@@ -117,6 +124,7 @@ export class SwarmCreateComponent implements OnInit {
           site_id: this.model.site_id,
           template_id: this.model.template.id,
           is_woo_commerce_template: this.model.template.is_woo_commerce,
+          is_advanced_route_template: this.model.template.is_advanced_route_template,
           region: this.model.swarm_region.join(','),
           duration: this.model.duration_minutes,
           swarm_ui_type: this.test_type,
