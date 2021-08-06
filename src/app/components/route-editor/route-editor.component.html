@@ -53,7 +53,7 @@ Cache-Control:no-cache</pre>
                     </form>
                   </ng-template>
                 </li>
-                <li *ngIf="route.routeType === 'BASIC'" [ngbNavItem]="2">
+                <li *ngIf="route.routeType === 'BASIC' && route.method !== 'GET'" [ngbNavItem]="2">
                     <a ngbNavLink>Body</a>
                     <ng-template ngbNavContent>
                       <p>This is the body that will be sent with POST/PATCH/PUT requests.</p>
