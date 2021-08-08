@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwarmService, NewMachine, NewSwarm } from '../../services/swarm.service';
 import { RequestResult } from '../../services/http.service';
 import { MetricsService } from '../../services/metrics.service';
 import { SiteOwnership, SiteOwnershipService } from '../../services/site-ownership.service';
 import { TemplateService, TemplateSimple } from '../../services/template.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface CreateSwarmForm {
   name: string;
@@ -18,6 +19,7 @@ interface CreateSwarmForm {
   spawn_rate: number;
   swarm_ui_type?: string;
   generate_test_from_template?: boolean;
+  user_traffic_behavior: string;
 }
 
 @Component({
@@ -37,7 +39,8 @@ export class SwarmCreateComponent implements OnInit {
     site_id: null,
     template: null,
     swarm_ui_type: 'headless',
-    generate_test_from_template: true
+    generate_test_from_template: true,
+    user_traffic_behavior: 'evenSpread',
   };
   regions = [
     { value: 'ams3', name: 'Amsterdam' },
@@ -49,6 +52,16 @@ export class SwarmCreateComponent implements OnInit {
     { value: 'sgp1', name: 'Singapore' },
     { value: 'tor1', name: 'Toronto' },
   ];
+  userTrafficTypes = [
+    {
+      name: 'evenSpread',
+      description: 'Even traffic spread',
+    },
+    {
+      name: 'sequence',
+      description: 'Sequence in-order'
+    }
+  ];
   submitted = false;
   error = '';
   test_type = 'headless';
@@ -59,7 +72,8 @@ export class SwarmCreateComponent implements OnInit {
               private swarmService: SwarmService,
               private metrics: MetricsService,
               private templateService: TemplateService,
-              private siteOwnershipService: SiteOwnershipService) {
+              private siteOwnershipService: SiteOwnershipService,
+              private modalService: NgbModal) {
   }
 
   async ngOnInit() {
@@ -128,7 +142,8 @@ export class SwarmCreateComponent implements OnInit {
           region: this.model.swarm_region.join(','),
           duration: this.model.duration_minutes,
           swarm_ui_type: this.test_type,
-          generate_test_from_template: this.model.generate_test_from_template
+          generate_test_from_template: this.model.generate_test_from_template,
+          user_traffic_behavior: this.model.user_traffic_behavior
         };
 
         const result: RequestResult = await this.swarmService.createSwarm(swarmData);
@@ -157,5 +172,9 @@ export class SwarmCreateComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  viewMoreUserBehaviorInfo(modalContent: TemplateRef<any>) {
+    this.modalService.open(modalContent);
   }
 }
