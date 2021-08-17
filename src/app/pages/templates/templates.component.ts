@@ -57,4 +57,9 @@ export class TemplatesComponent implements OnInit {
     return names.split(',').join(', ');
   }
 
+  hasTemplates(): boolean {
+    return this.templates?.length > 0 ||
+      this.blobTemplates?.length > 0;
+  }
+
 }

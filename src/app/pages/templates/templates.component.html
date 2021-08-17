@@ -32,7 +32,7 @@
                   <th></th>
                 </thead>
                 <tbody>
-                    <tr *ngIf="!templates || templates.length === 0">
+                    <tr *ngIf="!hasTemplates()">
                       <td colspan=4>
                         <div class="alert alert-info">
                           You have no load test templates. Click the "Add Load Test Template" button to get started.
