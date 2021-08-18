@@ -13,18 +13,20 @@
                 Fill out the information below to create your load test. Once the form as been submitted RoboSwarm will generate your swarm and start your load test. If your site is protected by Cloudflare you need to take additional configuration steps. <a href="https://docs.kernl.us/#/pages/load-testing/cloudflare">Read more here</a>
               </p>
               <form class="form-horizontal m-t-20" #createSwarmForm="ngForm" (ngSubmit)="onSubmit(createSwarmForm)">
-                <div class="form-group">
-                  <label for="name">Load Test Name</label>
-                  <input class="form-control"
-                        type="text"
-                        name="name"
-                        id="name"
-                        required
-                        [(ngModel)]="model.name"
-                        [disabled]="submitted">
-                  <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
-                </div>
                 <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">Load Test Name</label>
+                      <input class="form-control"
+                            type="text"
+                            name="name"
+                            id="name"
+                            required
+                            [(ngModel)]="model.name"
+                            [disabled]="submitted">
+                      <small class="form-text text-muted">How would you describe your load test? The name will make it easier to find pick out in the list of previous load tests.</small>
+                    </div>
+                  </div>
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="site_id">Site To Test</label>
@@ -36,7 +38,7 @@
                           [items]="sites"
                           [multiple]="false"
                           [closeOnSelect]="true"
-                          [searchable]="false"
+                          [searchable]="true"
                           [disabled]='submitted'
                           name="site_id"
                           bindValue="id"
@@ -47,6 +49,8 @@
                       <small class="form-text text-muted">The site that we will load test.</small>
                     </div>
                   </div>
+                </div>
+                <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="template">Template</label>
@@ -58,7 +62,7 @@
                           [items]="templates"
                           [multiple]="false"
                           [closeOnSelect]="true"
-                          [searchable]="false"
+                          [searchable]="true"
                           [disabled]='submitted'
                           name="template"
                           bindLabel="name"
@@ -66,6 +70,24 @@
                           [(ngModel)]="model.template">
                       </ng-select>
                       <small class="form-text text-muted">The load test template we will run against the site selected above.</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div [hidden]="disableTrafficBehavior()" class="form-group">
+                      <label for="userTrafficBehavior">User/Traffic Behavior</label>
+                      <ng-select
+                          [items]="userTrafficTypes"
+                          [multiple]="false"
+                          [closeOnSelect]="true"
+                          [searchable]="false"
+                          [disabled]='submitted'
+                          name="userTrafficBehavior"
+                          bindLabel="description"
+                          bindValue="name"
+                          placeholder="Select User Traffic Behavior"
+                          [(ngModel)]="model.user_traffic_behavior">
+                      </ng-select>
+                      <small class="form-text text-muted">How should the virtual user behave during the load test? <a class="readMoreLink" (click)="viewMoreUserBehaviorInfo(userBehaviorModal)">Read More</a>.</small>
                     </div>
                   </div>
                 </div>
@@ -131,3 +153,26 @@
       <div class="col-sm-2"></div>
     </div>
 </div>
+
+<ng-template #userBehaviorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">User Behavior Types</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>There are two different types of user behavior in Roboswarm: Even spread &amp; Sequence. Each behavior types has different consequences for your load test.</p>
+    <ul>
+      <li>
+        <b>Even Spread</b> - Traffic will be evenly distributed amongst all of the routes in your load test template. If you aren't concerned with mimicking real user behavior, this is a good way to simply throw a lot of traffic at your site.
+      </li>
+      <li>
+        <b>Sequence</b> - Each load test user will navigate your site <b>in the order defined in your load test template.</b> This type is useful for mimicking real user behavior. It's worth noting that if you have an authentication step in your test, Roboswarm will automatically default to sequence.
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('delete')">Done</button>
+  </div>
+</ng-template>

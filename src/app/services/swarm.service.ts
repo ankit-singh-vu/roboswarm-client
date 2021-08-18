@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions, RequestResult } from './http.service';
-import { TokenService } from './token.service';
 
 export enum Status {
   destroyed = 'destroyed',
@@ -67,6 +66,8 @@ export interface NewSwarm {
   swarm_ui_type: string;
   generate_test_from_template?: boolean;
   is_woo_commerce_template: boolean;
+  is_advanced_route_template?: boolean;
+  user_traffic_behavior?: string;
 }
 
 export interface Request {
@@ -160,8 +161,7 @@ export interface GetPageResult {
 @Injectable()
 export class SwarmService {
 
-  constructor(private http: HttpService,
-              private token: TokenService) { }
+  constructor(private http: HttpService) { }
 
   async createSwarm(swarm: NewSwarm): Promise<RequestResult> {
     const options: HttpRequestOptions = {

@@ -28,12 +28,11 @@
               <table class="table table-striped">
                 <thead>
                   <th>Template Name</th>
-                  <th>Scenarios</th>
                   <th>Created at</th>
                   <th></th>
                 </thead>
                 <tbody>
-                    <tr *ngIf="!templates || templates.length === 0">
+                    <tr *ngIf="!hasTemplates()">
                       <td colspan=4>
                         <div class="alert alert-info">
                           You have no load test templates. Click the "Add Load Test Template" button to get started.
@@ -42,11 +41,18 @@
                     </tr>
                     <tr *ngFor="let template of templates">
                       <td>{{ template.name }}</td>
-                      <td>{{ formatScenarioNames(template.scenario_names) }}</td>
                       <td>{{ getFormattedDate(template.created_at) }} </td>
                       <td class="action-buttons">
                         <button [routerLink]="['/dashboard/template/edit', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
                         <button (click)="deleteTemplate(confirm, template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
+                      </td>
+                    </tr>
+                    <tr *ngFor="let template of blobTemplates">
+                      <td>{{ template.name }}</td>
+                      <td>{{ getFormattedDate(template.created_at) }} </td>
+                      <td class="action-buttons">
+                        <button [routerLink]="['/dashboard/template/advanced', template.id]" class="btn btn-info btn-sm waves-effect w-md waves-light m-b-5">Edit</button>
+                        <button (click)="deleteBlobTemplate(confirm, template.id)" class="btn btn-danger btn-sm waves-effect w-md waves-light m-b-5">Delete</button>
                       </td>
                     </tr>
                 </tbody>

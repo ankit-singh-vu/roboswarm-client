@@ -55,7 +55,8 @@ import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-
 import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-template-request/woo-commerce-template-request.component';
 import { EditTemplateRoutesModalComponent } from './components/edit-template-routes-modal/edit-template-routes-modal.component';
 import { WooTemplateAddEditComponent } from './pages/woo-template-add-edit/woo-template-add-edit.component';
-
+import { TemplateFlowComponent } from './pages/template-flow/template-flow.component';
+import { RouteEditorComponent } from './components/route-editor/route-editor.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,9 @@ import { WooTemplateAddEditComponent } from './pages/woo-template-add-edit/woo-t
     WooCommerceTemplateComponent,
     WooCommerceTemplateRequestComponent,
     EditTemplateRoutesModalComponent,
-    WooTemplateAddEditComponent
+    WooTemplateAddEditComponent,
+    TemplateFlowComponent,
+    RouteEditorComponent
   ],
   imports: [
     BrowserModule,

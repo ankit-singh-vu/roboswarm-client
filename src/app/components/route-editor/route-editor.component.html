@@ -1,0 +1,155 @@
+<div class="card">
+    <div class="card-body">
+        <div class="method route">
+            <form>
+                <div class="form-row">
+                    <div class="col">
+                        <ng-select
+                            [items]="methods"
+                            [multiple]="false"
+                            [closeOnSelect]="true"
+                            [searchable]="false"
+                            name="method"
+                            bindValue="value"
+                            bindLabel="name"
+                            [(ngModel)]="method"
+                            (ngModelChange)="onDataChange()">
+                        </ng-select>
+                    </div>
+                    <div class="col">
+                        <input
+                            type="text"
+                            name="path"
+                            class="form-control"
+                            placeholder="/some/path"
+                            [(ngModel)]="path"
+                            (ngModelChange)="onDataChange()">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modifier-tabs">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>Headers</a>
+                  <ng-template ngbNavContent>
+                    <p>For each header you would like included in this request, create a new line. Headers should formatted in key:value format.</p>
+                    <h5>Example</h5>
+                    <pre>Content-type:application/json
+Accept-Encoding:gzip,deflate
+Cache-Control:no-cache</pre>
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <textarea
+                                    type="text"
+                                    name="headers"
+                                    class="form-control"
+                                    placeholder="Enter your additional headers here..."
+                                    [(ngModel)]="headers"
+                                    (ngModelChange)="onDataChange()"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </ng-template>
+                </li>
+                <li *ngIf="route.routeType === 'BASIC' && route.method !== 'GET'" [ngbNavItem]="2">
+                    <a ngbNavLink>Body</a>
+                    <ng-template ngbNavContent>
+                      <p>This is the body that will be sent with POST/PATCH/PUT requests.</p>
+                      <h5>Example Formatting</h5>
+                      <pre>
+  form_key_1:my value
+  form_key_2:another value</pre>
+                      <form>
+                          <div class="form-row">
+                              <div class="col">
+                                  <textarea
+                                      type="text"
+                                      name="body"
+                                      class="form-control"
+                                      placeholder="Enter your JSON object here..."
+                                      [(ngModel)]="body"
+                                      (ngModelChange)="onDataChange()"></textarea>
+                              </div>
+                          </div>
+                          <div class="form-row post-type">
+                            <div class="col">
+                                <label for="bodyType">Content Type</label>
+                                <ng-select
+                                    [items]="bodyTypes"
+                                    [multiple]="false"
+                                    [closeOnSelect]="true"
+                                    [searchable]="false"
+                                    name="bodyType"
+                                    bindValue="value"
+                                    bindLabel="name"
+                                    [(ngModel)]="bodyType"
+                                    (ngModelChange)="onDataChange()">
+                                </ng-select>
+                                <small class="form-text text-muted">The content type that the POST/PUT/PATCH should be sent with.</small>
+                            </div>
+                        </div>
+                      </form>
+                    </ng-template>
+                </li>
+                <li *ngIf="route.routeType === 'AUTH'" [ngbNavItem]="2">
+                    <a ngbNavLink>Auth Users <span *ngIf="authUsers.length === 0" class="badge badge-danger">!</span></a>
+                    <ng-template ngbNavContent>
+                      <!-- Upload user credentials-->
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    Upload a CSV of users and passwords below. A user will be pulled from this CSV during load tests. For example, if you run a load test with 50 users and upload a CSV with 50 users, you can count on 50 different users being authenticated concurrently during the test.
+                                </p>
+                                <h6>Example</h6>
+                                <pre>
+ jack@kernl.us,mypassword
+ jane@roboswarm.dev,anotherPassword
+ wow@muchdoge.co,password</pre>
+                                <p class="card-text">RoboSwarm will validate your CSV formatting before continuing the template setup process.</p>
+                                <form *ngIf="!userCount" class="form-horizontal m-t-20" #createTemplateForm="ngForm" autocomplete="off">
+                                    <div class="custom-file">
+                                        <input (change)="onFileSelected($event)" type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                    <div class="center-button">
+                                        <app-spinner [show]="fileUploading"></app-spinner>
+                                    </div>
+                                    <div *ngIf="fileError !== null" class="alert alert-danger">{{ fileError }}</div>
+                                </form>
+                                <div *ngIf="userCount && userCount > 0" class="alert alert-info">
+                                    CSV with <b>{{ userCount }}</b> user accounts uploaded successfully.
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="3">
+                  <a ngbNavLink>Query Parameters</a>
+                  <ng-template ngbNavContent>
+                    <p>For each query parameter you would like included in this request, create a new line. Query parameters should formatted in key:value format.</p>
+                    <h5>Example: ?page=2&q=some%20query&limit=2</h5>
+                    <pre>page:2
+q:some query
+limit:2</pre>
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <textarea
+                                    type="text"
+                                    name="queryParams"
+                                    class="form-control"
+                                    placeholder="Enter your query param values here..."
+                                    [(ngModel)]="queryParams"
+                                    (ngModelChange)="onDataChange()"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="nav"></div>
+        </div>
+    </div>
+</div>

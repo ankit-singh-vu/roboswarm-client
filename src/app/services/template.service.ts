@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpService, HttpRequestOptions} from './http.service';
 
+export interface TemplateAuth {
+  username: string;
+  password: string;
+}
+
 export interface TemplateRoute {
   id?: number;
   created_at?: Date;
@@ -32,6 +37,7 @@ export interface TemplateSimple {
   name: string;
   created_at: Date;
   is_woo_commerce?: boolean;
+  is_advanced_route_template?: boolean;
 }
 
 export interface WooCommerceTemplate {
@@ -63,6 +69,57 @@ export enum WordPressRouteType {
   AUTHENTICATED_FRONTEND_NAVIGATE,
   AUTHENTICATED_ADMIN_NAVIGATE,
   UNAUTHENTICATED_FRONTEND_NAVIGATE
+}
+
+export enum RouteMethod {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
+};
+
+export enum RouteType {
+  BASIC = 'BASIC',
+  AUTH = 'AUTH'
+};
+
+export interface AdvancedTemplateRoute {
+  id: string;
+  method: RouteMethod;
+  path: string;
+  headers?: {
+    key: string;
+    value: string;
+  }[];
+  routeType: RouteType;
+  queryParams?: {
+    key: string;
+    value: string;
+  }[];
+  bodyType?: string;
+  body?: {
+    key: string;
+    value: string;
+  }[];
+  users?: TemplateAuth[];
+}
+
+export interface AdvancedTemplatePersisted {
+  id?: number;
+  testType: string;
+  authUsers?: TemplateAuth[];
+  name: string;
+  routes: AdvancedTemplateRoute[];
+}
+
+interface TemplateBlob {
+  id?: number;
+  group_id: number;
+  user_id: number;
+  created_at: Date;
+  active: boolean;
+  template: string;
 }
 
 @Injectable({
@@ -205,5 +262,83 @@ export class TemplateService {
       default:
         return '';
     }
+  }
+
+  async uploadAuthFile(data: FormData): Promise<TemplateAuth[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      data,
+      requestType: 'POST',
+      url: '/api/v1/template/auth-file-upload'
+    };
+    const result = await this.http.request(options);
+    return result.data as TemplateAuth[];
+  }
+
+  async advancedRouteGetAll(): Promise<AdvancedTemplatePersisted[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: '/api/v1/template/blob'
+    };
+    const result = await this.http.request(options);
+    const data: TemplateBlob[] = result.data as TemplateBlob[];
+    const rows: AdvancedTemplatePersisted[] = data.map(d => {
+      const row = JSON.parse(d.template) as AdvancedTemplatePersisted;
+      return {
+        ...row,
+        id: d.id
+      };
+    })
+    return rows;
+  }
+
+  async advancedRouteCreate(template: AdvancedTemplatePersisted): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'POST',
+      data: {
+        template: JSON.stringify(template)
+      },
+      url: '/api/v1/template/blob'
+    };
+    await this.http.request(options);
+  }
+
+  async advancedRouteUpdate(template: AdvancedTemplatePersisted): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'PUT',
+      data: {
+        template: JSON.stringify(template)
+      },
+      url: `/api/v1/template/blob/${template.id}`
+    };
+    await this.http.request(options);
+  }
+
+  async advancedRouteDelete(templateId: number): Promise<void> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'DELETE',
+      url: `/api/v1/template/blob/${templateId}`
+    };
+    await this.http.request(options);
+  }
+
+  async advancedRouteGetById(templateId: number): Promise<AdvancedTemplatePersisted> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/template/blob/${templateId}`
+    };
+    const result = await this.http.request(options);
+    const blob: TemplateBlob = result.data as TemplateBlob;
+    const parsedData = JSON.parse(blob.template);
+    const row: AdvancedTemplatePersisted = {
+      id: templateId,
+      ...parsedData
+    };
+    return row;
   }
 }
