@@ -177,4 +177,9 @@ export class SwarmCreateComponent implements OnInit {
   viewMoreUserBehaviorInfo(modalContent: TemplateRef<any>) {
     this.modalService.open(modalContent);
   }
+
+  disableTrafficBehavior(): boolean {
+    return this.model?.template?.is_woo_commerce ||
+      !this.model?.template?.is_advanced_route_template;
+  }
 }

@@ -38,7 +38,7 @@
                           [items]="sites"
                           [multiple]="false"
                           [closeOnSelect]="true"
-                          [searchable]="false"
+                          [searchable]="true"
                           [disabled]='submitted'
                           name="site_id"
                           bindValue="id"
@@ -62,7 +62,7 @@
                           [items]="templates"
                           [multiple]="false"
                           [closeOnSelect]="true"
-                          [searchable]="false"
+                          [searchable]="true"
                           [disabled]='submitted'
                           name="template"
                           bindLabel="name"
@@ -73,7 +73,7 @@
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div class="form-group">
+                    <div [hidden]="disableTrafficBehavior()" class="form-group">
                       <label for="userTrafficBehavior">User/Traffic Behavior</label>
                       <ng-select
                           [items]="userTrafficTypes"
