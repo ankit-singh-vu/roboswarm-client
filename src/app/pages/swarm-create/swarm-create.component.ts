@@ -122,19 +122,13 @@ export class SwarmCreateComponent implements OnInit {
           this.model.swarm_region.unshift(currentRegion);
         }
 
-        // Get the spawn rate
-        let spawn_rate = 1;
-        if (window.localStorage.getItem('spawn_rate') !== null) {
-          spawn_rate = parseInt(window.localStorage.getItem('spawn_rate'), 10);
-        }
-
         // Create the swarm.
         const swarmData: NewSwarm  = {
           name: this.model.name,
           simulated_users: this.model.simulated_users,
           machines,
           file_path: '',
-          spawn_rate,
+          spawn_rate: this.model.spawn_rate,
           site_id: this.model.site_id,
           template_id: this.model.template.id,
           is_woo_commerce_template: this.model.template.is_woo_commerce,

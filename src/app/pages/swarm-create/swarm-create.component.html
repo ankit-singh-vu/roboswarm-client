@@ -92,7 +92,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label for="simulated_users"># of Simulated Users</label>
                       <input class="form-control"
@@ -106,7 +106,7 @@
                       <small class="form-text text-muted">This is the total number of users for the load test.</small>
                     </div>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label for="duration_minutes">Test Duration in Minutes</label>
                       <input class="form-control"
@@ -117,6 +117,19 @@
                             [(ngModel)]="model.duration_minutes"
                             [disabled]="submitted">
                       <small class="form-text text-muted">How many minutes should this load test run for?</small>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="spawn_rate">Spawn Rate</label>
+                      <input class="form-control"
+                            type="number"
+                            id="spawn_rate"
+                            name="spawn_rate"
+                            required
+                            [(ngModel)]="model.spawn_rate"
+                            [disabled]="submitted">
+                      <small class="form-text text-muted">How quickly should we spawn users? "1" means "1 per second", "5" means "5 per second", and so on.</small>
                     </div>
                   </div>
                 </div>
