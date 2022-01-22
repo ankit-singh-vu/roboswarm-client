@@ -97,7 +97,7 @@
                                     required
                                     [(ngModel)]="model.product_a_url"
                                     [disabled]="submitted">
-                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product). Your product should not have any required options (color, size, etc).</small>
+                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product). Any attributes/options can be passed in via the querystring. (ex: /my-great-product?color=green&amp;size=small) Attribute names should match the attribute's "name" field on the WooCommerce form.</small>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -110,7 +110,7 @@
                                     required
                                     [(ngModel)]="model.product_b_url"
                                     [disabled]="submitted">
-                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product). Your product should not have any required options (color, size, etc).</small>
+                                <small class="form-text text-muted">The URL path to one of your products. Example: /my-great-product (NOT: https://example.com/my-great-product). Any attributes/options can be passed in via the querystring. (ex: /my-great-product?color=green&amp;size=small) Attribute names should match the attribute's "name" field on the WooCommerce form.</small>
                             </div>
                         </div>
                     </div>
