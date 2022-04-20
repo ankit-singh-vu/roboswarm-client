@@ -27,19 +27,30 @@ export class SwarmTileComponent implements OnInit {
   @Output() deleted = new EventEmitter<number>();
 
   private statusCheckInterval;
+  private timeRemainingSeconds;
+  private timeRemainingInterval;
 
-  constructor(private swarmService: SwarmService) {
-  }
+  constructor(private swarmService: SwarmService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.data.status === 'new') {
       this.statusCheckInterval = setInterval(async () => {
         const swarm: Swarm = await this.swarmService.getById(this.data.id);
         if (swarm.status !== this.data.status) {
           this.data.status = swarm.status;
           clearInterval(this.statusCheckInterval);
+          clearInterval(this.timeRemainingInterval);
         }
       }, 5000);
+      this.timeRemainingSeconds = await this.swarmService.getTimeRemaining(this.data.id);
+      this.timeRemainingInterval = setInterval(() => {
+        if (this.timeRemainingSeconds < 1) {
+          clearInterval(this.timeRemainingInterval);
+        } else {
+          this.timeRemainingSeconds--;
+        }
+      }, 1000);
+
     }
   }
 
@@ -77,10 +88,20 @@ export class SwarmTileComponent implements OnInit {
     return this.data.status === 'ready';
   }
 
+  getTimeRemaining() {
+    if (this.data.status == 'new') {
+      if (this.timeRemainingSeconds > 1) {
+        return `~${parseInt(this.timeRemainingSeconds, 10)} seconds`;
+      } else {
+        return 'Any second now...';
+      }
+    }
+  }
+
   getFormattedStatus() {
     switch (this.data.status) {
       case 'new':
-        return 'Deploying Infrastructure';
+        return `Deploying Infrastructure (${this.getTimeRemaining()})`;
       case 'ready':
         return 'Running Load Test';
       case 'destroyed':

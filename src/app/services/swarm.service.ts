@@ -158,6 +158,12 @@ export interface GetPageResult {
   totalSize: number;
 }
 
+export interface TimeRemainingResult extends RequestResult {
+  data?: {
+    timeInSeconds: number;
+  }
+}
+
 @Injectable()
 export class SwarmService {
 
@@ -260,6 +266,16 @@ export class SwarmService {
       url: `/api/v1/swarm/${swarmId}/soft-delete`
     };
     await this.http.request(options);
+  }
+
+  async getTimeRemaining(swarmId: number): Promise<number> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/swarm/${swarmId}/time-remaining`
+    };
+    const result: TimeRemainingResult = await this.http.request(options);
+    return result.data.timeInSeconds;
   }
 
   getFormattedRegion(regions: string): string {
