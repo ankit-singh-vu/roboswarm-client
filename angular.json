@@ -107,7 +107,6 @@
       }
     }
   },
-  "defaultProject": "roboswarm-client",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
