@@ -40,11 +40,13 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   constructor(private templateService: TemplateService) {}
 
   ngOnInit() {
-    this.throttledOnChange = throttle(this.onChange, 500, { trailing: true });
+    // this.throttledOnChange = throttle(this.onChange, 500, { trailing: true });
+    this.throttledOnChange = this.onChange;
     this.populateFields();
   }
 
   ngOnChanges() {
+    console.log(this.route);
     this.populateFields();
   }
 
@@ -126,5 +128,6 @@ export class RouteEditorComponent implements OnInit, OnChanges {
       headers: this.getKeyValueFromString(this.headers),
       queryParams: this.getKeyValueFromString(this.queryParams)
     });
+    console.log(this.route);
   }
 }

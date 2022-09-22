@@ -43,7 +43,7 @@
                         If you want to load test a WooCommerce store, select this template type.
                     </p>
                     <div class="center-button">
-                        <a [routerLink]="['/dashboard/woocommerce-template']" class="btn btn-primary btn-lg card-link">Select</a>
+                        <a [routerLink]="['/dashboard/woocommerce-template/add']" class="btn btn-primary btn-lg card-link">Select</a>
                     </div>
                 </div>
             </div>
@@ -120,9 +120,7 @@
 <ng-template #importFromWordPressModal let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Import from WordPress</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('cancel')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
     </div>
     <div class="modal-body">
       Enter the full URL to your sitemap.xml file. Example: https://roboswarm.dev/sitemap.xml
