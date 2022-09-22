@@ -23,6 +23,7 @@
                             class="form-control"
                             placeholder="/some/path"
                             [(ngModel)]="path"
+                            (keyup)="onDataChange()"
                             (change)="onDataChange()">
                     </div>
                 </div>
