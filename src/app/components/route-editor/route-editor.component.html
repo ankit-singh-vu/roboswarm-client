@@ -13,7 +13,7 @@
                             bindValue="value"
                             bindLabel="name"
                             [(ngModel)]="method"
-                            (ngModelChange)="onDataChange()">
+                            (change)="onDataChange()">
                         </ng-select>
                     </div>
                     <div class="col">
@@ -23,7 +23,8 @@
                             class="form-control"
                             placeholder="/some/path"
                             [(ngModel)]="path"
-                            (ngModelChange)="onDataChange()">
+                            (keyup)="onDataChange()"
+                            (change)="onDataChange()">
                     </div>
                 </div>
             </form>

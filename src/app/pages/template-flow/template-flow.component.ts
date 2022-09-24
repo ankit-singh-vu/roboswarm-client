@@ -86,6 +86,7 @@ export class TemplateFlowComponent implements OnInit {
   onRouteChange = (routeUpdate: AdvancedTemplateRoute) => {
     const index = this.routes.findIndex(r => r.id === routeUpdate.id)
     this.routes[index] = routeUpdate;
+    this.selectedRoute = routeUpdate;
   }
 
   addRoute(type: string) {

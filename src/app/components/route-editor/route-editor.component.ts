@@ -25,11 +25,11 @@ export class RouteEditorComponent implements OnInit, OnChanges {
     { value: 'application/json', name: 'JSON Encoded (application/json)' }
   ];
   methods = [
-    { value: 'GET', name: 'GET' },
-    { value: 'POST', name: 'POST' },
-    { value: 'PUT', name: 'PUT' },
-    { value: 'PATCH', name: 'PATCH' },
-    { value: 'DELETE', name: 'DELETE' }
+    { value: RouteMethod.GET, name: 'GET' },
+    { value: RouteMethod.POST, name: 'POST' },
+    { value: RouteMethod.PUT, name: 'PUT' },
+    { value: RouteMethod.PATCH, name: 'PATCH' },
+    { value: RouteMethod.DELETE, name: 'DELETE' }
   ]
   fileSelected = false;
   fileUploading = false;
@@ -45,6 +45,7 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    console.log(this.route);
     this.populateFields();
   }
 
@@ -116,7 +117,7 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   }
 
   onDataChange() {
-    this.throttledOnChange({
+    const data: AdvancedTemplateRoute = {
       ...this.route,
       path: this.path,
       method: this.method,
@@ -125,6 +126,7 @@ export class RouteEditorComponent implements OnInit, OnChanges {
       body: this.getKeyValueFromString(this.body),
       headers: this.getKeyValueFromString(this.headers),
       queryParams: this.getKeyValueFromString(this.queryParams)
-    });
+    };
+    this.throttledOnChange(data);
   }
 }
