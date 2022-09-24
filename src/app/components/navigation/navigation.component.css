@@ -22,3 +22,7 @@
     color: #98a6ad;
     font-size: 24px;
 }
+
+.support a {
+    text-decoration: none;
+}
