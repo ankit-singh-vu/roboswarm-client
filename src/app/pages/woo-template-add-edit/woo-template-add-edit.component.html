@@ -118,10 +118,13 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="data_override">Override Checkout Data (optional)</label>
-                                <textarea class="form-control"
-                                      name="data_override"
-                                      id="data_override"
-                                      [disabled]="submitted"></textarea>
+                                <ngx-monaco-editor
+                                    class="form-control"
+                                    id="data_override"
+                                    name="data_override"
+                                    [disabled]="submitted"
+                                    [options]="editorOptions"
+                                    [(ngModel)]="model.data_override"></ngx-monaco-editor>
                                 <small class="form-text text-muted">You may override any of the checkout form data here. It should be a valid JSON object. You can see what checkout data your WooCommerce site sends by going to the checkout page, filling out the form, and submitting with developer tools open.</small>
                             </div>
                         </div>
@@ -129,8 +132,8 @@
                     <div class="form-group text-center m-t-40 mb-0">
                         <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
                                 type="submit"
-                                [disabled]="submitted || !allFieldsCompleted() || !isValid()">
-                            Save WooCommerceTemplate
+                                [disabled]="submitted">
+                            Save WooCommerce Template
                         </button>
                         <p></p>
                         <div *ngIf='hasError()' class="alert alert-danger" role="alert">

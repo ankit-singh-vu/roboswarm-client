@@ -12,6 +12,7 @@ export class WooTemplateAddEditComponent implements OnInit {
   id: number = null;
   model: AddUpdateWooCommerceTemplate = {
     name: null,
+    data_override: null,
     description: '',
     cart_url: null,
     checkout_url: null,
@@ -22,6 +23,9 @@ export class WooTemplateAddEditComponent implements OnInit {
   submitted = false;
   error = '';
   working = true;
+
+  editorOptions = {theme: 'vs-dark', language: 'json'};
+  editorHasFocus = false;
 
   constructor(private templateService: TemplateService,
               private router: Router,
@@ -42,6 +46,8 @@ export class WooTemplateAddEditComponent implements OnInit {
 
   async onSubmit(createTemplateForm: NgForm) {
     this.error = '';
+    if (!this.isValid()) { return }
+
     if (createTemplateForm.valid && createTemplateForm.submitted) {
       this.submitted = true;
       if (this.id) {
@@ -70,6 +76,26 @@ export class WooTemplateAddEditComponent implements OnInit {
     return this.error && this.error.trim() !== '';
   }
 
+  hasOverrideDataAndIsInvalid(): boolean {
+    if (this.model.data_override && this.model.data_override.trim() !== '') {
+      if (this.isValidJson(this.model.data_override.trim())) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private isValidJson(jsonString: string): boolean {
+    try {
+      JSON.parse(jsonString);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
   isValid() {
     const hasHttp = this.model.cart_url.includes('http') ||
       this.model.checkout_url.includes('http') ||
@@ -79,10 +105,14 @@ export class WooTemplateAddEditComponent implements OnInit {
     if (hasHttp) {
       this.error = 'Invalid path. Paths should not contain http:// or https://';
       return false;
-    } else {
-      this.error = '';
-      return true;
     }
+    if(!this.editorHasFocus && this.hasOverrideDataAndIsInvalid()) {
+      this.error = 'Checkout override data must be a valid JSON object.';
+      return false;
+    }
+
+    this.error = '';
+    return true;
   }
 
 }

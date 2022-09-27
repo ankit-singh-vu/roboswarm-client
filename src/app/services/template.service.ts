@@ -46,6 +46,7 @@ export interface WooCommerceTemplate {
   group_id: Number;
   user_id: Number;
   name: string;
+  data_override?: string;
   description: string;
   shop_url: string;
   cart_url: string;
@@ -57,6 +58,7 @@ export interface WooCommerceTemplate {
 export interface AddUpdateWooCommerceTemplate {
   id?: number;
   name: string;
+  data_override?: string;
   description?: string;
   shop_url: string;
   cart_url: string;

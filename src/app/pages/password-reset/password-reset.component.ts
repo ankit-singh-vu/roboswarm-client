@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UserService } from 'app/services/user.service';
-import { MetricsService } from 'app/services/metrics.service';
+import { UserService } from '../../services/user.service';
+import { MetricsService } from '../../services/metrics.service';
 
 interface PasswordResetForm {
   email: string;

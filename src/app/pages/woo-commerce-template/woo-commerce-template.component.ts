@@ -22,4 +22,8 @@ export class WooCommerceTemplateComponent implements OnInit {
     this.templates = await this.templateService.getAllWooCommerce();
   }
 
+  hasOverrideData(template: WooCommerceTemplate): boolean {
+    return template.data_override?.trim() !== '';
+  }
+
 }
