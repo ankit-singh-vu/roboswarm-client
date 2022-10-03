@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HttpClientModule } from '@angular/common/http';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 // Authored Services
 import { HttpService } from './services/http.service';
@@ -104,6 +105,7 @@ import { RouteEditorComponent } from './components/route-editor/route-editor.com
     BrowserModule,
     NgSelectModule,
     FormsModule,
+    MonacoEditorModule.forRoot(),
     HttpClientModule,
     NgxChartsModule,
     BrowserAnimationsModule,

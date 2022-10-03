@@ -40,6 +40,7 @@
                               <li><strong>Checkout URL: </strong>{{ template.checkout_url }}</li>
                               <li><strong>Product A URL: </strong>{{ template.product_a_url }}</li>
                               <li><strong>Product B URL: </strong>{{ template.product_b_url }}</li>
+                              <li *ngIf="hasOverrideData(template)"><span class="badge bg-secondary">Has Override Data</span></li>
                             </ul>
                             <blockquote class="blockquote mb-0">
                                 <footer class="blockquote-footer">Created on {{ template.created_at | date:"medium" }}</footer>

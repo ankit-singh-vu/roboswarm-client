@@ -12,6 +12,33 @@ export class WooTemplateAddEditComponent implements OnInit {
   id: number = null;
   model: AddUpdateWooCommerceTemplate = {
     name: null,
+    data_override: JSON.stringify({
+      "billing_first_name": "James",
+      "billing_last_name": "Doe",
+      "billing_company": "Roboswarm.dev",
+      "billing_country": "US",
+      "billing_address_1": "1010101 First Street",
+      "billing_address_2": "",
+      "billing_city": "Manistee",
+      "billing_state": "MI",
+      "billing_postcode": "49660",
+      "billing_phone": "555-555-5555",
+      "shipping_first_name": "James",
+      "shipping_last_name": "Doe",
+      "shipping_company": "Roboswarm.dev",
+      "shipping_country": "US",
+      "shipping_address_1": "1010101 First Street",
+      "shipping_address_2": "",
+      "shipping_city": "Manistee",
+      "shipping_state": "MI",
+      "shipping_postcode": "49660",
+      "order_comments": "",
+      "shipping_method[0]": "flat_rate:1",
+      "payment_method": "cod",
+      "privacy_policy": "1",
+      "terms": "on",
+      "terms-field": "1",
+    }, undefined, 4),
     description: '',
     cart_url: null,
     checkout_url: null,
@@ -22,6 +49,12 @@ export class WooTemplateAddEditComponent implements OnInit {
   submitted = false;
   error = '';
   working = true;
+
+  editorOptions = {
+    theme: 'vs-dark',
+    language: 'json'
+  };
+  editorHasFocus = false;
 
   constructor(private templateService: TemplateService,
               private router: Router,
@@ -42,6 +75,8 @@ export class WooTemplateAddEditComponent implements OnInit {
 
   async onSubmit(createTemplateForm: NgForm) {
     this.error = '';
+    if (!this.isValid()) { return }
+
     if (createTemplateForm.valid && createTemplateForm.submitted) {
       this.submitted = true;
       if (this.id) {
@@ -70,6 +105,26 @@ export class WooTemplateAddEditComponent implements OnInit {
     return this.error && this.error.trim() !== '';
   }
 
+  hasOverrideDataAndIsInvalid(): boolean {
+    if (this.model.data_override && this.model.data_override.trim() !== '') {
+      if (this.isValidJson(this.model.data_override.trim())) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private isValidJson(jsonString: string): boolean {
+    try {
+      JSON.parse(jsonString);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
   isValid() {
     const hasHttp = this.model.cart_url.includes('http') ||
       this.model.checkout_url.includes('http') ||
@@ -79,10 +134,14 @@ export class WooTemplateAddEditComponent implements OnInit {
     if (hasHttp) {
       this.error = 'Invalid path. Paths should not contain http:// or https://';
       return false;
-    } else {
-      this.error = '';
-      return true;
     }
+    if(!this.editorHasFocus && this.hasOverrideDataAndIsInvalid()) {
+      this.error = 'Checkout override data must be a valid JSON object.';
+      return false;
+    }
+
+    this.error = '';
+    return true;
   }
 
 }
