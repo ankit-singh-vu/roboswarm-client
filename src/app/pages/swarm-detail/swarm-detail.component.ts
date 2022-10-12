@@ -230,10 +230,8 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
           }
         });
         this.wooPreviousIdMarker = this.wooData && this.wooData.length > 0 ? this.wooData[0].id : 0;
-        this.wooSuccessfulCheckouts = true;
-      } else {
-        this.wooSuccessfulCheckouts = false;
       }
+      this.wooSuccessfulCheckouts = this.wooData?.length > 0;
     }
 
     this.formatData();
