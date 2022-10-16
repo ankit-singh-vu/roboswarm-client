@@ -169,20 +169,10 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
-                <div *ngIf="!selectedRoute" class="row mt-4">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
-                        <div class="alert alert-info">
-                            Select a route to view it's response time distribution and requests/failures per second.
-                        </div>
-                    </div>
-                    <div class="col-sm-2"></div>
-                </div>
-                <div *ngIf="selectedRoute" class="row mt-4">
+                <div class="row mt-4">
                     <div class="col-sm-6">
-                        <div style="height:400px; width: 100%;">
-                            <!-- WIP. Need the data in the right format. -->
-                            <app-response-time-combo-chart [requests]="routeFormattedData"></app-response-time-combo-chart>
+                        <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
+                            <app-route-specific-request-combo-chart [requests]="routeData"></app-route-specific-request-combo-chart>
                         </div>
                     </div>
                 </div>
