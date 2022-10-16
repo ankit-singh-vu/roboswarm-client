@@ -170,9 +170,30 @@
                     <div class="col-sm-3"></div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
+                        <h5>Requests / Failures per Second</h5>
                         <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
                             <app-route-specific-request-combo-chart [requests]="routeData"></app-route-specific-request-combo-chart>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>Average / Median Response Time</h5>
+                        <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
+                            <app-route-specific-response-time-combo-chart [requests]="routeData"></app-route-specific-response-time-combo-chart>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <h5>Response Time Distribution</h5>
+                        <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
+                            <ngx-charts-bar-vertical
+                                [results]="wooFormattedDistributionData"
+                                [xAxis]="showXAxis"
+                                [yAxis]="showYAxis"
+                                [showXAxisLabel]="showXAxisLabel"
+                                [showYAxisLabel]="showYAxisLabel"
+                                [xAxisLabel]="distributionXAxisLabel"
+                                [yAxisLabel]="distributionYAxisLabel">
+                            </ngx-charts-bar-vertical>
                         </div>
                     </div>
                 </div>
