@@ -152,6 +152,46 @@
     <div *ngIf="!loading" class="row">
         <div class="col-sm-12">
             <div class="card m-b-20 card-body">
+                <h4 class="card-title">Route Specific Data</h4>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <ng-select
+                            [items]="routes"
+                            [multiple]="false"
+                            [closeOnSelect]="true"
+                            [searchable]="true"
+                            name="route"
+                            placeholder="Select a route to view details."
+                            [(ngModel)]="selectedRoute"
+                            (change)="onSelectedRouteChange()">
+                        </ng-select>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <div *ngIf="!selectedRoute" class="row mt-4">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <div class="alert alert-info">
+                            Select a route to view it's response time distribution and requests/failures per second.
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+                <div *ngIf="selectedRoute" class="row mt-4">
+                    <div class="col-sm-6">
+                        <div style="height:400px; width: 100%;">
+                            <!-- WIP. Need the data in the right format. -->
+                            <app-response-time-combo-chart [requests]="routeFormattedData"></app-response-time-combo-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-sm-12">
+            <div class="card m-b-20 card-body">
                 <h4 class="card-title">Errors</h4>
                 <div class="error-table-content">
                     <div *ngIf="!hasErrors()" class="alert alert-info">

@@ -278,6 +278,16 @@ export class SwarmService {
     return result.data.timeInSeconds;
   }
 
+  async getRoutes(swarmId: number): Promise<string[]> {
+    const options: HttpRequestOptions = {
+      authenticated: true,
+      requestType: 'GET',
+      url: `/api/v1/swarm/${swarmId}/routes`
+    };
+    const result = await this.http.request(options);
+    return result.data as string[];
+  }
+
   getFormattedRegion(regions: string): string {
     return regions
       .split(',')

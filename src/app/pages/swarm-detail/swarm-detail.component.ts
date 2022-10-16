@@ -72,6 +72,14 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   wooFormattedDistributionData = [];
   wooSuccessfulCheckouts = false;
 
+  // Route specific
+  selectedRoute: string;
+  routes: string[] = [];
+  routeData: LoadTestRouteSpecificData[] = [];
+  routePreviousIdMarker = 0;
+  routeFormattedData = [];
+  routeFormattedDistributionData = [];
+
   // Response Time Chart
   responseTimeYAxisLabel = 'Response Time (ms)';
 
@@ -102,6 +110,9 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     if (this.requestData && this.requestData.length > 0) {
       this.previousRequestIdMarker = this.requestData[0].id;
     }
+
+    // Route list at this moment in time.
+    this.routes = await this.swarmService.getRoutes(this.id);
 
     // Woo Template specific info.
     if (this.swarm.is_woo_template) {
@@ -234,11 +245,94 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       this.wooSuccessfulCheckouts = this.wooData?.length > 0;
     }
 
+    // Fetch route specific data if required.
+    await this.updateRouteList();
+    if (this.selectedRoute) {
+      // Update the data.
+      // WIP
+    }
+
     this.formatData();
   }
 
   hasErrors() {
     return this.loadTestErrors && this.loadTestErrors.length > 0;
+  }
+
+  async onSelectedRouteChange() {
+    console.log(`Selected route: ${this.selectedRoute}`);
+    this.routeData = [];
+    this.routePreviousIdMarker = 0;
+    this.routeFormattedData = [];
+    this.routeFormattedDistributionData = [];
+    this.routeData = await this.swarmService.getRouteSpecificMetrics(
+      this.id,
+      this.selectedRoute,
+      this.routePreviousIdMarker
+    );
+    this.routePreviousIdMarker = this.routeData[this.routeData.length - 1].id;
+  }
+
+  async updateRouteList() {
+    const queriedRoutes = await this.swarmService.getRoutes(this.id);
+    queriedRoutes.forEach(queriedRoute => {
+      if (!this.routes.includes(queriedRoute)) {
+        for (let i = 0; i < this.routes.length -1; i++) {
+          if (queriedRoute > this.routes[i]) {
+            this.routes.splice(i, 0, queriedRoute)
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  formatRouteSpecificData() {
+    this.routeFormattedData = [
+      {
+        name: 'Failures per Second',
+        series: this.routeData.map(rd => {
+          return {
+            value: rd.failures_per_second,
+            name: new Date(rd.created_at)
+          }
+        })
+      },
+      {
+        name: 'Requests per Second',
+        series: this.routeData.map(rd => {
+          return {
+            value: rd.requests_per_second,
+            name: new Date(rd.created_at)
+          };
+        })
+      }
+    ];
+
+    // this.routeFormattedDistributionData = [
+    //   { name: '50%', value: this.routeData[0]['50_percent'] },
+    //   { name: '66%', value: this.routeData[0]['66_percent'] },
+    //   { name: '75%', value: this.routeData[0]['75_percent'] },
+    //   { name: '80%', value: this.routeData[0]['80_percent'] },
+    //   { name: '90%', value: this.routeData[0]['90_percent'] },
+    //   { name: '95%', value: this.routeData[0]['95_percent'] },
+    //   { name: '98%', value: this.routeData[0]['98_percent'] },
+    //   { name: '99%', value: this.routeData[0]['99_percent'] },
+    //   { name: '100%', value: this.routeData[0]['100_percent'] }
+    // ];
+
+    // if (this.distributionData.length > 0 && this.distributionData[0].percentiles['50%'] !== 'N/A') {
+    // this.formattedDistributionData = [
+    //   { name: '50%', value: this.distributionData[0].percentiles['50%'] },
+    //   { name: '66%', value: this.distributionData[0].percentiles['66%'] },
+    //   { name: '75%', value: this.distributionData[0].percentiles['75%'] },
+    //   { name: '80%', value: this.distributionData[0].percentiles['80%'] },
+    //   { name: '90%', value: this.distributionData[0].percentiles['90%'] },
+    //   { name: '95%', value: this.distributionData[0].percentiles['95%'] },
+    //   { name: '98%', value: this.distributionData[0].percentiles['98%'] },
+    //   { name: '99%', value: this.distributionData[0].percentiles['99%'] },
+    //   { name: '100%', value: this.distributionData[0].percentiles['100%'] }
+    // ];
   }
 
   async onDeleteCompleted() {
