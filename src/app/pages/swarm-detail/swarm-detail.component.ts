@@ -77,7 +77,6 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   routes: string[] = [];
   routeData: LoadTestRouteSpecificData[] = [];
   routePreviousIdMarker = 0;
-  routeFormattedData = [];
   routeFormattedDistributionData = [];
 
   // Response Time Chart
@@ -260,16 +259,22 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   }
 
   async onSelectedRouteChange() {
-    console.log(`Selected route: ${this.selectedRoute}`);
     this.routeData = [];
     this.routePreviousIdMarker = 0;
-    this.routeFormattedData = [];
     this.routeFormattedDistributionData = [];
-    this.routeData = await this.swarmService.getRouteSpecificMetrics(
+    const routeDataRes = await this.swarmService.getRouteSpecificMetrics(
       this.id,
       this.selectedRoute,
       this.routePreviousIdMarker
     );
+    const routeDataReversed = [...routeDataRes].reverse();
+    routeDataReversed.forEach(item => {
+      const exists = this.routeData.find(rd => rd.id === item.id);
+      if (!exists) {
+        this.routeData.unshift(item);
+      }
+    });
+    this.formatRouteSpecificData();
     this.routePreviousIdMarker = this.routeData[this.routeData.length - 1].id;
   }
 
@@ -288,51 +293,19 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   }
 
   formatRouteSpecificData() {
-    this.routeFormattedData = [
-      {
-        name: 'Failures per Second',
-        series: this.routeData.map(rd => {
-          return {
-            value: rd.failures_per_second,
-            name: new Date(rd.created_at)
-          }
-        })
-      },
-      {
-        name: 'Requests per Second',
-        series: this.routeData.map(rd => {
-          return {
-            value: rd.requests_per_second,
-            name: new Date(rd.created_at)
-          };
-        })
-      }
-    ];
-
-    // this.routeFormattedDistributionData = [
-    //   { name: '50%', value: this.routeData[0]['50_percent'] },
-    //   { name: '66%', value: this.routeData[0]['66_percent'] },
-    //   { name: '75%', value: this.routeData[0]['75_percent'] },
-    //   { name: '80%', value: this.routeData[0]['80_percent'] },
-    //   { name: '90%', value: this.routeData[0]['90_percent'] },
-    //   { name: '95%', value: this.routeData[0]['95_percent'] },
-    //   { name: '98%', value: this.routeData[0]['98_percent'] },
-    //   { name: '99%', value: this.routeData[0]['99_percent'] },
-    //   { name: '100%', value: this.routeData[0]['100_percent'] }
-    // ];
-
-    // if (this.distributionData.length > 0 && this.distributionData[0].percentiles['50%'] !== 'N/A') {
-    // this.formattedDistributionData = [
-    //   { name: '50%', value: this.distributionData[0].percentiles['50%'] },
-    //   { name: '66%', value: this.distributionData[0].percentiles['66%'] },
-    //   { name: '75%', value: this.distributionData[0].percentiles['75%'] },
-    //   { name: '80%', value: this.distributionData[0].percentiles['80%'] },
-    //   { name: '90%', value: this.distributionData[0].percentiles['90%'] },
-    //   { name: '95%', value: this.distributionData[0].percentiles['95%'] },
-    //   { name: '98%', value: this.distributionData[0].percentiles['98%'] },
-    //   { name: '99%', value: this.distributionData[0].percentiles['99%'] },
-    //   { name: '100%', value: this.distributionData[0].percentiles['100%'] }
-    // ];
+    if (this.routeData?.length > 0) {
+      this.routeFormattedDistributionData = [
+        { name: '50%', value: this.routeData[0]['50_percent'] },
+        { name: '66%', value: this.routeData[0]['66_percent'] },
+        { name: '75%', value: this.routeData[0]['75_percent'] },
+        { name: '80%', value: this.routeData[0]['80_percent'] },
+        { name: '90%', value: this.routeData[0]['90_percent'] },
+        { name: '95%', value: this.routeData[0]['95_percent'] },
+        { name: '98%', value: this.routeData[0]['98_percent'] },
+        { name: '99%', value: this.routeData[0]['99_percent'] },
+        { name: '100%', value: this.routeData[0]['100_percent'] }
+      ];
+    }
   }
 
   async onDeleteCompleted() {

@@ -149,7 +149,7 @@
         <div class="col-sm-6">
         </div>
     </div>
-    <div *ngIf="!loading" class="row">
+    <div *ngIf="!loading && distributionDataFinal && distributionDataFinal.length > 0" class="row">
         <div class="col-sm-12">
             <div class="card m-b-20 card-body">
                 <h4 class="card-title">Route Specific Data</h4>
@@ -166,6 +166,13 @@
                             [(ngModel)]="selectedRoute"
                             (change)="onSelectedRouteChange()">
                         </ng-select>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="row mt-4 mb-3">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6 alert alert-info">
+                        Select a route to see route-specific performance information.
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
@@ -186,7 +193,7 @@
                         <h5>Response Time Distribution</h5>
                         <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
                             <ngx-charts-bar-vertical
-                                [results]="wooFormattedDistributionData"
+                                [results]="routeFormattedDistributionData"
                                 [xAxis]="showXAxis"
                                 [yAxis]="showYAxis"
                                 [showXAxisLabel]="showXAxisLabel"
