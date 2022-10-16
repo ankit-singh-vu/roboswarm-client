@@ -51,7 +51,9 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { RemainingResourcesComponent } from './components/remaining-resources/remaining-resources.component';
 import { SwarmGradeComponent } from './components/swarm-grade/swarm-grade.component';
 import { RequestComboChartComponent } from './components/request-combo-chart/request-combo-chart.component';
+import { RouteSpecificRequestComboChartComponent } from './components/route-specific-request-combo-chart/route-specific-request-combo-chart.component';
 import { ResponseTimeComboChartComponent } from './components/response-time-combo-chart/response-time-combo-chart.component';
+import { RouteSpecificResponseTimeComboChartComponent } from './components/route-specific-response-time-combo-chart/route-specific-response-time-combo-chart.component';
 import { WooCommerceTemplateComponent } from './pages/woo-commerce-template/woo-commerce-template.component';
 import { WooCommerceTemplateRequestComponent } from './pages/woo-commerce-template-request/woo-commerce-template-request.component';
 import { EditTemplateRoutesModalComponent } from './components/edit-template-routes-modal/edit-template-routes-modal.component';
@@ -93,7 +95,9 @@ import { RouteEditorComponent } from './components/route-editor/route-editor.com
     RemainingResourcesComponent,
     SwarmGradeComponent,
     RequestComboChartComponent,
+    RouteSpecificRequestComboChartComponent,
     ResponseTimeComboChartComponent,
+    RouteSpecificResponseTimeComboChartComponent,
     WooCommerceTemplateComponent,
     WooCommerceTemplateRequestComponent,
     EditTemplateRoutesModalComponent,
