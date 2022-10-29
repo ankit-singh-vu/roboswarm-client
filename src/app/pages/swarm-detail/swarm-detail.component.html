@@ -146,8 +146,15 @@
                 <div *ngIf="!wooSuccessfulCheckouts" class="alert alert-warning">You have not had any successful checkouts.</div>
             </div>
         </div>
-        <div class="col-sm-6">
+    </div>
+    <div class="row" *ngIf="!loading && (!distributionDataFinal || distributionDataFinal.length == 0)">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="alert alert-info">
+                <strong>Notice:</strong> You may view route-specific metrics once the test is completed. Please return here after the test is completed to see detailed reports for each individual route.
+            </div>
         </div>
+        <div class="col-sm-2"></div>
     </div>
     <div *ngIf="!loading && distributionDataFinal && distributionDataFinal.length > 0" class="row">
         <div class="col-sm-12">
