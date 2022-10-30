@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { AdvancedTemplateRoute, RouteMethod, TemplateAuth, TemplateService } from '../../services/template.service';
-import { DebouncedFunc, throttle } from 'lodash';
 
 @Component({
   selector: 'app-route-editor',
@@ -12,7 +11,6 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   @Input() route: AdvancedTemplateRoute;
   @Input() onChange: any;
 
-  throttledOnChange: DebouncedFunc<any>;
   activeTab = 1;
   method: RouteMethod;
   path: string;
@@ -40,12 +38,10 @@ export class RouteEditorComponent implements OnInit, OnChanges {
   constructor(private templateService: TemplateService) {}
 
   ngOnInit() {
-    this.throttledOnChange = throttle(this.onChange, 500, { trailing: true });
     this.populateFields();
   }
 
   ngOnChanges() {
-    console.log(this.route);
     this.populateFields();
   }
 
@@ -127,6 +123,6 @@ export class RouteEditorComponent implements OnInit, OnChanges {
       headers: this.getKeyValueFromString(this.headers),
       queryParams: this.getKeyValueFromString(this.queryParams)
     };
-    this.throttledOnChange(data);
+    this.onChange(data);
   }
 }
