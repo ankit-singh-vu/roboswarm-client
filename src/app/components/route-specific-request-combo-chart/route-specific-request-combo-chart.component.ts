@@ -1,6 +1,9 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Chart } from 'chart.js';
+import { color } from 'chart.js/helpers';
 import { Request } from '../../services/swarm.service';
+import 'chartjs-adapter-date-fns';
+import { enUS } from 'date-fns/locale';
 
 interface FormattedDataAndLabels {
   requests: any[];
@@ -24,8 +27,7 @@ export class RouteSpecificRequestComboChartComponent implements OnInit, OnChange
   constructor() { }
 
   ngOnInit(): void {
-    const color = Chart.helpers.color;
-    let options: any = {};
+    let options = {};
     const datasets = [];
     const formattedData: FormattedDataAndLabels = this.getFormattedDataAndLabels();
     datasets.push({
@@ -64,38 +66,43 @@ export class RouteSpecificRequestComboChartComponent implements OnInit, OnChange
         },
         maintainAspectRatio: false,
         scales: {
-          xAxes: [{
+          x: {
             type: 'time',
             maxTicksLimit: 12,
-          }],
-          yAxes: [{
+            adapters: {
+              date: {
+                locale: enUS,
+              },
+            },
+          },
+          y: {
             ticks: {
               beginAtZero: true,
               maxTicksLimit: 12,
             },
-          }],
+          },
         },
       },
     };
 
     // Performance tweaks for large data sets.
     if (this.requests && this.requests.length > 250) {
-      options.elements = {
-        line: {
-          tension: 0, // disables bezier curves
-        },
-      };
-      options.animation = {
-        duration: 0,
-      };
-      options.hover = {
-        animationDuration: 0,
-      };
-      options.responsiveAnimationDuration = 0;
+      // options.elements = {
+      //   line: {
+      //     tension: 0, // disables bezier curves
+      //   },
+      // };
+      // options.animation = {
+      //   duration: 0,
+      // };
+      // options.hover = {
+      //   animationDuration: 0,
+      // };
+      // options.responsiveAnimationDuration = 0;
     }
 
     this.ctx = document.getElementById('routeSpecificRequestComboChart');
-    this.requestComboChart = new Chart(this.ctx, options);
+    this.requestComboChart = new Chart(this.ctx, options as any);
     this.initialized = true;
   }
 
