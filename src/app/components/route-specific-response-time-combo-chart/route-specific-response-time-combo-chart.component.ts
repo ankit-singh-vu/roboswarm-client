@@ -30,24 +30,29 @@ export class RouteSpecificResponseTimeComboChartComponent implements OnInit, OnC
     let options: any = {};
     const datasets = [];
     const formattedData: FormattedDataAndLabels = this.getFormattedDataAndLabels();
+    const blue = color('#588de2').alpha(0.5).rgbString();
+    const red = color('#ff2626').alpha(0.5).rgbString();
+    const green = color('#008000').alpha(0.2).rgbString();
     datasets.push({
       type: 'line',
       label: 'Avg Response Time (ms)',
       data: formattedData.avg_response_time,
       pointRadius: 2,
-      backgroundColor: color('#588de2').alpha(0.5).rgbString(), // blue
+      borderColor: blue,
+      backgroundColor: blue,
     });
     datasets.push({
       type: 'line',
       label: 'Med. Response Time (ms)',
       data: formattedData.med_response_time,
       pointRadius: 2,
-      backgroundColor: color('#ff2626').alpha(0.5).rgbString(), // red
+      borderColor: red,
+      backgroundColor: red,
     });
     datasets.push({
       type: 'bar',
       label: 'Total User Count',
-      backgroundColor: color('#008000').alpha(0.2).rgbString(), // green
+      backgroundColor: green,
       data: formattedData.userCount
     });
     options = {
@@ -56,7 +61,7 @@ export class RouteSpecificResponseTimeComboChartComponent implements OnInit, OnC
         labels: formattedData.labels,
         datasets
       },
-      // steppedLine: true,
+      steppedLine: true,
       options: {
         legend: {
           display: true,
