@@ -1,6 +1,9 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Chart } from 'chart.js';
+import { color } from 'chart.js/helpers';
 import { Request } from '../../services/swarm.service';
+import 'chartjs-adapter-date-fns';
+import { enUS } from 'date-fns/locale';
 
 interface FormattedDataAndLabels {
   requests: any[];
@@ -24,28 +27,32 @@ export class RouteSpecificRequestComboChartComponent implements OnInit, OnChange
   constructor() { }
 
   ngOnInit(): void {
-    const color = Chart.helpers.color;
-    let options: any = {};
+    let options = {};
     const datasets = [];
     const formattedData: FormattedDataAndLabels = this.getFormattedDataAndLabels();
+    const blue = color('#588de2').alpha(0.5).rgbString();
+    const red = color('#ff2626').alpha(0.5).rgbString();
+    const green = color('#008000').alpha(0.2).rgbString();
     datasets.push({
       type: 'line',
       label: 'Requests per second',
       data: formattedData.requests,
       pointRadius: 2,
-      backgroundColor: color('#588de2').alpha(0.5).rgbString(), // blue
+      borderColor: blue,
+      backgroundColor: blue,
     });
     datasets.push({
       type: 'line',
       label: 'Failures per second',
       data: formattedData.failures,
       pointRadius: 2,
-      backgroundColor: color('#ff2626').alpha(0.5).rgbString(), // red
+      borderColor: red,
+      backgroundColor: red,
     });
     datasets.push({
       type: 'bar',
       label: 'Total users',
-      backgroundColor: color('#008000').alpha(0.2).rgbString(), // green
+      backgroundColor: green,
       data: formattedData.userCount
     });
     options = {
@@ -64,38 +71,43 @@ export class RouteSpecificRequestComboChartComponent implements OnInit, OnChange
         },
         maintainAspectRatio: false,
         scales: {
-          xAxes: [{
+          x: {
             type: 'time',
             maxTicksLimit: 12,
-          }],
-          yAxes: [{
+            adapters: {
+              date: {
+                locale: enUS,
+              },
+            },
+          },
+          y: {
             ticks: {
               beginAtZero: true,
               maxTicksLimit: 12,
             },
-          }],
+          },
         },
       },
     };
 
     // Performance tweaks for large data sets.
     if (this.requests && this.requests.length > 250) {
-      options.elements = {
-        line: {
-          tension: 0, // disables bezier curves
-        },
-      };
-      options.animation = {
-        duration: 0,
-      };
-      options.hover = {
-        animationDuration: 0,
-      };
-      options.responsiveAnimationDuration = 0;
+      // options.elements = {
+      //   line: {
+      //     tension: 0, // disables bezier curves
+      //   },
+      // };
+      // options.animation = {
+      //   duration: 0,
+      // };
+      // options.hover = {
+      //   animationDuration: 0,
+      // };
+      // options.responsiveAnimationDuration = 0;
     }
 
     this.ctx = document.getElementById('routeSpecificRequestComboChart');
-    this.requestComboChart = new Chart(this.ctx, options);
+    this.requestComboChart = new Chart(this.ctx, options as any);
     this.initialized = true;
   }
 

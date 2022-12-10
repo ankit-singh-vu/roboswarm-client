@@ -307,6 +307,8 @@ export class SwarmService {
             return 'New York City';
           case 'sgp1':
             return 'Singapore';
+          case 'syd1':
+            return 'Sydney';
           case 'tor1':
             return 'Toronto';
         }
