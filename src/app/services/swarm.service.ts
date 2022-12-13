@@ -84,6 +84,10 @@ export interface Request {
   avg_content_size: number;
   requests_per_second: number;
   failures_per_second?: number;
+  avg_request_per_sec: number;
+  avg_failure_per_sec: number;
+  avg_response_time_window: number;
+  med_response_time_window: number;
 }
 
 export interface Distribution {

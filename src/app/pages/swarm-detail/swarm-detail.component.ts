@@ -324,12 +324,14 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       if (count) { this.userCount = count; }
     }
 
+    console.log(this.requestData);
+
     this.formattedResultData = [
       {
         name: 'Requests / second',
         series: this.requestDataView.map(r => {
           return {
-            value: r.requests_per_second,
+            value: r.avg_request_per_sec,
             name: new Date(r.created_at)
           };
         })
@@ -338,7 +340,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         name: 'Failures / second',
         series: this.requestDataView.map(r => {
           return {
-            value: r.failures_per_second,
+            value: r.avg_failure_per_sec,
             name: new Date(r.created_at)
           };
         })
@@ -350,7 +352,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         name: 'Response Time (Average)',
         series: this.requestDataView.map(r => {
           return {
-            value: r.average_response_time,
+            value: r.avg_response_time_window,
             name: new Date(r.created_at)
           };
         })
@@ -359,7 +361,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
         name: 'Response Time (Median)',
         series: this.requestDataView.map(r => {
           return {
-            value: r.median_response_time,
+            value: r.med_response_time_window,
             name: new Date(r.created_at)
           };
         })
