@@ -73,6 +73,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   wooSuccessfulCheckouts = false;
 
   // Route specific
+  fetchingRouteSpecificData: boolean = false;
   selectedRoute: string;
   routes: string[] = [];
   routeData: LoadTestRouteSpecificData[] = [];
@@ -259,6 +260,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
   }
 
   async onSelectedRouteChange() {
+    this.fetchingRouteSpecificData = true;
     this.routeData = [];
     this.routePreviousIdMarker = 0;
     this.routeFormattedDistributionData = [];
@@ -276,6 +278,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     });
     this.formatRouteSpecificData();
     this.routePreviousIdMarker = this.routeData[this.routeData.length - 1].id;
+    this.fetchingRouteSpecificData = false;
   }
 
   async updateRouteList() {
@@ -323,8 +326,6 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       const count: number = this.requestDataView[this.requestDataView.length - 1].user_count;
       if (count) { this.userCount = count; }
     }
-
-    console.log(this.requestData);
 
     this.formattedResultData = [
       {

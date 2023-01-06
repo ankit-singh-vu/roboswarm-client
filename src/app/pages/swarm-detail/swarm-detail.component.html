@@ -41,13 +41,6 @@
                 </p>
                 <app-swarm-detail-status [swarm]="swarm"></app-swarm-detail-status>
             </div>
-            <!-- <div *ngIf="swarm && swarm.ready_at" class="card m-b-20 card-body meta" align="center">
-                <app-swarm-grade
-                    [data]="swarmGradeData"></app-swarm-grade>
-                <div class="clear"></div>
-                <p></p>
-                <button (click)="openGradeDocs(docs)" class="btn btn-sm btn-secondary">Learn More</button>
-            </div> -->
         </div>
         <div class="col-sm-9">
             <div class="card m-b-20 card-body"
@@ -176,14 +169,21 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
-                <div class="row mt-4 mb-3">
+                <div *ngIf="!selectedRoute" class="row mt-4 mb-3">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6 alert alert-info">
                         Select a route to see route-specific performance information.
                     </div>
                     <div class="col-sm-3"></div>
                 </div>
-                <div class="row mt-4">
+                <div *ngIf="fetchingRouteSpecificData" class="row mt-4 mb-4">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4 route-specific-spinner">
+                        <app-spinner [show]="fetchingRouteSpecificData"></app-spinner>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <div *ngIf="!fetchingRouteSpecificData && selectedRoute" class="row mt-4">
                     <div class="col-sm-4">
                         <h5>Requests / Failures per Second</h5>
                         <div *ngIf="routeData && routeData.length > 0" style="height:400px; width: 100%;">
