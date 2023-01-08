@@ -1,9 +1,9 @@
 {
   "name": "roboswarm-client",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "license": "ISC",
   "engines": {
-    "node": "14.18.2"
+    "node": "14.21.2"
   },
   "scripts": {
     "ng": "ng",
