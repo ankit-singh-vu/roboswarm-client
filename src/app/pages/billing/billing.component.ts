@@ -62,6 +62,8 @@ export class BillingComponent implements OnInit {
       billingAddress: true,
       token: async (token) => {
         await this.userService.updateCard(token.id, token.card.id);
+        this.user.stripe_card_id = await (await this.userService.getCurrentUser()).stripe_card_id;
+        window.location.reload();
         this.disableButtons = false;
         this.error = undefined;
         this.metrics.track('BILLING_ADD_CARD');
@@ -76,6 +78,8 @@ export class BillingComponent implements OnInit {
   async deleteCard() {
     this.disableButtons = true;
     await this.userService.deleteCard();
+    this.user.stripe_card_id = await (await this.userService.getCurrentUser()).stripe_card_id;
+    window.location.reload();
     this.disableButtons = false;
     this.loading = true;
     this.metrics.track('BILLING_DELETE_CARD');
