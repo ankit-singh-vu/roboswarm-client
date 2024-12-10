@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   serverUrl: 'https://roboswarm.dev',
-  stripeApiPublic: 'pk_live_g8FjokEYtLkaHf9AqFz4C5hP'
+  stripeApiPublic: '' // Stripe public key. Used for adding/editing payment details
 };

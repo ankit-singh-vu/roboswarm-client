@@ -12,5 +12,5 @@ interface AngularEnvironment {
 export const environment: AngularEnvironment = {
   production: false,
   serverUrl: 'http://localhost:3002',
-  stripeApiPublic: 'pk_test_WqbrVQhfeigoZGqjXpN2AvuF'
+  stripeApiPublic: '' // Stripe public key. Used for adding/editing payment details
 };
