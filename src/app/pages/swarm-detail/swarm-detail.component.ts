@@ -118,7 +118,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     if (this.swarm.is_woo_template) {
       this.wooTemplateId = parseInt(this.swarm.template_id, 10);
       this.wooTemplate = await this.templateService.getWooTemplate(this.wooTemplateId);
-      const tmpWooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout');
+      const tmpWooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/checkout');
       this.wooData = [...tmpWooData].reverse();
       if (this.wooData && this.wooData.length > 0) {
         this.wooPreviousIdMarker = this.wooData[0].id;
@@ -179,7 +179,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
       };
     });
     if (this.swarm.is_woo_template) {
-      this.wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout');
+      this.wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/checkout');
       this.wooSuccessfulCheckouts = true;
     }
     this.loadTestErrors = result.errors;
@@ -231,7 +231,7 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
 
     // Fetch woo if required.
     if (this.swarm.is_woo_template) {
-      const wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/?wc-ajax=checkout', this.wooPreviousIdMarker);
+      const wooData = await this.swarmService.getRouteSpecificMetrics(this.id, '/checkout', this.wooPreviousIdMarker);
       if (wooData && wooData.length > 0) {
         const wooDataReversed = [...wooData].reverse();
         wooDataReversed.forEach(item => {
@@ -482,3 +482,4 @@ export class SwarmDetailComponent implements OnInit, OnDestroy {
     return swarm && swarm.status !== Status.destroyed;
   }
 }
+
